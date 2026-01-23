@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>아주나무 샌달 - 조식 발주서</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .section-title {
+            color: #667eea;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            font-weight: bold;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .order-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .order-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .item-number {
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .remove-btn {
+            background: #ff4444;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background 0.3s;
+        }
+
+        .remove-btn:hover {
+            background: #cc0000;
+        }
+
+        .add-item-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            width: 100%;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+
+        .add-item-btn:hover {
+            background: #218838;
+        }
+
+        .summary {
+            background: #fff3cd;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            font-size: 1.1em;
+        }
+
+        .summary-row.total {
+            border-top: 2px solid #333;
+            margin-top: 10px;
+            padding-top: 15px;
+            font-weight: bold;
+            font-size: 1.3em;
+            color: #667eea;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.2em;
+            width: 100%;
+            margin-top: 20px;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🥪 아주나무 샌달</h1>
+        <p class="subtitle">조식 발주서</p>
+
+        <!-- 고객정보 -->
+        <div class="section">
+            <div class="section-title">📋 고객정보</div>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>회사명 *</label>
+                    <input type="text" id="companyName" required>
+                </div>
+                <div class="form-group">
+                    <label>담당자 *</label>
+                    <input type="text" id="contactName" required>
+                </div>
+                <div class="form-group">
+                    <label>전화번호 *</label>
+                    <input type="tel" id="phone" required>
+                </div>
+                <div class="form-group">
+                    <label>이메일 *</label>
+                    <input type="email" id="email" required>
+                </div>
+            </div>
+        </div>
+
+        <!-- 발주 정보 -->
+        <div class="section">
+            <div class="section-title">📅 발주 정보</div>
+            <div class="form-group">
+                <label>배송 날짜 *</label>
+                <input type="date" id="deliveryDate" required>
+            </div>
+
+            <div id="orderItems">
+                <!-- 주문 항목들이 여기에 추가됨 -->
+            </div>
+
+            <button class="add-item-btn" onclick="addOrderItem()">+ 세트 추가</button>
+        </div>
+
+        <!-- 합계 -->
+        <div class="summary">
+            <div class="summary-row">
+                <span>소계:</span>
+                <span id="subtotal">0원</span>
+            </div>
+            <div class="summary-row">
+                <span>부가세 (10%):</span>
+                <span id="tax">0원</span>
+            </div>
+            <div class="summary-row total">
+                <span>합계:</span>
+                <span id="total">0원</span>
+            </div>
+        </div>
+
+        <button class="submit-btn" onclick="submitOrder()">발주서 제출</button>
+    </div>
+
+    <script>
+        // 메뉴 데이터 (카테고리별)
+        const menuData = {
+            "샌드위치 단품": [
+                { name: "클럽샌드위치 1p", price: 5500 },
+                { name: "햄치즈에그샌드위치 1p", price: 5000 },
+                { name: "참치샌드위치 1p", price: 5500 },
+                { name: "크래미샌드위치 1p", price: 5000 },
+                { name: "버터햄치즈샌드위치 1p", price: 4500 },
+                { name: "감자샌드위치 1p", price: 5000 },
+                { name: "햄치즈샌드위치 1p", price: 4500 },
+                { name: "무화과호두크림샌드위치 1p", price: 6000 },
+                { name: "고구마샌드위치 1p", price: 5000 },
+                { name: "누텔라바나나샌드위치 1p", price: 5500 },
+                { name: "크래미에그샌드위치 1p", price: 5500 },
+                { name: "베이컨대파크림샌드위치 1p", price: 5500 },
+                { name: "마카로니샌드위치 1p", price: 5000 },
+                { name: "블루베리크림샌드위치 1p", price: 5500 },
+                { name: "살사후실리샌드위치 1p", price: 5500 },
+                { name: "콘에그샌드위치 1p", price: 5000 },
+                { name: "단호박샌드위치 1p", price: 5000 },
+                { name: "리코타치즈샌드위치 1p", price: 6000 },
+                { name: "불고기샌드위치 1p", price: 6000 }
+            ],
+            "샌드위치+사이드": [
+                { name: "샌드위치 1p + 물만두", price: 8000 },
+                { name: "샌드위치 1p + 돈까스", price: 8500 },
+                { name: "샌드위치 1p + 닭강정", price: 8500 },
+                { name: "샌드위치 1p + 과일2종", price: 7500 },
+                { name: "샌드위치 1p + 과일3종", price: 8000 }
+            ],
+            "유부초밥 단품": [
+                { name: "크래미유부초밥 4p", price: 5000 },
+                { name: "리코타치즈유부초밥 4p", price: 6000 },
+                { name: "크림치즈유부초밥 4p", price: 5500 },
+                { name: "베이컨유부초밥 4p", price: 5500 },
+                { name: "불고기유부초밥 4p", price: 6000 },
+                { name: "치킨유부초밥 4p", price: 5500 }
+            ],
+            "유부초밥+사이드": [
+                { name: "유부초밥 4p + 물만두", price: 7500 },
+                { name: "유부초밥 4p + 돈까스", price: 8000 },
+                { name: "유부초밥 4p + 닭강정", price: 8000 },
+                { name: "유부초밥 4p + 과일2종", price: 7000 },
+                { name: "유부초밥 4p + 과일3종", price: 7500 }
+            ],
+            "베이글 단품": [
+                { name: "플레인베이글 1p", price: 3500 },
+                { name: "어니언베이글 1p", price: 3500 },
+                { name: "블루베리베이글 1p", price: 4000 },
+                { name: "초코베이글 1p", price: 4000 },
+                { name: "치즈베이글 1p", price: 4500 },
+                { name: "마늘베이글 1p", price: 4000 }
+            ],
+            "베이글+사이드": [
+                { name: "베이글 1p + 물만두", price: 6500 },
+                { name: "베이글 1p + 돈까스", price: 7000 },
+                { name: "베이글 1p + 닭강정", price: 7000 },
+                { name: "베이글 1p + 과일2종", price: 6000 },
+                { name: "베이글 1p + 과일3종", price: 6500 }
+            ],
+            "김밥 반줄": [
+                { name: "일반김밥 반줄", price: 2500 },
+                { name: "치즈김밥 반줄", price: 3000 },
+                { name: "참치김밥 반줄", price: 3500 },
+                { name: "매운어묵김밥 반줄", price: 3000 },
+                { name: "샐러드김밥 반줄", price: 3500 },
+                { name: "소고기김밥 반줄", price: 4000 },
+                { name: "제육김밥 반줄", price: 3500 },
+                { name: "김치김밥 반줄", price: 2500 },
+                { name: "불고기김밥 반줄", price: 4000 },
+                { name: "야채김밥 반줄", price: 2500 },
+                { name: "돈까스김밥 반줄", price: 3500 },
+                { name: "멸치김밥 반줄", price: 3000 },
+                { name: "새우김밥 반줄", price: 4000 }
+            ],
+            "김밥 반줄+사이드": [
+                { name: "김밥 반줄 + 물만두", price: 5500 },
+                { name: "김밥 반줄 + 돈까스", price: 6000 },
+                { name: "김밥 반줄 + 닭강정", price: 6000 },
+                { name: "김밥 반줄 + 과일2종", price: 5000 },
+                { name: "김밥 반줄 + 과일3종", price: 5500 }
+            ],
+            "샐러드": [
+                { name: "리코타치즈샐러드", price: 7000 },
+                { name: "두부버섯샐러드", price: 6500 },
+                { name: "크래미샐러드", price: 6000 },
+                { name: "단호박샐러드", price: 6500 },
+                { name: "살사후실리샐러드", price: 7000 },
+                { name: "고구마샐러드", price: 6500 }
+            ],
+            "김밥 1줄": [
+                { name: "일반김밥 1줄", price: 5000 },
+                { name: "치즈김밥 1줄", price: 6000 },
+                { name: "참치김밥 1줄", price: 7000 },
+                { name: "매운어묵김밥 1줄", price: 6000 },
+                { name: "샐러드김밥 1줄", price: 7000 },
+                { name: "소고기김밥 1줄", price: 8000 },
+                { name: "제육김밥 1줄", price: 7000 },
+                { name: "김치김밥 1줄", price: 5000 },
+                { name: "불고기김밥 1줄", price: 8000 },
+                { name: "야채김밥 1줄", price: 5000 },
+                { name: "돈까스김밥 1줄", price: 7000 },
+                { name: "멸치김밥 1줄", price: 6000 },
+                { name: "새우김밥 1줄", price: 8000 }
+            ],
+            "컵과일": [
+                { name: "과일4종", price: 5000 },
+                { name: "과일5종", price: 6000 },
+                { name: "과일7종", price: 8000 }
+            ],
+            "컵밥": [
+                { name: "물만두컵밥", price: 5000 },
+                { name: "돈까스컵밥", price: 5500 },
+                { name: "닭강정컵밥", price: 5500 },
+                { name: "떡산적컵밥", price: 5000 },
+                { name: "야채볶음컵밥", price: 4500 },
+                { name: "새우볶음컵밥", price: 6000 },
+                { name: "김치볶음컵밥", price: 4500 },
+                { name: "카레볶음컵밥", price: 5000 },
+                { name: "낙지볶음컵밥", price: 6500 },
+                { name: "소불고기컵밥", price: 6000 }
+            ]
+        };
+
+        let itemCounter = 0;
+
+        // 페이지 로드 시 첫 번째 항목 추가
+        window.onload = function() {
+            addOrderItem();
+        };
+
+        function addOrderItem() {
+            itemCounter++;
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'order-item';
+            itemDiv.id = `item-${itemCounter}`;
+
+            itemDiv.innerHTML = `
+                <div class="order-item-header">
+                    <span class="item-number">세트 ${itemCounter}</span>
+                    <button class="remove-btn" onclick="removeOrderItem(${itemCounter})">삭제</button>
+                </div>
+                <div class="form-group">
+                    <label>카테고리</label>
+                    <select id="category-${itemCounter}" onchange="updateMenuOptions(${itemCounter})">
+                        <option value="">선택하세요</option>
+                        ${Object.keys(menuData).map(cat => `<option value="${cat}">${cat}</option>`).join('')}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>세트명</label>
+                    <select id="menu-${itemCounter}" onchange="updatePrice(${itemCounter})" disabled>
+                        <option value="">먼저 카테고리를 선택하세요</option>
+                    </select>
+                </div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>수량</label>
+                        <input type="number" id="quantity-${itemCounter}" min="1" value="1" onchange="updatePrice(${itemCounter})">
+                    </div>
+                    <div class="form-group">
+                        <label>금액</label>
+                        <input type="text" id="price-${itemCounter}" readonly value="0원">
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('orderItems').appendChild(itemDiv);
+        }
+
+        function removeOrderItem(id) {
+            const item = document.getElementById(`item-${id}`);
+            if (item) {
+                item.remove();
+                calculateTotal();
+            }
+        }
+
+        function updateMenuOptions(id) {
+            const category = document.getElementById(`category-${id}`).value;
+            const menuSelect = document.getElementById(`menu-${id}`);
+
+            menuSelect.innerHTML = '<option value="">선택하세요</option>';
+
+            if (category && menuData[category]) {
+                menuSelect.disabled = false;
+                menuData[category].forEach(item => {
+                    const option = document.createElement('option');
+                    option.value = JSON.stringify(item);
+                    option.textContent = item.name;
+                    menuSelect.appendChild(option);
+                });
+            } else {
+                menuSelect.disabled = true;
+            }
+
+            updatePrice(id);
+        }
+
+        function updatePrice(id) {
+            const menuSelect = document.getElementById(`menu-${id}`);
+            const quantityInput = document.getElementById(`quantity-${id}`);
+            const priceInput = document.getElementById(`price-${id}`);
+
+            if (menuSelect.value) {
+                const menuItem = JSON.parse(menuSelect.value);
+                const quantity = parseInt(quantityInput.value) || 0;
+                const totalPrice = menuItem.price * quantity;
+                priceInput.value = totalPrice.toLocaleString() + '원';
+            } else {
+                priceInput.value = '0원';
+            }
+
+            calculateTotal();
+        }
+
+        function calculateTotal() {
+            let subtotal = 0;
+
+            for (let i = 1; i <= itemCounter; i++) {
+                const priceInput = document.getElementById(`price-${i}`);
+                if (priceInput) {
+                    const price = parseInt(priceInput.value.replace(/[^0-9]/g, '')) || 0;
+                    subtotal += price;
+                }
+            }
+
+            const tax = Math.round(subtotal * 0.1);
+            const total = subtotal + tax;
+
+            document.getElementById('subtotal').textContent = subtotal.toLocaleString() + '원';
+            document.getElementById('tax').textContent = tax.toLocaleString() + '원';
+            document.getElementById('total').textContent = total.toLocaleString() + '원';
+        }
+
+        function submitOrder() {
+            // 필수 항목 체크
+            const companyName = document.getElementById('companyName').value;
+            const contactName = document.getElementById('contactName').value;
+            const phone = document.getElementById('phone').value;
+            const email = document.getElementById('email').value;
+            const deliveryDate = document.getElementById('deliveryDate').value;
+
+            if (!companyName || !contactName || !phone || !email || !deliveryDate) {
+                alert('고객정보와 배송 날짜를 모두 입력해주세요.');
+                return;
+            }
+
+            // 주문 항목 수집
+            const orders = [];
+            for (let i = 1; i <= itemCounter; i++) {
+                const menuSelect = document.getElementById(`menu-${i}`);
+                const quantityInput = document.getElementById(`quantity-${i}`);
+
+                if (menuSelect && menuSelect.value) {
+                    const menuItem = JSON.parse(menuSelect.value);
+                    orders.push({
+                        category: document.getElementById(`category-${i}`).value,
+                        menu: menuItem.name,
+                        quantity: quantityInput.value,
+                        price: menuItem.price,
+                        total: menuItem.price * parseInt(quantityInput.value)
+                    });
+                }
+            }
+
+            if (orders.length === 0) {
+                alert('최소 1개 이상의 세트를 선택해주세요.');
+                return;
+            }
+
+            const orderData = {
+                companyName,
+                contactName,
+                phone,
+                email,
+                deliveryDate,
+                orders,
+                subtotal: parseInt(document.getElementById('subtotal').textContent.replace(/[^0-9]/g, '')),
+                tax: parseInt(document.getElementById('tax').textContent.replace(/[^0-9]/g, '')),
+                total: parseInt(document.getElementById('total').textContent.replace(/[^0-9]/g, ''))
+            };
+
+            console.log('발주 데이터:', orderData);
+            alert('발주가 접수되었습니다!\n\n담당자가 확인 후 연락드리겠습니다.');
+
+            // 나중에 구글 시트 연동 추가 예정
+        }
+    </script>
+</body>
+</html>
