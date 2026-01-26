@@ -228,9 +228,15 @@
         <!-- 발주 정보 -->
         <div class="section">
             <div class="section-title">📅 발주 정보</div>
-            <div class="form-group">
-                <label>배송 날짜 *</label>
-                <input type="date" id="deliveryDate" required>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>배송 시작일 *</label>
+                    <input type="date" id="deliveryStartDate" required>
+                </div>
+                <div class="form-group">
+                    <label>배송 종료일 *</label>
+                    <input type="date" id="deliveryEndDate" required>
+                </div>
             </div>
 
             <div id="orderItems">
@@ -501,10 +507,16 @@
             const contactName = document.getElementById('contactName').value;
             const phone = document.getElementById('phone').value;
             const email = document.getElementById('email').value;
-            const deliveryDate = document.getElementById('deliveryDate').value;
+            const deliveryStartDate = document.getElementById('deliveryStartDate').value;
+            const deliveryEndDate = document.getElementById('deliveryEndDate').value;
 
-            if (!companyName || !contactName || !phone || !email || !deliveryDate) {
+            if (!companyName || !contactName || !phone || !email || !deliveryStartDate || !deliveryEndDate) {
                 alert('고객정보와 배송 날짜를 모두 입력해주세요.');
+                return;
+            }
+
+            if (deliveryStartDate > deliveryEndDate) {
+                alert('종료일은 시작일보다 이후여야 합니다.');
                 return;
             }
 
@@ -536,7 +548,8 @@
                 contactName,
                 phone,
                 email,
-                deliveryDate,
+                deliveryStartDate,
+                deliveryEndDate,
                 orders,
                 subtotal: parseInt(document.getElementById('subtotal').textContent.replace(/[^0-9]/g, '')),
                 tax: parseInt(document.getElementById('tax').textContent.replace(/[^0-9]/g, '')),
