@@ -186,6 +186,56 @@
             gap: 15px;
         }
 
+        .delivery-pattern {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .pattern-option {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 10px 15px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .pattern-option:hover {
+            border-color: #667eea;
+        }
+
+        .pattern-option input:checked + span {
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .pattern-option:has(input:checked) {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .day-checkbox {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 8px 12px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            margin-right: 5px;
+            cursor: pointer;
+        }
+
+        .day-checkbox:has(input:checked) {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
         @media (max-width: 768px) {
             .grid-2 {
                 grid-template-columns: 1fr;
@@ -193,6 +243,10 @@
 
             .container {
                 padding: 20px;
+            }
+
+            .delivery-pattern {
+                flex-direction: column;
             }
         }
     </style>
@@ -236,6 +290,39 @@
                 <div class="form-group">
                     <label>배송 종료일 *</label>
                     <input type="date" id="deliveryEndDate" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>배송 패턴 *</label>
+                <div class="delivery-pattern">
+                    <label class="pattern-option">
+                        <input type="radio" name="deliveryPattern" value="everyday" required>
+                        <span>매일 (월~금)</span>
+                    </label>
+                    <label class="pattern-option">
+                        <input type="radio" name="deliveryPattern" value="mwf">
+                        <span>월·수·금</span>
+                    </label>
+                    <label class="pattern-option">
+                        <input type="radio" name="deliveryPattern" value="tt">
+                        <span>화·목</span>
+                    </label>
+                    <label class="pattern-option">
+                        <input type="radio" name="deliveryPattern" value="mon">
+                        <span>월요일만</span>
+                    </label>
+                    <label class="pattern-option">
+                        <input type="radio" name="deliveryPattern" value="custom">
+                        <span>직접 선택</span>
+                    </label>
+                </div>
+                <div id="customDays" style="display: none; margin-top: 10px;">
+                    <label class="day-checkbox"><input type="checkbox" value="월"> 월</label>
+                    <label class="day-checkbox"><input type="checkbox" value="화"> 화</label>
+                    <label class="day-checkbox"><input type="checkbox" value="수"> 수</label>
+                    <label class="day-checkbox"><input type="checkbox" value="목"> 목</label>
+                    <label class="day-checkbox"><input type="checkbox" value="금"> 금</label>
                 </div>
             </div>
 
@@ -395,6 +482,18 @@
         // 페이지 로드 시 첫 번째 항목 추가
         window.onload = function() {
             addOrderItem();
+
+            // 배송 패턴 라디오 버튼 이벤트
+            document.querySelectorAll('input[name="deliveryPattern"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    const customDays = document.getElementById('customDays');
+                    if (this.value === 'custom') {
+                        customDays.style.display = 'block';
+                    } else {
+                        customDays.style.display = 'none';
+                    }
+                });
+            });
         };
 
         function addOrderItem() {
@@ -510,6 +609,33 @@
             const deliveryStartDate = document.getElementById('deliveryStartDate').value;
             const deliveryEndDate = document.getElementById('deliveryEndDate').value;
 
+            // 배송 패턴 가져오기
+            const deliveryPatternRadio = document.querySelector('input[name="deliveryPattern"]:checked');
+            if (!deliveryPatternRadio) {
+                alert('배송 패턴을 선택해주세요.');
+                return;
+            }
+
+            let deliveryPattern = deliveryPatternRadio.value;
+            let deliveryDays = '';
+
+            if (deliveryPattern === 'everyday') {
+                deliveryDays = '월,화,수,목,금';
+            } else if (deliveryPattern === 'mwf') {
+                deliveryDays = '월,수,금';
+            } else if (deliveryPattern === 'tt') {
+                deliveryDays = '화,목';
+            } else if (deliveryPattern === 'mon') {
+                deliveryDays = '월';
+            } else if (deliveryPattern === 'custom') {
+                const checkedDays = document.querySelectorAll('#customDays input:checked');
+                if (checkedDays.length === 0) {
+                    alert('배송 요일을 선택해주세요.');
+                    return;
+                }
+                deliveryDays = Array.from(checkedDays).map(cb => cb.value).join(',');
+            }
+
             if (!companyName || !contactName || !phone || !email || !deliveryStartDate || !deliveryEndDate) {
                 alert('고객정보와 배송 날짜를 모두 입력해주세요.');
                 return;
@@ -550,6 +676,7 @@
                 email,
                 deliveryStartDate,
                 deliveryEndDate,
+                deliveryDays,
                 orders,
                 subtotal: parseInt(document.getElementById('subtotal').textContent.replace(/[^0-9]/g, '')),
                 tax: parseInt(document.getElementById('tax').textContent.replace(/[^0-9]/g, '')),
