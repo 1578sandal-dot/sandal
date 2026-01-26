@@ -15,6 +15,7 @@ const CONFIG = {
   MONTHS_TO_SYNC: 1,
   DATA_START_ROW: 130,
   EVENT_SPACING: 6,
+  MOVE_DATA_SPACING: 5, // 데이터 이동 시 기존 데이터와의 간격
   WEEKDAYS: ["일", "월", "화", "수", "목", "금", "토"]
 };
 
@@ -771,29 +772,40 @@ function copyEventBlock(sourceSheet, blockInfo, targetSheet, targetRow) {
     // 기존 데이터가 있는지 확인
     const lastRow = targetSheet.getLastRow();
     const hasExistingData = lastRow >= targetRow;
-    
+
+    // 삽입할 총 행 수 계산 (데이터 + 간격)
+    let totalRowsToInsert = blockInfo.height;
+    if (hasExistingData) {
+      totalRowsToInsert += CONFIG.MOVE_DATA_SPACING; // 데이터 간 간격 추가
+      console.log(`${targetSheet.getName()}: 기존 데이터와 ${CONFIG.MOVE_DATA_SPACING}행 간격을 두고 삽입`);
+    }
+
     if (hasExistingData) {
       // 기존 데이터를 아래로 밀어내기
       const existingDataRows = lastRow - targetRow + 1;
       console.log(`${targetSheet.getName()}: 기존 데이터 ${existingDataRows}행을 아래로 이동`);
-      
-      // 삽입할 공간만큼 행 삽입
-      targetSheet.insertRowsAfter(targetRow - 1, blockInfo.height);
+
+      // 삽입할 공간(데이터 + 간격)만큼 행 삽입
+      targetSheet.insertRowsAfter(targetRow - 1, totalRowsToInsert);
     }
-    
+
     // 데이터 복사
     const sourceRange = sourceSheet.getRange(blockInfo.startRow, 2, blockInfo.height, 3);
     const targetRange = targetSheet.getRange(targetRow, 2, blockInfo.height, 3);
-    
+
     const values = sourceRange.getValues();
     targetRange.setValues(values);
-    
+
     sourceRange.copyTo(targetRange, SpreadsheetApp.CopyPasteType.PASTE_FORMAT, false);
     targetRange.setBorder(true, true, true, true, true, true, "black", SpreadsheetApp.BorderStyle.SOLID);
-    
-    console.log(`데이터 복사 완료: ${blockInfo.height}행 (130행에 삽입)`);
+
+    if (hasExistingData) {
+      console.log(`데이터 복사 완료: ${blockInfo.height}행 (${CONFIG.MOVE_DATA_SPACING}행 간격 포함하여 ${targetRow}행에 삽입)`);
+    } else {
+      console.log(`데이터 복사 완료: ${blockInfo.height}행 (${targetRow}행에 삽입)`);
+    }
     return true;
-    
+
   } catch (error) {
     console.error('데이터 복사 오류:', error);
     return false;

@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(clasp push:*)",
+      "Bash(del \"주문입력창_script.js\")",
+      "Bash(if exist \"주문입력창_script.js\" del \"주문입력창_script.js\")",
+      "Bash(clasp open:*)",
+      "Bash(clasp status:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
