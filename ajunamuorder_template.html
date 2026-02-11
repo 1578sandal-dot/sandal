@@ -239,6 +239,28 @@
             background: #f0f4ff;
         }
 
+        .menu-image-container {
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .menu-image {
+            max-width: 200px;
+            max-height: 200px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            object-fit: cover;
+        }
+
+        .no-image {
+            color: #999;
+            font-size: 0.9em;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 10px;
+            display: none;
+        }
+
         @media (max-width: 768px) {
             .grid-2 {
                 grid-template-columns: 1fr;
@@ -523,6 +545,10 @@
                         <option value="">먼저 카테고리를 선택하세요</option>
                     </select>
                 </div>
+                <div class="menu-image-container" id="imageContainer-${itemCounter}">
+                    <img class="menu-image" id="menuImage-${itemCounter}" style="display: none;">
+                    <div class="no-image" id="noImage-${itemCounter}">이미지 없음</div>
+                </div>
                 <div class="grid-2">
                     <div class="form-group">
                         <label>수량</label>
@@ -571,17 +597,65 @@
             const menuSelect = document.getElementById(`menu-${id}`);
             const quantityInput = document.getElementById(`quantity-${id}`);
             const priceInput = document.getElementById(`price-${id}`);
+            const menuImage = document.getElementById(`menuImage-${id}`);
+            const noImage = document.getElementById(`noImage-${id}`);
 
             if (menuSelect.value) {
                 const menuItem = JSON.parse(menuSelect.value);
                 const quantity = parseInt(quantityInput.value) || 0;
                 const totalPrice = menuItem.price * quantity;
                 priceInput.value = totalPrice.toLocaleString() + '원';
+
+                // 이미지 표시
+                const imageName = getImageName(menuItem.name);
+                if (imageName) {
+                    menuImage.style.display = 'block';
+                    noImage.style.display = 'none';
+                    tryLoadImage(menuImage, imageName, noImage);
+                } else {
+                    menuImage.style.display = 'none';
+                    noImage.style.display = 'block';
+                }
             } else {
                 priceInput.value = '0원';
+                menuImage.style.display = 'none';
+                noImage.style.display = 'none';
             }
 
             calculateTotal();
+        }
+
+        // 메뉴명을 이미지 파일명으로 변환
+        function getImageName(menuName) {
+            // 메뉴명에서 이미지 파일명 추출
+            // 예: "클럽샌드위치 1p" -> "클럽샌드위치1피스"
+            let imageName = menuName
+                .replace(/ 1p/g, '1피스')
+                .replace(/ 2p/g, '2피스')
+                .replace(/ 4p/g, '4피스')
+                .replace(/ 6p/g, '6피스')
+                .replace(/ /g, '');
+
+            return imageName;
+        }
+
+        // 이미지 로드 시도 (jpg -> png -> JPG 순서)
+        function tryLoadImage(imgElement, baseName, noImageElement) {
+            const extensions = ['.jpg', '.png', '.JPG', '.PNG'];
+            let currentIndex = 0;
+
+            function tryNext() {
+                if (currentIndex < extensions.length) {
+                    imgElement.src = `images/${baseName}${extensions[currentIndex]}`;
+                    currentIndex++;
+                } else {
+                    imgElement.style.display = 'none';
+                    noImageElement.style.display = 'block';
+                }
+            }
+
+            imgElement.onerror = tryNext;
+            tryNext();
         }
 
         function calculateTotal() {
