@@ -83,103 +83,6 @@
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
-        .order-item {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            border: 2px solid #e0e0e0;
-        }
-
-        .order-item-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .item-number {
-            background: #667eea;
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-weight: bold;
-        }
-
-        .remove-btn {
-            background: #ff4444;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.9em;
-            transition: background 0.3s;
-        }
-
-        .remove-btn:hover {
-            background: #cc0000;
-        }
-
-        .add-item-btn {
-            background: #28a745;
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1em;
-            width: 100%;
-            margin-top: 10px;
-            transition: background 0.3s;
-        }
-
-        .add-item-btn:hover {
-            background: #218838;
-        }
-
-        .summary {
-            background: #fff3cd;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
-
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            font-size: 1.1em;
-        }
-
-        .summary-row.total {
-            border-top: 2px solid #333;
-            margin-top: 10px;
-            padding-top: 15px;
-            font-weight: bold;
-            font-size: 1.3em;
-            color: #667eea;
-        }
-
-        .submit-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 18px 40px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 1.2em;
-            width: 100%;
-            margin-top: 20px;
-            font-weight: bold;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
-        }
-
         .grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -239,14 +142,55 @@
             background: #f0f4ff;
         }
 
+        /* 날짜별 메뉴 선택 스타일 */
+        .date-menu-container {
+            margin-top: 20px;
+        }
+
+        .date-menu-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .date-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .date-label {
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.95em;
+        }
+
+        .date-day {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .menu-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 100px 80px;
+            gap: 10px;
+            align-items: end;
+        }
+
         .menu-image-container {
             margin-top: 10px;
             text-align: center;
         }
 
         .menu-image {
-            max-width: 200px;
-            max-height: 200px;
+            max-width: 150px;
+            max-height: 150px;
             border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             object-fit: cover;
@@ -261,6 +205,104 @@
             display: none;
         }
 
+        .add-menu-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85em;
+            margin-top: 10px;
+        }
+
+        .add-menu-btn:hover {
+            background: #218838;
+        }
+
+        .remove-menu-btn {
+            background: #ff4444;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85em;
+        }
+
+        .remove-menu-btn:hover {
+            background: #cc0000;
+        }
+
+        .summary {
+            background: #fff3cd;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            font-size: 1.1em;
+        }
+
+        .summary-row.total {
+            border-top: 2px solid #333;
+            margin-top: 10px;
+            padding-top: 15px;
+            font-weight: bold;
+            font-size: 1.3em;
+            color: #667eea;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.2em;
+            width: 100%;
+            margin-top: 20px;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .generate-dates-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            width: 100%;
+            margin-top: 15px;
+            transition: background 0.3s;
+        }
+
+        .generate-dates-btn:hover {
+            background: #5a6fd6;
+        }
+
+        .info-message {
+            background: #e7f3ff;
+            border: 1px solid #b3d7ff;
+            color: #0056b3;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            text-align: center;
+        }
+
         @media (max-width: 768px) {
             .grid-2 {
                 grid-template-columns: 1fr;
@@ -272,6 +314,10 @@
 
             .delivery-pattern {
                 flex-direction: column;
+            }
+
+            .menu-row {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -343,23 +389,29 @@
                     </label>
                 </div>
                 <div id="customDays" style="display: none; margin-top: 10px;">
-                    <label class="day-checkbox"><input type="checkbox" value="월"> 월</label>
-                    <label class="day-checkbox"><input type="checkbox" value="화"> 화</label>
-                    <label class="day-checkbox"><input type="checkbox" value="수"> 수</label>
-                    <label class="day-checkbox"><input type="checkbox" value="목"> 목</label>
-                    <label class="day-checkbox"><input type="checkbox" value="금"> 금</label>
+                    <label class="day-checkbox"><input type="checkbox" value="1"> 월</label>
+                    <label class="day-checkbox"><input type="checkbox" value="2"> 화</label>
+                    <label class="day-checkbox"><input type="checkbox" value="3"> 수</label>
+                    <label class="day-checkbox"><input type="checkbox" value="4"> 목</label>
+                    <label class="day-checkbox"><input type="checkbox" value="5"> 금</label>
                 </div>
             </div>
 
-            <div id="orderItems">
-                <!-- 주문 항목들이 여기에 추가됨 -->
-            </div>
+            <button class="generate-dates-btn" onclick="generateDeliveryDates()">배송일 생성하기</button>
 
-            <button class="add-item-btn" onclick="addOrderItem()">+ 세트 추가</button>
+            <div id="dateMenuContainer" class="date-menu-container">
+                <div class="info-message">
+                    배송 시작일, 종료일, 배송 주기를 선택한 후<br>"배송일 생성하기" 버튼을 눌러주세요.
+                </div>
+            </div>
         </div>
 
         <!-- 합계 -->
         <div class="summary">
+            <div class="summary-row">
+                <span>총 배송일:</span>
+                <span id="totalDays">0일</span>
+            </div>
             <div class="summary-row">
                 <span>소계:</span>
                 <span id="subtotal">0원</span>
@@ -402,7 +454,7 @@
                 { name: "불고기샌드위치 1p", price: 6000 }
             ],
             "샌드위치+사이드": [
-                { name: "샌드위치 1p + 물만두", price: 8000 },
+                { name: "샌드위치 1p + 만두튀김", price: 8000 },
                 { name: "샌드위치 1p + 돈까스", price: 8500 },
                 { name: "샌드위치 1p + 닭강정", price: 8500 },
                 { name: "샌드위치 1p + 과일2종", price: 7500 },
@@ -417,7 +469,7 @@
                 { name: "치킨유부초밥 4p", price: 5500 }
             ],
             "유부초밥+사이드": [
-                { name: "유부초밥 4p + 물만두", price: 7500 },
+                { name: "유부초밥 4p + 만두튀김", price: 7500 },
                 { name: "유부초밥 4p + 돈까스", price: 8000 },
                 { name: "유부초밥 4p + 닭강정", price: 8000 },
                 { name: "유부초밥 4p + 과일2종", price: 7000 },
@@ -432,7 +484,7 @@
                 { name: "마늘베이글 1p", price: 4000 }
             ],
             "베이글+사이드": [
-                { name: "베이글 1p + 물만두", price: 6500 },
+                { name: "베이글 1p + 만두튀김", price: 6500 },
                 { name: "베이글 1p + 돈까스", price: 7000 },
                 { name: "베이글 1p + 닭강정", price: 7000 },
                 { name: "베이글 1p + 과일2종", price: 6000 },
@@ -454,7 +506,7 @@
                 { name: "새우김밥 반줄", price: 4000 }
             ],
             "김밥 반줄+사이드": [
-                { name: "김밥 반줄 + 물만두", price: 5500 },
+                { name: "김밥 반줄 + 만두튀김", price: 5500 },
                 { name: "김밥 반줄 + 돈까스", price: 6000 },
                 { name: "김밥 반줄 + 닭강정", price: 6000 },
                 { name: "김밥 반줄 + 과일2종", price: 5000 },
@@ -489,7 +541,7 @@
                 { name: "과일7종", price: 8000 }
             ],
             "컵밥": [
-                { name: "물만두컵밥", price: 5000 },
+                { name: "만두튀김컵밥", price: 5000 },
                 { name: "돈까스컵밥", price: 5500 },
                 { name: "닭강정컵밥", price: 5500 },
                 { name: "떡산적컵밥", price: 5000 },
@@ -502,12 +554,12 @@
             ]
         };
 
-        let itemCounter = 0;
+        const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
+        let deliveryDates = []; // 배송일 목록
+        let menuCounters = {}; // 각 날짜별 메뉴 카운터
 
-        // 페이지 로드 시 첫 번째 항목 추가
+        // 페이지 로드 시 이벤트 설정
         window.onload = function() {
-            addOrderItem();
-
             // 배송 패턴 라디오 버튼 이벤트
             document.querySelectorAll('input[name="deliveryPattern"]').forEach(radio => {
                 radio.addEventListener('change', function() {
@@ -521,62 +573,162 @@
             });
         };
 
-        function addOrderItem() {
-            itemCounter++;
-            const itemDiv = document.createElement('div');
-            itemDiv.className = 'order-item';
-            itemDiv.id = `item-${itemCounter}`;
+        // 배송일 생성
+        function generateDeliveryDates() {
+            const startDate = document.getElementById('deliveryStartDate').value;
+            const endDate = document.getElementById('deliveryEndDate').value;
+            const patternRadio = document.querySelector('input[name="deliveryPattern"]:checked');
 
-            itemDiv.innerHTML = `
-                <div class="order-item-header">
-                    <span class="item-number">세트 ${itemCounter}</span>
-                    <button class="remove-btn" onclick="removeOrderItem(${itemCounter})">삭제</button>
-                </div>
-                <div class="form-group">
-                    <label>카테고리</label>
-                    <select id="category-${itemCounter}" onchange="updateMenuOptions(${itemCounter})">
-                        <option value="">선택하세요</option>
-                        ${Object.keys(menuData).map(cat => `<option value="${cat}">${cat}</option>`).join('')}
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>세트명</label>
-                    <select id="menu-${itemCounter}" onchange="updatePrice(${itemCounter})" disabled>
-                        <option value="">먼저 카테고리를 선택하세요</option>
-                    </select>
-                </div>
-                <div class="menu-image-container" id="imageContainer-${itemCounter}">
-                    <img class="menu-image" id="menuImage-${itemCounter}" style="display: none;">
-                    <div class="no-image" id="noImage-${itemCounter}">이미지 없음</div>
-                </div>
-                <div class="grid-2">
+            if (!startDate || !endDate) {
+                alert('배송 시작일과 종료일을 선택해주세요.');
+                return;
+            }
+
+            if (!patternRadio) {
+                alert('배송 주기를 선택해주세요.');
+                return;
+            }
+
+            if (startDate > endDate) {
+                alert('종료일은 시작일보다 이후여야 합니다.');
+                return;
+            }
+
+            const pattern = patternRadio.value;
+            let allowedDays = [];
+
+            if (pattern === 'everyday') {
+                allowedDays = [1, 2, 3, 4, 5]; // 월~금
+            } else if (pattern === 'mwf') {
+                allowedDays = [1, 3, 5]; // 월, 수, 금
+            } else if (pattern === 'tt') {
+                allowedDays = [2, 4]; // 화, 목
+            } else if (pattern === 'mon') {
+                allowedDays = [1]; // 월
+            } else if (pattern === 'custom') {
+                const checkedDays = document.querySelectorAll('#customDays input:checked');
+                if (checkedDays.length === 0) {
+                    alert('배송 요일을 선택해주세요.');
+                    return;
+                }
+                allowedDays = Array.from(checkedDays).map(cb => parseInt(cb.value));
+            }
+
+            // 배송일 계산
+            deliveryDates = [];
+            let current = new Date(startDate);
+            const end = new Date(endDate);
+
+            while (current <= end) {
+                const dayOfWeek = current.getDay();
+                if (allowedDays.includes(dayOfWeek)) {
+                    deliveryDates.push(new Date(current));
+                }
+                current.setDate(current.getDate() + 1);
+            }
+
+            if (deliveryDates.length === 0) {
+                alert('선택한 기간과 배송 주기에 해당하는 배송일이 없습니다.');
+                return;
+            }
+
+            // UI 생성
+            renderDateMenuItems();
+        }
+
+        // 날짜별 메뉴 선택 UI 생성
+        function renderDateMenuItems() {
+            const container = document.getElementById('dateMenuContainer');
+            container.innerHTML = '';
+            menuCounters = {};
+
+            deliveryDates.forEach((date, index) => {
+                const dateStr = formatDate(date);
+                const dayName = dayNames[date.getDay()];
+                menuCounters[dateStr] = 1;
+
+                const dateItem = document.createElement('div');
+                dateItem.className = 'date-menu-item';
+                dateItem.id = `date-${dateStr}`;
+
+                dateItem.innerHTML = `
+                    <div class="date-header">
+                        <span class="date-label">${dateStr} (${dayName})</span>
+                        <span class="date-day">${index + 1}일차</span>
+                    </div>
+                    <div id="menus-${dateStr}">
+                        ${createMenuRow(dateStr, 1)}
+                    </div>
+                    <button class="add-menu-btn" onclick="addMenuToDate('${dateStr}')">+ 메뉴 추가</button>
+                `;
+
+                container.appendChild(dateItem);
+            });
+
+            document.getElementById('totalDays').textContent = deliveryDates.length + '일';
+            calculateTotal();
+        }
+
+        // 메뉴 선택 행 생성
+        function createMenuRow(dateStr, menuNum) {
+            const categoryOptions = Object.keys(menuData).map(cat =>
+                `<option value="${cat}">${cat}</option>`
+            ).join('');
+
+            return `
+                <div class="menu-row" id="menu-row-${dateStr}-${menuNum}">
+                    <div class="form-group">
+                        <label>카테고리</label>
+                        <select id="category-${dateStr}-${menuNum}" onchange="updateMenuOptions('${dateStr}', ${menuNum})">
+                            <option value="">선택</option>
+                            ${categoryOptions}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>메뉴</label>
+                        <select id="menu-${dateStr}-${menuNum}" onchange="updateDatePrice('${dateStr}', ${menuNum})" disabled>
+                            <option value="">카테고리 선택</option>
+                        </select>
+                    </div>
                     <div class="form-group">
                         <label>수량</label>
-                        <input type="number" id="quantity-${itemCounter}" min="1" value="1" onchange="updatePrice(${itemCounter})">
+                        <input type="number" id="quantity-${dateStr}-${menuNum}" min="1" value="1" onchange="updateDatePrice('${dateStr}', ${menuNum})">
                     </div>
-                    <div class="form-group">
-                        <label>금액</label>
-                        <input type="text" id="price-${itemCounter}" readonly value="0원">
+                    <div class="form-group" style="display: flex; align-items: flex-end;">
+                        ${menuNum > 1 ? `<button class="remove-menu-btn" onclick="removeMenuFromDate('${dateStr}', ${menuNum})">삭제</button>` : ''}
                     </div>
                 </div>
+                <div class="menu-image-container" id="imageContainer-${dateStr}-${menuNum}">
+                    <img class="menu-image" id="menuImage-${dateStr}-${menuNum}" style="display: none;">
+                    <div class="no-image" id="noImage-${dateStr}-${menuNum}">이미지 없음</div>
+                </div>
             `;
-
-            document.getElementById('orderItems').appendChild(itemDiv);
         }
 
-        function removeOrderItem(id) {
-            const item = document.getElementById(`item-${id}`);
-            if (item) {
-                item.remove();
-                calculateTotal();
-            }
+        // 날짜에 메뉴 추가
+        function addMenuToDate(dateStr) {
+            menuCounters[dateStr]++;
+            const menuNum = menuCounters[dateStr];
+            const menusContainer = document.getElementById(`menus-${dateStr}`);
+            const newMenuHtml = createMenuRow(dateStr, menuNum);
+            menusContainer.insertAdjacentHTML('beforeend', newMenuHtml);
         }
 
-        function updateMenuOptions(id) {
-            const category = document.getElementById(`category-${id}`).value;
-            const menuSelect = document.getElementById(`menu-${id}`);
+        // 날짜에서 메뉴 삭제
+        function removeMenuFromDate(dateStr, menuNum) {
+            const menuRow = document.getElementById(`menu-row-${dateStr}-${menuNum}`);
+            const imageContainer = document.getElementById(`imageContainer-${dateStr}-${menuNum}`);
+            if (menuRow) menuRow.remove();
+            if (imageContainer) imageContainer.remove();
+            calculateTotal();
+        }
 
-            menuSelect.innerHTML = '<option value="">선택하세요</option>';
+        // 메뉴 옵션 업데이트
+        function updateMenuOptions(dateStr, menuNum) {
+            const category = document.getElementById(`category-${dateStr}-${menuNum}`).value;
+            const menuSelect = document.getElementById(`menu-${dateStr}-${menuNum}`);
+
+            menuSelect.innerHTML = '<option value="">선택</option>';
 
             if (category && menuData[category]) {
                 menuSelect.disabled = false;
@@ -590,21 +742,17 @@
                 menuSelect.disabled = true;
             }
 
-            updatePrice(id);
+            updateDatePrice(dateStr, menuNum);
         }
 
-        function updatePrice(id) {
-            const menuSelect = document.getElementById(`menu-${id}`);
-            const quantityInput = document.getElementById(`quantity-${id}`);
-            const priceInput = document.getElementById(`price-${id}`);
-            const menuImage = document.getElementById(`menuImage-${id}`);
-            const noImage = document.getElementById(`noImage-${id}`);
+        // 가격 업데이트 및 이미지 표시
+        function updateDatePrice(dateStr, menuNum) {
+            const menuSelect = document.getElementById(`menu-${dateStr}-${menuNum}`);
+            const menuImage = document.getElementById(`menuImage-${dateStr}-${menuNum}`);
+            const noImage = document.getElementById(`noImage-${dateStr}-${menuNum}`);
 
-            if (menuSelect.value) {
+            if (menuSelect && menuSelect.value) {
                 const menuItem = JSON.parse(menuSelect.value);
-                const quantity = parseInt(quantityInput.value) || 0;
-                const totalPrice = menuItem.price * quantity;
-                priceInput.value = totalPrice.toLocaleString() + '원';
 
                 // 이미지 표시
                 const imageName = getImageName(menuItem.name);
@@ -617,9 +765,8 @@
                     noImage.style.display = 'block';
                 }
             } else {
-                priceInput.value = '0원';
-                menuImage.style.display = 'none';
-                noImage.style.display = 'none';
+                if (menuImage) menuImage.style.display = 'none';
+                if (noImage) noImage.style.display = 'none';
             }
 
             calculateTotal();
@@ -627,19 +774,16 @@
 
         // 메뉴명을 이미지 파일명으로 변환
         function getImageName(menuName) {
-            // 메뉴명에서 이미지 파일명 추출
-            // 예: "클럽샌드위치 1p" -> "클럽샌드위치1피스"
             let imageName = menuName
                 .replace(/ 1p/g, '1피스')
                 .replace(/ 2p/g, '2피스')
                 .replace(/ 4p/g, '4피스')
                 .replace(/ 6p/g, '6피스')
                 .replace(/ /g, '');
-
             return imageName;
         }
 
-        // 이미지 로드 시도 (jpg -> png -> JPG 순서)
+        // 이미지 로드 시도
         function tryLoadImage(imgElement, baseName, noImageElement) {
             const extensions = ['.jpg', '.png', '.JPG', '.PNG'];
             let currentIndex = 0;
@@ -658,16 +802,33 @@
             tryNext();
         }
 
+        // 날짜 포맷
+        function formatDate(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        // 전체 합계 계산
         function calculateTotal() {
             let subtotal = 0;
 
-            for (let i = 1; i <= itemCounter; i++) {
-                const priceInput = document.getElementById(`price-${i}`);
-                if (priceInput) {
-                    const price = parseInt(priceInput.value.replace(/[^0-9]/g, '')) || 0;
-                    subtotal += price;
+            deliveryDates.forEach(date => {
+                const dateStr = formatDate(date);
+                const maxMenuNum = menuCounters[dateStr] || 1;
+
+                for (let i = 1; i <= maxMenuNum; i++) {
+                    const menuSelect = document.getElementById(`menu-${dateStr}-${i}`);
+                    const quantityInput = document.getElementById(`quantity-${dateStr}-${i}`);
+
+                    if (menuSelect && menuSelect.value && quantityInput) {
+                        const menuItem = JSON.parse(menuSelect.value);
+                        const quantity = parseInt(quantityInput.value) || 0;
+                        subtotal += menuItem.price * quantity;
+                    }
                 }
-            }
+            });
 
             const tax = Math.round(subtotal * 0.1);
             const total = subtotal + tax;
@@ -677,72 +838,55 @@
             document.getElementById('total').textContent = total.toLocaleString() + '원';
         }
 
+        // 발주 제출
         function submitOrder() {
-            // 필수 항목 체크
             const companyName = document.getElementById('companyName').value;
             const contactName = document.getElementById('contactName').value;
             const phone = document.getElementById('phone').value;
             const email = document.getElementById('email').value;
-            const deliveryStartDate = document.getElementById('deliveryStartDate').value;
-            const deliveryEndDate = document.getElementById('deliveryEndDate').value;
 
-            // 배송 패턴 가져오기
-            const deliveryPatternRadio = document.querySelector('input[name="deliveryPattern"]:checked');
-            if (!deliveryPatternRadio) {
-                alert('배송 패턴을 선택해주세요.');
+            if (!companyName || !contactName || !phone || !email) {
+                alert('고객정보를 모두 입력해주세요.');
                 return;
             }
 
-            let deliveryPattern = deliveryPatternRadio.value;
-            let deliveryDays = '';
-
-            if (deliveryPattern === 'everyday') {
-                deliveryDays = '월,화,수,목,금';
-            } else if (deliveryPattern === 'mwf') {
-                deliveryDays = '월,수,금';
-            } else if (deliveryPattern === 'tt') {
-                deliveryDays = '화,목';
-            } else if (deliveryPattern === 'mon') {
-                deliveryDays = '월';
-            } else if (deliveryPattern === 'custom') {
-                const checkedDays = document.querySelectorAll('#customDays input:checked');
-                if (checkedDays.length === 0) {
-                    alert('배송 요일을 선택해주세요.');
-                    return;
-                }
-                deliveryDays = Array.from(checkedDays).map(cb => cb.value).join(',');
-            }
-
-            if (!companyName || !contactName || !phone || !email || !deliveryStartDate || !deliveryEndDate) {
-                alert('고객정보와 배송 날짜를 모두 입력해주세요.');
+            if (deliveryDates.length === 0) {
+                alert('배송일을 먼저 생성해주세요.');
                 return;
             }
 
-            if (deliveryStartDate > deliveryEndDate) {
-                alert('종료일은 시작일보다 이후여야 합니다.');
-                return;
-            }
-
-            // 주문 항목 수집
+            // 주문 데이터 수집
             const orders = [];
-            for (let i = 1; i <= itemCounter; i++) {
-                const menuSelect = document.getElementById(`menu-${i}`);
-                const quantityInput = document.getElementById(`quantity-${i}`);
+            let hasOrder = false;
 
-                if (menuSelect && menuSelect.value) {
-                    const menuItem = JSON.parse(menuSelect.value);
-                    orders.push({
-                        category: document.getElementById(`category-${i}`).value,
-                        menu: menuItem.name,
-                        quantity: quantityInput.value,
-                        price: menuItem.price,
-                        total: menuItem.price * parseInt(quantityInput.value)
-                    });
+            deliveryDates.forEach(date => {
+                const dateStr = formatDate(date);
+                const dayName = dayNames[date.getDay()];
+                const maxMenuNum = menuCounters[dateStr] || 1;
+
+                for (let i = 1; i <= maxMenuNum; i++) {
+                    const menuSelect = document.getElementById(`menu-${dateStr}-${i}`);
+                    const quantityInput = document.getElementById(`quantity-${dateStr}-${i}`);
+                    const categorySelect = document.getElementById(`category-${dateStr}-${i}`);
+
+                    if (menuSelect && menuSelect.value && quantityInput) {
+                        hasOrder = true;
+                        const menuItem = JSON.parse(menuSelect.value);
+                        orders.push({
+                            date: dateStr,
+                            day: dayName,
+                            category: categorySelect ? categorySelect.value : '',
+                            menu: menuItem.name,
+                            quantity: parseInt(quantityInput.value),
+                            price: menuItem.price,
+                            total: menuItem.price * parseInt(quantityInput.value)
+                        });
+                    }
                 }
-            }
+            });
 
-            if (orders.length === 0) {
-                alert('최소 1개 이상의 세트를 선택해주세요.');
+            if (!hasOrder) {
+                alert('최소 1개 이상의 메뉴를 선택해주세요.');
                 return;
             }
 
@@ -751,9 +895,9 @@
                 contactName,
                 phone,
                 email,
-                deliveryStartDate,
-                deliveryEndDate,
-                deliveryDays,
+                deliveryStartDate: document.getElementById('deliveryStartDate').value,
+                deliveryEndDate: document.getElementById('deliveryEndDate').value,
+                totalDays: deliveryDates.length,
                 orders,
                 subtotal: parseInt(document.getElementById('subtotal').textContent.replace(/[^0-9]/g, '')),
                 tax: parseInt(document.getElementById('tax').textContent.replace(/[^0-9]/g, '')),
