@@ -8,7 +8,11 @@
       "Bash(clasp status:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git push)"
+      "Bash(git push)",
+      "WebFetch(domain:docs.google.com)",
+      "WebFetch(domain:doc-10-a4-sheets.googleusercontent.com)",
+      "Bash(powershell:*)",
+      "Bash(git rebase:*)"
     ],
     "deny": [],
     "ask": []
