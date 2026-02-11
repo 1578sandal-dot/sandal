@@ -53,7 +53,7 @@
             font-size: 1.3em;
             margin-bottom: 15px;
             font-weight: bold;
-            border-bottom:2피스x solid #667eea;
+            border-bottom: 2px solid #667eea;
             padding-bottom: 10px;
         }
 
@@ -71,7 +71,7 @@
         input, select {
             width: 100%;
             padding: 12px;
-            border:2피스x solid #ddd;
+            border: 2px solid #ddd;
             border-radius: 8px;
             font-size: 1em;
             transition: all 0.3s;
@@ -103,7 +103,7 @@
             padding: 12px 10px;
             flex: 1;
             background: white;
-            border:2피스x solid #ddd;
+            border: 2px solid #ddd;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s;
@@ -131,7 +131,7 @@
             gap: 5px;
             padding: 8px 12px;
             background: white;
-            border:2피스x solid #ddd;
+            border: 2px solid #ddd;
             border-radius: 5px;
             margin-right: 5px;
             cursor: pointer;
@@ -152,7 +152,7 @@
             padding: 15px;
             border-radius: 8px;
             margin-bottom: 10px;
-            border:2피스x solid #e0e0e0;
+            border: 2px solid #e0e0e0;
         }
 
         .date-header {
@@ -178,7 +178,7 @@
 
         .menu-row {
             display: grid;
-            grid-template-columns: 1fr 1fr 100px 80px;
+            grid-template-columns: 1fr 1fr 1fr 100px 80px;
             gap: 10px;
             align-items: end;
         }
@@ -192,7 +192,7 @@
             max-width: 150px;
             max-height: 150px;
             border-radius: 10px;
-            box-shadow: 04피스x 15px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             object-fit: cover;
         }
 
@@ -249,7 +249,7 @@
         }
 
         .summary-row.total {
-            border-top:2피스x solid #333;
+            border-top: 2px solid #333;
             margin-top: 10px;
             padding-top: 15px;
             font-weight: bold;
@@ -295,7 +295,7 @@
 
         .info-message {
             background: #e7f3ff;
-            border:1피스x solid #b3d7ff;
+            border: 1px solid #b3d7ff;
             color: #0056b3;
             padding: 15px;
             border-radius: 8px;
@@ -430,158 +430,102 @@
     </div>
 
     <script>
-        // 메뉴 데이터 (카테고리별)
+        // 세트별 가격 (부가세 별도)
+        const SET_PRICES = {
+            "A세트": 3500,
+            "B세트": 5000,
+            "C세트": 7000
+        };
+
+        // 메뉴 데이터 (A/B/C 세트별)
         const menuData = {
-            "샌드위치": [
-                { name: "클럽샌드위치1피스", price: 5500 },
-                { name: "클럽샌드위치2피스", price: 11000 },
-                { name: "햄치즈에그샌드위치1피스", price: 5000 },
-                { name: "햄치즈에그샌드위치2피스", price: 10000 },
-                { name: "참치샌드위치1피스", price: 5500 },
-                { name: "참치샌드위치2피스", price: 11000 },
-                { name: "크래미샌드위치1피스", price: 5000 },
-                { name: "크래미샌드위치2피스", price: 10000 },
-                { name: "버터햄치즈샌드위치1피스", price: 4500 },
-                { name: "버터햄치즈샌드위치2피스", price: 9000 },
-                { name: "감자샌드위치1피스", price: 5000 },
-                { name: "감자샌드위치2피스", price: 10000 },
-                { name: "햄치즈샌드위치1피스", price: 4500 },
-                { name: "햄치즈샌드위치2피스", price: 9000 },
-                { name: "무화과호두크림샌드위치1피스", price: 6000 },
-                { name: "무화과호두크림샌드위치2피스", price: 12000 },
-                { name: "고구마샌드위치1피스", price: 5000 },
-                { name: "고구마샌드위치2피스", price: 10000 },
-                { name: "누텔라바나나샌드위치1피스", price: 5500 },
-                { name: "누텔라바나나샌드위치2피스", price: 11000 },
-                { name: "크래미에그샌드위치1피스", price: 5500 },
-                { name: "크래미에그샌드위치2피스", price: 11000 },
-                { name: "베이컨대파샌드위치1피스", price: 5500 },
-                { name: "베이컨대파샌드위치2피스", price: 11000 },
-                { name: "마카로니샌드위치1피스", price: 5000 },
-                { name: "마카로니샌드위치2피스", price: 10000 },
-                { name: "블루베리크림샌드위치1피스", price: 5500 },
-                { name: "블루베리크림샌드위치2피스", price: 11000 },
-                { name: "살사후실리샌드위치1피스", price: 5500 },
-                { name: "살사후실리샌드위치2피스", price: 11000 },
-                { name: "콘에그샌드위치1피스", price: 5000 },
-                { name: "콘에그샌드위치2피스", price: 10000 },
-                { name: "단호박샌드위치1피스", price: 5000 },
-                { name: "단호박샌드위치2피스", price: 10000 },
-                { name: "리코타치즈샌드위치1피스", price: 6000 },
-                { name: "리코타치즈샌드위치2피스", price: 12000 },
-                { name: "불고기샌드위치1피스", price: 6000 },
-                { name: "불고기샌드위치2피스", price: 12000 }
-            ],
-            "샌드위치+사이드": [
-                { name: "샌드위치1피스 + 만두튀김", price: 8000 },
-                { name: "샌드위치1피스 + 돈까스", price: 8500 },
-                { name: "샌드위치1피스 + 닭강정", price: 8500 },
-                { name: "샌드위치1피스 + 과일2종", price: 7500 },
-                { name: "샌드위치1피스 + 과일3종", price: 8000 }
-            ],
-            "유부초밥": [
-                { name: "크래미유부초밥2피스", price: 2500 },
-                { name: "크래미유부초밥4피스", price: 5000 },
-                { name: "크래미유부초밥6피스", price: 7500 },
-                { name: "햄유부초밥2피스", price: 2500 },
-                { name: "햄유부초밥4피스", price: 5000 },
-                { name: "햄유부초밥6피스", price: 7500 },
-                { name: "참치유부초밥2피스", price: 3000 },
-                { name: "참치유부초밥4피스", price: 6000 },
-                { name: "참치유부초밥6피스", price: 9000 },
-                { name: "날치알유부초밥2피스", price: 3000 },
-                { name: "날치알유부초밥4피스", price: 6000 },
-                { name: "날치알유부초밥6피스", price: 9000 },
-                { name: "김치유부초밥2피스", price: 2500 },
-                { name: "김치유부초밥4피스", price: 5000 },
-                { name: "김치유부초밥6피스", price: 7500 },
-                { name: "유부초밥2피스", price: 2000 },
-                { name: "유부초밥4피스", price: 4000 },
-                { name: "유부초밥6피스", price: 6000 }
-            ],
-            "유부초밥+사이드": [
-                { name: "유부초밥4피스 + 만두튀김", price: 7500 },
-                { name: "유부초밥4피스 + 돈까스", price: 8000 },
-                { name: "유부초밥4피스 + 닭강정", price: 8000 },
-                { name: "유부초밥4피스 + 과일2종", price: 7000 },
-                { name: "유부초밥4피스 + 과일3종", price: 7500 }
-            ],
-            "베이글 단품": [
-                { name: "플레인베이글1피스", price: 3500 },
-                { name: "어니언베이글1피스", price: 3500 },
-                { name: "블루베리베이글1피스", price: 4000 },
-                { name: "초코베이글1피스", price: 4000 },
-                { name: "치즈베이글1피스", price: 4500 },
-                { name: "마늘베이글1피스", price: 4000 }
-            ],
-            "베이글+사이드": [
-                { name: "베이글1피스 + 만두튀김", price: 6500 },
-                { name: "베이글1피스 + 돈까스", price: 7000 },
-                { name: "베이글1피스 + 닭강정", price: 7000 },
-                { name: "베이글1피스 + 과일2종", price: 6000 },
-                { name: "베이글1피스 + 과일3종", price: 6500 }
-            ],
-            "김밥반줄": [
-                { name: "일반김밥반줄", price: 2500 },
-                { name: "치즈김밥반줄", price: 3000 },
-                { name: "참치김밥반줄", price: 3500 },
-                { name: "매운어묵김밥반줄", price: 3000 },
-                { name: "샐러드김밥반줄", price: 3500 },
-                { name: "너비아니김밥반줄", price: 4000 },
-                { name: "마라김밥반줄", price: 3500 },
-                { name: "오이당근김밥반줄", price: 2500 },
-                { name: "양배추당근김밥반줄", price: 2500 },
-                { name: "돈까스김밥반줄", price: 3500 },
-                { name: "무말랭이김밥반줄", price: 3000 },
-                { name: "유부김밥반줄", price: 3000 },
-                { name: "계란김밥반줄", price: 3000 }
-            ],
-            "김밥반줄+사이드": [
-                { name: "김밥반줄 + 만두튀김", price: 5500 },
-                { name: "김밥반줄 + 돈까스", price: 6000 },
-                { name: "김밥반줄 + 닭강정", price: 6000 },
-                { name: "김밥반줄 + 과일2종", price: 5000 },
-                { name: "김밥반줄 + 과일3종", price: 5500 }
-            ],
-            "샐러드": [
-                { name: "리코타치즈샐러드", price: 7000 },
-                { name: "두부버섯샐러드", price: 6500 },
-                { name: "크래미샐러드", price: 6000 },
-                { name: "단호박샐러드", price: 6500 },
-                { name: "살사후실리샐러드", price: 7000 },
-                { name: "고구마샐러드", price: 6500 }
-            ],
-            "김밥": [
-                { name: "일반김밥", price: 5000 },
-                { name: "치즈김밥", price: 6000 },
-                { name: "참치김밥", price: 7000 },
-                { name: "매운어묵김밥", price: 6000 },
-                { name: "샐러드김밥", price: 7000 },
-                { name: "너비아니김밥", price: 8000 },
-                { name: "마라김밥", price: 7000 },
-                { name: "오이당근김밥", price: 5000 },
-                { name: "양배추당근김밥", price: 5000 },
-                { name: "돈까스김밥", price: 7000 },
-                { name: "무말랭이김밥", price: 6000 },
-                { name: "유부김밥", price: 6000 },
-                { name: "계란김밥", price: 6000 }
-            ],
-            "컵과일": [
-                { name: "과일4종", price: 5000 },
-                { name: "과일5종", price: 6000 },
-                { name: "과일7종", price: 8000 }
-            ],
-            "컵밥": [
-                { name: "돈까스컵밥", price: 5500 },
-                { name: "닭강정컵밥", price: 5500 },
-                { name: "떡산적컵밥", price: 5000 },
-                { name: "야채볶음컵밥", price: 4500 },
-                { name: "새우볶음컵밥", price: 6000 },
-                { name: "김치볶음컵밥", price: 4500 },
-                { name: "카레볶음컵밥", price: 5000 },
-                { name: "낙지볶음컵밥", price: 6500 },
-                { name: "소불고기컵밥", price: 6000 }
-            ]
+            "A세트": {
+                "샌드위치": [
+                    "클럽샌드위치1피스", "햄치즈에그샌드위치1피스", "참치샌드위치1피스", "크래미샌드위치1피스",
+                    "버터햄치즈샌드위치1피스", "감자샌드위치1피스", "햄치즈샌드위치1피스", "무화과호두크림샌드위치1피스",
+                    "고구마샌드위치1피스", "누텔라바나나샌드위치1피스", "크래미에그샌드위치1피스", "베이컨대파크림샌드위치1피스",
+                    "마카로니샌드위치1피스", "블루베리크림샌드위치1피스", "살사후실리샌드위치1피스", "콘에그샌드위치1피스",
+                    "단호박샌드위치1피스", "리코타치즈샌드위치1피스", "불고기샌드위치1피스"
+                ],
+                "유부초밥": [
+                    "크래미유부초밥4피스", "햄유부초밥4피스", "참치유부초밥4피스", "날치알유부초밥4피스",
+                    "김치유부초밥4피스", "유부초밥4피스"
+                ],
+                "베이글": [
+                    "무화과호두크림베이글1피스", "베이컨대파크림베이글1피스", "블루베리크림베이글1피스",
+                    "당근라페베이글1피스", "바질토마토크림베이글1피스", "닭가슴살베이글1피스"
+                ],
+                "김밥": [
+                    "일반김밥", "치즈김밥", "참치김밥", "매운어묵김밥", "샐러드김밥", "너비아니김밥",
+                    "마라김밥", "오이당근김밥", "양배추당근김밥", "돈까스김밥", "무말랭이김밥", "유부김밥", "계란김밥"
+                ],
+                "김밥반줄": [
+                    "일반김밥반줄", "치즈김밥반줄", "참치김밥반줄", "매운어묵김밥반줄", "샐러드김밥반줄",
+                    "너비아니김밥반줄", "마라김밥반줄", "오이당근김밥반줄", "양배추당근김밥반줄",
+                    "돈까스김밥반줄", "무말랭이김밥반줄", "유부김밥반줄", "계란김밥반줄"
+                ],
+                "컵과일": ["과일2종", "과일3종", "과일4종", "과일5종", "과일6종", "과일7종"],
+                "컵밥(소)": [
+                    "야채볶음컵밥(소)", "새우볶음컵밥(소)", "김치볶음컵밥(소)",
+                    "카레볶음컵밥(소)", "낙지볶음컵밥(소)", "소불고기컵밥(소)"
+                ]
+            },
+            "B세트": {
+                "샐러드(소)": [
+                    "리코타치즈샐러드(소)", "두부버섯샐러드(소)", "크래미샐러드(소)",
+                    "단호박샐러드(소)", "살사후실리샐러드(소)", "고구마샐러드(소)"
+                ],
+                "컵밥(대)": [
+                    "야채볶음컵밥(대)", "새우볶음컵밥(대)", "김치볶음컵밥(대)",
+                    "카레볶음컵밥(대)", "낙지볶음컵밥(대)", "소불고기컵밥(대)"
+                ],
+                "샌드위치+사이드": [
+                    "클럽샌드위치1피스+떡산적", "클럽샌드위치1피스+만두튀김", "클럽샌드위치1피스+닭강정", "클럽샌드위치1피스+미니돈까스", "클럽샌드위치1피스+과일3종",
+                    "햄치즈에그샌드위치1피스+떡산적", "햄치즈에그샌드위치1피스+만두튀김", "햄치즈에그샌드위치1피스+닭강정", "햄치즈에그샌드위치1피스+미니돈까스", "햄치즈에그샌드위치1피스+과일3종",
+                    "참치샌드위치1피스+떡산적", "참치샌드위치1피스+만두튀김", "참치샌드위치1피스+닭강정", "참치샌드위치1피스+미니돈까스", "참치샌드위치1피스+과일3종",
+                    "크래미샌드위치1피스+떡산적", "크래미샌드위치1피스+만두튀김", "크래미샌드위치1피스+닭강정", "크래미샌드위치1피스+미니돈까스", "크래미샌드위치1피스+과일3종",
+                    "버터햄치즈샌드위치1피스+떡산적", "버터햄치즈샌드위치1피스+만두튀김", "버터햄치즈샌드위치1피스+닭강정", "버터햄치즈샌드위치1피스+미니돈까스", "버터햄치즈샌드위치1피스+과일3종",
+                    "감자샌드위치1피스+떡산적", "감자샌드위치1피스+만두튀김", "감자샌드위치1피스+닭강정", "감자샌드위치1피스+미니돈까스", "감자샌드위치1피스+과일3종",
+                    "햄치즈샌드위치1피스+떡산적", "햄치즈샌드위치1피스+만두튀김", "햄치즈샌드위치1피스+닭강정", "햄치즈샌드위치1피스+미니돈까스", "햄치즈샌드위치1피스+과일3종",
+                    "고구마샌드위치1피스+떡산적", "고구마샌드위치1피스+만두튀김", "고구마샌드위치1피스+닭강정", "고구마샌드위치1피스+미니돈까스", "고구마샌드위치1피스+과일3종",
+                    "단호박샌드위치1피스+떡산적", "단호박샌드위치1피스+만두튀김", "단호박샌드위치1피스+닭강정", "단호박샌드위치1피스+미니돈까스", "단호박샌드위치1피스+과일3종"
+                ],
+                "유부초밥+사이드": [
+                    "크래미유부초밥4피스+떡산적", "크래미유부초밥4피스+만두튀김", "크래미유부초밥4피스+닭강정", "크래미유부초밥4피스+미니돈까스", "크래미유부초밥4피스+과일3종",
+                    "햄유부초밥4피스+떡산적", "햄유부초밥4피스+만두튀김", "햄유부초밥4피스+닭강정", "햄유부초밥4피스+미니돈까스", "햄유부초밥4피스+과일3종",
+                    "참치유부초밥4피스+떡산적", "참치유부초밥4피스+만두튀김", "참치유부초밥4피스+닭강정", "참치유부초밥4피스+미니돈까스", "참치유부초밥4피스+과일3종",
+                    "날치알유부초밥4피스+떡산적", "날치알유부초밥4피스+만두튀김", "날치알유부초밥4피스+닭강정", "날치알유부초밥4피스+미니돈까스", "날치알유부초밥4피스+과일3종",
+                    "김치유부초밥4피스+떡산적", "김치유부초밥4피스+만두튀김", "김치유부초밥4피스+닭강정", "김치유부초밥4피스+미니돈까스", "김치유부초밥4피스+과일3종",
+                    "유부초밥4피스+떡산적", "유부초밥4피스+만두튀김", "유부초밥4피스+닭강정", "유부초밥4피스+미니돈까스", "유부초밥4피스+과일3종"
+                ]
+            },
+            "C세트": {
+                "샐러드(대)": [
+                    "리코타치즈샐러드(대)", "두부버섯샐러드(대)", "크래미샐러드(대)",
+                    "단호박샐러드(대)", "살사후실리샐러드(대)", "고구마샐러드(대)"
+                ],
+                "샌드위치+유부초밥": [
+                    "클럽샌드위치1피스+크래미유부초밥4피스", "클럽샌드위치1피스+햄유부초밥4피스", "클럽샌드위치1피스+참치유부초밥4피스", "클럽샌드위치1피스+유부초밥4피스",
+                    "햄치즈에그샌드위치1피스+크래미유부초밥4피스", "햄치즈에그샌드위치1피스+햄유부초밥4피스", "햄치즈에그샌드위치1피스+참치유부초밥4피스", "햄치즈에그샌드위치1피스+유부초밥4피스",
+                    "참치샌드위치1피스+크래미유부초밥4피스", "참치샌드위치1피스+햄유부초밥4피스", "참치샌드위치1피스+참치유부초밥4피스", "참치샌드위치1피스+유부초밥4피스",
+                    "크래미샌드위치1피스+크래미유부초밥4피스", "크래미샌드위치1피스+햄유부초밥4피스", "크래미샌드위치1피스+참치유부초밥4피스", "크래미샌드위치1피스+유부초밥4피스",
+                    "고구마샌드위치1피스+크래미유부초밥4피스", "고구마샌드위치1피스+햄유부초밥4피스", "고구마샌드위치1피스+참치유부초밥4피스", "고구마샌드위치1피스+유부초밥4피스"
+                ],
+                "샌드위치+유부초밥+과일": [
+                    "클럽샌드위치1피스+크래미유부초밥2피스+과일2종", "클럽샌드위치1피스+햄유부초밥2피스+과일2종", "클럽샌드위치1피스+유부초밥2피스+과일2종",
+                    "햄치즈에그샌드위치1피스+크래미유부초밥2피스+과일2종", "햄치즈에그샌드위치1피스+햄유부초밥2피스+과일2종", "햄치즈에그샌드위치1피스+유부초밥2피스+과일2종",
+                    "참치샌드위치1피스+크래미유부초밥2피스+과일2종", "참치샌드위치1피스+햄유부초밥2피스+과일2종", "참치샌드위치1피스+유부초밥2피스+과일2종",
+                    "크래미샌드위치1피스+크래미유부초밥2피스+과일2종", "크래미샌드위치1피스+햄유부초밥2피스+과일2종", "크래미샌드위치1피스+유부초밥2피스+과일2종",
+                    "고구마샌드위치1피스+크래미유부초밥2피스+과일2종", "고구마샌드위치1피스+햄유부초밥2피스+과일2종", "고구마샌드위치1피스+유부초밥2피스+과일2종"
+                ],
+                "김밥반줄+과일+사이드": [
+                    "일반김밥반줄+과일2종+떡산적", "일반김밥반줄+과일2종+만두튀김", "일반김밥반줄+과일2종+닭강정", "일반김밥반줄+과일2종+미니돈까스",
+                    "치즈김밥반줄+과일2종+떡산적", "치즈김밥반줄+과일2종+만두튀김", "치즈김밥반줄+과일2종+닭강정", "치즈김밥반줄+과일2종+미니돈까스",
+                    "참치김밥반줄+과일2종+떡산적", "참치김밥반줄+과일2종+만두튀김", "참치김밥반줄+과일2종+닭강정", "참치김밥반줄+과일2종+미니돈까스",
+                    "샐러드김밥반줄+과일2종+떡산적", "샐러드김밥반줄+과일2종+만두튀김", "샐러드김밥반줄+과일2종+닭강정", "샐러드김밥반줄+과일2종+미니돈까스",
+                    "너비아니김밥반줄+과일2종+떡산적", "너비아니김밥반줄+과일2종+만두튀김", "너비아니김밥반줄+과일2종+닭강정", "너비아니김밥반줄+과일2종+미니돈까스"
+                ]
+            }
         };
 
         const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
@@ -701,17 +645,23 @@
 
         // 메뉴 선택 행 생성
         function createMenuRow(dateStr, menuNum) {
-            const categoryOptions = Object.keys(menuData).map(cat =>
-                `<option value="${cat}">${cat}</option>`
+            const setOptions = Object.keys(SET_PRICES).map(set =>
+                `<option value="${set}">${set} (${SET_PRICES[set].toLocaleString()}원)</option>`
             ).join('');
 
             return `
-                <div class="menu-row" id="menu-row-${dateStr}-${menuNum}">
+                <div class="menu-row" id="menu-row-${dateStr}-${menuNum}" style="grid-template-columns: 1fr 1fr 1fr 100px 80px;">
+                    <div class="form-group">
+                        <label>세트</label>
+                        <select id="set-${dateStr}-${menuNum}" onchange="updateSubcategories('${dateStr}', ${menuNum})">
+                            <option value="">선택</option>
+                            ${setOptions}
+                        </select>
+                    </div>
                     <div class="form-group">
                         <label>카테고리</label>
-                        <select id="category-${dateStr}-${menuNum}" onchange="updateMenuOptions('${dateStr}', ${menuNum})">
-                            <option value="">선택</option>
-                            ${categoryOptions}
+                        <select id="category-${dateStr}-${menuNum}" onchange="updateMenuOptions('${dateStr}', ${menuNum})" disabled>
+                            <option value="">세트 선택</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -735,6 +685,32 @@
             `;
         }
 
+        // 서브카테고리 업데이트
+        function updateSubcategories(dateStr, menuNum) {
+            const setSelect = document.getElementById(`set-${dateStr}-${menuNum}`);
+            const categorySelect = document.getElementById(`category-${dateStr}-${menuNum}`);
+            const menuSelect = document.getElementById(`menu-${dateStr}-${menuNum}`);
+
+            const selectedSet = setSelect.value;
+            categorySelect.innerHTML = '<option value="">선택</option>';
+            menuSelect.innerHTML = '<option value="">카테고리 선택</option>';
+            menuSelect.disabled = true;
+
+            if (selectedSet && menuData[selectedSet]) {
+                categorySelect.disabled = false;
+                Object.keys(menuData[selectedSet]).forEach(subcat => {
+                    const option = document.createElement('option');
+                    option.value = subcat;
+                    option.textContent = subcat;
+                    categorySelect.appendChild(option);
+                });
+            } else {
+                categorySelect.disabled = true;
+            }
+
+            updateDatePrice(dateStr, menuNum);
+        }
+
         // 날짜에 메뉴 추가
         function addMenuToDate(dateStr) {
             menuCounters[dateStr]++;
@@ -755,17 +731,21 @@
 
         // 메뉴 옵션 업데이트
         function updateMenuOptions(dateStr, menuNum) {
-            const category = document.getElementById(`category-${dateStr}-${menuNum}`).value;
+            const setSelect = document.getElementById(`set-${dateStr}-${menuNum}`);
+            const categorySelect = document.getElementById(`category-${dateStr}-${menuNum}`);
             const menuSelect = document.getElementById(`menu-${dateStr}-${menuNum}`);
+
+            const selectedSet = setSelect.value;
+            const selectedCategory = categorySelect.value;
 
             menuSelect.innerHTML = '<option value="">선택</option>';
 
-            if (category && menuData[category]) {
+            if (selectedSet && selectedCategory && menuData[selectedSet] && menuData[selectedSet][selectedCategory]) {
                 menuSelect.disabled = false;
-                menuData[category].forEach(item => {
+                menuData[selectedSet][selectedCategory].forEach(menuName => {
                     const option = document.createElement('option');
-                    option.value = JSON.stringify(item);
-                    option.textContent = item.name;
+                    option.value = menuName;
+                    option.textContent = menuName;
                     menuSelect.appendChild(option);
                 });
             } else {
@@ -782,10 +762,10 @@
             const noImage = document.getElementById(`noImage-${dateStr}-${menuNum}`);
 
             if (menuSelect && menuSelect.value) {
-                const menuItem = JSON.parse(menuSelect.value);
+                const menuName = menuSelect.value;
 
                 // 이미지 표시
-                const imageName = getImageName(menuItem.name);
+                const imageName = getImageName(menuName);
                 if (imageName) {
                     menuImage.style.display = 'block';
                     noImage.style.display = 'none';
@@ -849,13 +829,14 @@
                 const maxMenuNum = menuCounters[dateStr] || 1;
 
                 for (let i = 1; i <= maxMenuNum; i++) {
+                    const setSelect = document.getElementById(`set-${dateStr}-${i}`);
                     const menuSelect = document.getElementById(`menu-${dateStr}-${i}`);
                     const quantityInput = document.getElementById(`quantity-${dateStr}-${i}`);
 
-                    if (menuSelect && menuSelect.value && quantityInput) {
-                        const menuItem = JSON.parse(menuSelect.value);
+                    if (setSelect && setSelect.value && menuSelect && menuSelect.value && quantityInput) {
+                        const setPrice = SET_PRICES[setSelect.value];
                         const quantity = parseInt(quantityInput.value) || 0;
-                        subtotal += menuItem.price * quantity;
+                        subtotal += setPrice * quantity;
                     }
                 }
             });
@@ -895,21 +876,25 @@
                 const maxMenuNum = menuCounters[dateStr] || 1;
 
                 for (let i = 1; i <= maxMenuNum; i++) {
+                    const setSelect = document.getElementById(`set-${dateStr}-${i}`);
+                    const categorySelect = document.getElementById(`category-${dateStr}-${i}`);
                     const menuSelect = document.getElementById(`menu-${dateStr}-${i}`);
                     const quantityInput = document.getElementById(`quantity-${dateStr}-${i}`);
-                    const categorySelect = document.getElementById(`category-${dateStr}-${i}`);
 
-                    if (menuSelect && menuSelect.value && quantityInput) {
+                    if (setSelect && setSelect.value && menuSelect && menuSelect.value && quantityInput) {
                         hasOrder = true;
-                        const menuItem = JSON.parse(menuSelect.value);
+                        const setType = setSelect.value;
+                        const setPrice = SET_PRICES[setType];
+                        const quantity = parseInt(quantityInput.value);
                         orders.push({
                             date: dateStr,
                             day: dayName,
+                            set: setType,
                             category: categorySelect ? categorySelect.value : '',
-                            menu: menuItem.name,
-                            quantity: parseInt(quantityInput.value),
-                            price: menuItem.price,
-                            total: menuItem.price * parseInt(quantityInput.value)
+                            menu: menuSelect.value,
+                            quantity: quantity,
+                            price: setPrice,
+                            total: setPrice * quantity
                         });
                     }
                 }
