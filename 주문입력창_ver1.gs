@@ -9,12 +9,10 @@
 // ========================================
 
 const MONTHLY_SPREADSHEET_IDS = {
-  '202511': '1CQAUYtRcu741qGuVz_e9VGO7I01ITdLAo1VP9mqWtrU',  // 2025년 11월
-  '202512': '1j4N6puFEb5CcSZezQ8P4r1qDf0Q0PYYgFVdjO9h-BEg',  // 2025년 12월
-  '202601': '1Qus21F9zCA0bHI2H5pKXrbLqAZn8YIY8ytue8OMTSR4',  // 2026년 1월
-  '202602': '1vHBnPp3a4zQimJI9WdRf9CSjmzhzhXPXH6pBLqxCh3Y',  // 2026년 2월
-  '202603': '19urkmEur3NUbruBzqfM8g_uFeyPK0Cmr6mltnT9qp30',  // 2026년 3월
-  // 필요한 달 계속 추가...
+  '202603': '1mC1bhcLHrDKGLtatsYSiBWnuosp1E4ZOBMasyvKRsQc',  // 2026년 3월
+  '202604': '1vMpdE5pg54axE7QE_KDesHSJv2jZU8-7teLOSFAo3F0',  // 2026년 4월
+  '202605': '1BmzpBuZSwWXonz9dB3sPCObX98gCSZEDziuF2wHj6sM',  // 2026년 5월
+  '202606': '10USsHJgzrncuTpt1FNS56FRY3wblU1dv1bbtTIbscqM',  // 2026년 6월
 };
 
 /**
@@ -73,6 +71,40 @@ function onEdit(e) {
     // 1) 구매주문서 시트: 제품명 입력 시 구성 자동 삽입
     if (sheetName === '구매주문서') {
       handlePurchaseOrderEdit(e, sheet, editedCell);
+    }
+
+    // 2) 출력전용 시트: 날짜 입력 시 데이터 갱신
+    if (sheetName === '출력전용' && editedCell.getA1Notation() === 'B2') {
+      refreshOutputSheet(sheet);
+    }
+
+    // 3) 날짜+요일 시트: D열 입력 시 숫자 정제
+    const dateSheetPattern = /^\d{8}.+요일$/;
+    if (dateSheetPattern.test(sheetName)) {
+      if (e.range.getColumn() <= 4 && e.range.getLastColumn() >= 4) {
+        const startRow = e.range.getRow();
+        const numRows = e.range.getNumRows();
+        const dRange = sheet.getRange(startRow, 4, numRows, 1);
+        const values = dRange.getValues();
+        let changed = false;
+
+        for (let i = 0; i < values.length; i++) {
+          const raw = values[i][0];
+          if (raw === '' || raw === null || raw === undefined) continue;
+          if (typeof raw === 'number') continue;
+
+          const extracted = String(raw).replace(/[^0-9.]/g, '');
+          if (extracted === '') continue;
+
+          const num = Number(extracted);
+          if (!isNaN(num)) {
+            values[i][0] = num;
+            changed = true;
+          }
+        }
+
+        if (changed) dRange.setValues(values);
+      }
     }
 
   } catch (error) {
@@ -219,12 +251,12 @@ function transferQuantityToMonthlySheet(deliveryDate) {
     }
     Logger.log("9. 대상 시트 찾기: 성공");
 
-    // 110행부터 시작해서 마지막 데이터 행 찾기
-    let startRow = 110;
+    // 115행부터 시작해서 마지막 데이터 행 찾기
+    let startRow = 205;
 
     // B-D열에서 마지막으로 데이터가 있는 행 찾기
     Logger.log("10. 마지막 데이터 행 찾기 시작...");
-    let lastDataRow = startRow - 1; // 데이터가 없을 경우 110행부터 시작하도록
+    let lastDataRow = startRow - 1; // 데이터가 없을 경우 205행부터 시작하도록
 
     const maxCheckRow = Math.min(targetSheet.getMaxRows(), 500);
     for (let row = startRow; row <= maxCheckRow; row++) {
@@ -240,8 +272,8 @@ function transferQuantityToMonthlySheet(deliveryDate) {
     Logger.log("11. 마지막 데이터 행: " + lastDataRow + "행");
 
     // 마지막 데이터 다음 블록에 추가 (17행 간격)
-    // 데이터가 없었으면 110행에, 있었으면 마지막 데이터 + 17행에 추가
-    const currentRow = lastDataRow < startRow ? startRow : lastDataRow + 17;
+    // 데이터가 없었으면 115행에, 있었으면 마지막 데이터 + 17행에 추가
+    const currentRow = lastDataRow < startRow ? startRow : lastDataRow + 5;
     Logger.log("12. 데이터 추가 위치: " + currentRow + "행 (마지막 데이터: " + lastDataRow + "행)");
 
     // 데이터 복사 (단순하게)
@@ -559,11 +591,14 @@ function createOrderButton() {
 function onOpen() {
   const ui = SpreadsheetApp.getUi();
 
-  // 📦 주문 관리 메뉴
-  ui.createMenu('📦 주문 관리')
-    .addItem('주문 전송하기', 'sendOrder')
-    .addItem('버튼 만드는 방법', 'createOrderButton')
-    .addSeparator()
-    .addItem('수량표 데이터 전송', 'transferQuantityData')
+  // 📋 서식 도구 메뉴
+  ui.createMenu('📋 서식 도구')
+    .addItem('선택 범위 서식 지정', 'applyFormatting')
+    .addItem('12행 블록 서식 지정', 'applyFormattingToBlock')
+    .addToUi();
+
+  // 📋 출력 도구 메뉴
+  ui.createMenu('📋 출력 도구')
+    .addItem('출력전용 시트 생성', '출력뷰생성')
     .addToUi();
 }

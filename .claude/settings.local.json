@@ -12,7 +12,11 @@
       "WebFetch(domain:docs.google.com)",
       "WebFetch(domain:doc-10-a4-sheets.googleusercontent.com)",
       "Bash(powershell:*)",
-      "Bash(git rebase:*)"
+      "Bash(git rebase:*)",
+      "Bash(gh api:*)",
+      "Bash(where:*)",
+      "Bash(git push:*)",
+      "Bash(cmd /c 'ren \"\"베이컨대파크림배이글1피스.jpg\"\" \"\"베이컨대파크림베이글1피스.jpg\"\"')"
     ],
     "deny": [],
     "ask": []

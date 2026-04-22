@@ -1,20 +1,6 @@
 /**
- * 202601수량표용 서식 지정 스크립트
- * 202512수량표의 Code.js와 동일한 기능
+ * 수량표 서식 지정 스크립트
  */
-
-// === 메뉴 생성 ===
-
-function onOpen() {
-  const ui = SpreadsheetApp.getUi();
-
-  ui.createMenu('📋 서식 도구')
-    .addItem('선택 범위 서식 지정', 'applyFormatting')
-    .addItem('12행 블록 서식 지정', 'applyFormattingToBlock')
-    .addToUi();
-
-  console.log('메뉴가 생성되었습니다!');
-}
 
 // === 서식 지정 함수 ===
 
@@ -75,6 +61,57 @@ function applyFormatting() {
     range.setWrap(true);
 
     Browser.msgBox("서식 지정이 완료되었습니다!");
+
+  } catch (error) {
+    Browser.msgBox("오류 발생: " + error.toString());
+  }
+}
+
+/**
+ * 날짜+요일 시트(예: 20260406월요일)의 D열에서 숫자가 아닌 문자를 제거하고 순수 숫자만 남김
+ * 제품명구성, 제품db, 스텝표, 수량표 등 다른 시트는 건너뜀
+ */
+function cleanDColumnNumbers() {
+  try {
+    const sheet = SpreadsheetApp.getActiveSheet();
+    const dateSheetPattern = /^\d{8}.+요일$/;
+
+    if (!dateSheetPattern.test(sheet.getName())) {
+      Browser.msgBox("날짜+요일 시트에서만 실행할 수 있습니다.");
+      return;
+    }
+
+    let totalChanged = 0;
+    const processedSheets = 1;
+
+    {
+      const lastRow = sheet.getLastRow();
+      if (lastRow < 1) {
+        Browser.msgBox("데이터가 없습니다.");
+        return;
+      }
+
+      const dRange = sheet.getRange(1, 4, lastRow, 1);
+      const values = dRange.getValues();
+
+      for (let i = 0; i < values.length; i++) {
+        const raw = values[i][0];
+
+        if (raw === '' || raw === null || raw === undefined) continue;
+        if (typeof raw === 'number') continue;
+
+        const extracted = String(raw).replace(/[^0-9.]/g, '');
+        if (extracted === '') continue;
+
+        const num = Number(extracted);
+        if (!isNaN(num)) {
+          sheet.getRange(i + 1, 4).setValue(num);
+          totalChanged++;
+        }
+      }
+    }
+
+    Browser.msgBox(`완료! 날짜 시트 ${processedSheets}개에서 총 ${totalChanged}개 셀을 숫자로 변환했습니다.`);
 
   } catch (error) {
     Browser.msgBox("오류 발생: " + error.toString());
