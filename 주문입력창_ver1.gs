@@ -2,6 +2,7 @@
 // 통합 Apps Script 코드 (개선 버전)
 // - 구매주문서 자동화
 // - 수량표 데이터 전송 (월별 자동 선택)
+// - 주문히스토리 + 불러오기 + 수정전송
 // ========================================
 
 // ========================================
@@ -15,24 +16,14 @@ const MONTHLY_SPREADSHEET_IDS = {
   '202606': '10USsHJgzrncuTpt1FNS56FRY3wblU1dv1bbtTIbscqM',  // 2026년 6월
 };
 
-/**
- * 배송 날짜에 해당하는 월별 스프레드시트 ID를 반환합니다.
- * @param {Date} date - 배송 날짜
- * @returns {string} 스프레드시트 ID
- */
 function getMonthlySpreadsheetId(date) {
-  // 날짜 유효성 검사
   if (!date || !(date instanceof Date) || isNaN(date.getTime())) {
-    throw new Error(
-      '❌ 유효하지 않은 날짜입니다.\n\n' +
-      '배송 날짜가 올바르게 설정되었는지 확인해주세요.'
-    );
+    throw new Error('❌ 유효하지 않은 날짜입니다.\n\n배송 날짜가 올바르게 설정되었는지 확인해주세요.');
   }
 
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const yearMonth = `${year}${month}`;
-
   const spreadsheetId = MONTHLY_SPREADSHEET_IDS[yearMonth];
 
   if (!spreadsheetId || spreadsheetId.trim() === '') {
@@ -57,6 +48,368 @@ const FOLDER_IDS = {
 };
 
 // ========================================
+// 주문히스토리 시트 관리
+// ========================================
+
+function getHistorySheet() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let histSheet = ss.getSheetByName('주문히스토리');
+  if (!histSheet) {
+    histSheet = ss.insertSheet('주문히스토리');
+    histSheet.appendRow([
+      '저장시각', '주문날짜', '배송날짜', '배송시간', '배송방식',
+      '주문자', '주문자연락처', '수령인', '수령인연락처',
+      '문구번호', '문구내용', '결제방식', '배송주소', '배송메세지',
+      '제품명목록', '제품구성목록', '수량목록', '단가목록',
+      '이벤트ID', '파일명'
+    ]);
+  }
+  return histSheet;
+}
+
+function saveOrderHistory(data) {
+  const histSheet = getHistorySheet();
+  histSheet.appendRow([
+    new Date(),
+    data.orderDate,
+    data.deliveryDate,
+    data.deliveryTime,
+    data.deliveryMethod,
+    data.orderer,
+    data.ordererTel,
+    data.recipient,
+    data.recipientTel,
+    data.phraseNo,
+    data.phraseText,
+    data.payMethod,
+    data.address,
+    data.memo,
+    data.productNames,
+    data.productCompositions,
+    data.quantities,
+    data.prices,
+    data.eventId,
+    data.fileName
+  ]);
+}
+
+// ========================================
+// 불러오기 함수
+// ========================================
+
+function loadOrder() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = ss.getSheetByName('구매주문서');
+  const histSheet = ss.getSheetByName('주문히스토리');
+
+  if (!histSheet) {
+    SpreadsheetApp.getUi().alert('주문히스토리 시트가 없습니다. 먼저 주문전송을 해주세요.');
+    return;
+  }
+
+  const lastRow = histSheet.getLastRow();
+  if (lastRow < 2) {
+    SpreadsheetApp.getUi().alert('저장된 주문 히스토리가 없습니다.');
+    return;
+  }
+
+  const row = histSheet.getRange(lastRow, 1, 1, 20).getValues()[0];
+
+  // 히스토리 컬럼 인덱스 (0-based)
+  const orderDate      = row[1];
+  const deliveryDate   = row[2];
+  const deliveryTime   = row[3];
+  const deliveryMethod = row[4];
+  const orderer        = row[5];
+  const ordererTel     = row[6];
+  const recipient      = row[7];
+  const recipientTel   = row[8];
+  const phraseNo       = row[9];
+  const phraseText     = row[10];
+  const payMethod      = row[11];
+  const address        = row[12];
+  const memo           = row[13];
+  const productNamesStr    = row[14];
+  const productCompsStr    = row[15];
+  const quantitiesStr      = row[16];
+  const pricesStr          = row[17];
+  const eventId            = row[18];
+  const fileName           = row[19];
+
+  // 기본 정보 복원
+  sheet.getRange('C5').setValue(orderDate);
+  sheet.getRange('C6').setValue(deliveryDate);
+  sheet.getRange('C7').setValue(deliveryTime);
+  sheet.getRange('C8').setValue(deliveryMethod);
+  sheet.getRange('E5').setValue(payMethod);
+  sheet.getRange('E6').setValue(orderer);
+  sheet.getRange('E7').setValue(ordererTel);
+  sheet.getRange('E8').setValue(recipient);
+  sheet.getRange('E9').setValue(recipientTel);
+  sheet.getRange('C10').setValue(phraseNo);
+  sheet.getRange('E10').setValue(phraseText);
+  sheet.getRange('C11').setValue(address);
+  sheet.getRange('C12').setValue(memo);
+
+  // 제품 정보 복원
+  const productNames = productNamesStr ? String(productNamesStr).split('||') : [];
+  const productComps = productCompsStr ? String(productCompsStr).split('||') : [];
+  const quantities   = quantitiesStr   ? String(quantitiesStr).split('||')   : [];
+  const prices       = pricesStr       ? String(pricesStr).split('||')       : [];
+
+  // B15:E33 초기화
+  sheet.getRange('B15:E33').clearContent();
+
+  let currentRow = 15;
+  for (let i = 0; i < productNames.length && currentRow <= 33; i++) {
+    const name  = productNames[i];
+    const comps = productComps[i] ? productComps[i].split('|') : [];
+    const qtys  = quantities[i]   ? quantities[i].split('|')   : [];
+    const price = prices[i] || '';
+
+    for (let j = 0; j < comps.length && currentRow <= 33; j++) {
+      if (j === 0) {
+        sheet.getRange(currentRow, 2).setValue(name);
+        sheet.getRange(currentRow, 5).setValue(price);
+      }
+      sheet.getRange(currentRow, 3).setValue(comps[j]);
+      sheet.getRange(currentRow, 4).setValue(qtys[j] || '');
+      currentRow++;
+    }
+  }
+
+  // A1/A2에 이벤트ID/파일명 저장 (흰색 폰트)
+  sheet.getRange('A1').setValue(eventId);
+  sheet.getRange('A2').setValue(fileName);
+  fixRowHeight();
+
+  SpreadsheetApp.getActiveSpreadsheet().toast('✅ 마지막 주문을 불러왔습니다.', '불러오기 완료', 3);
+}
+
+// ========================================
+// A1/A2 흰색 폰트 처리
+// ========================================
+
+function fixRowHeight() {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('구매주문서');
+  sheet.getRange('A1').setFontColor('#ffffff');
+  sheet.getRange('A2').setFontColor('#ffffff');
+}
+
+// ========================================
+// 수정전송 함수
+// ========================================
+
+function modifyOrder() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = ss.getSheetByName('구매주문서');
+  const cal = CalendarApp.getCalendarById('1578sandal@gmail.com');
+
+  // A1/A2에서 기존 이벤트ID, 파일명 읽기
+  const oldEventId = String(sheet.getRange('A1').getValue()).trim();
+  const oldFileName = String(sheet.getRange('A2').getValue()).trim();
+
+  if (!oldEventId) {
+    SpreadsheetApp.getUi().alert('❌ 불러오기를 먼저 실행해주세요.\n(이벤트 ID가 없습니다)');
+    return;
+  }
+
+  // 주문 정보 읽기
+  let dateRaw = sheet.getRange('C6').getValue();
+  if (!dateRaw) throw new Error('❌ 배송날짜가 입력되지 않았습니다.');
+  if (!(dateRaw instanceof Date)) {
+    if (typeof dateRaw === 'string') {
+      const match = dateRaw.match(/(\d{4})년\s*(\d{1,2})월\s*(\d{1,2})일/);
+      if (match) {
+        dateRaw = new Date(parseInt(match[1]), parseInt(match[2]) - 1, parseInt(match[3]));
+      } else {
+        dateRaw = new Date(dateRaw);
+      }
+    } else {
+      dateRaw = new Date(dateRaw);
+    }
+    if (isNaN(dateRaw.getTime())) throw new Error('❌ 배송날짜 형식이 올바르지 않습니다.');
+  }
+
+  const timeRaw      = sheet.getRange('C7').getDisplayValue();
+  const deliveryMethod = sheet.getRange('C8').getValue();
+  const orderer      = sheet.getRange('E6').getValue();
+  const ordererTel   = sheet.getRange('E7').getValue();
+  const recipient    = sheet.getRange('E8').getValue();
+  const recipientTel = sheet.getRange('E9').getValue();
+  const phraseNo     = sheet.getRange('C10').getValue();
+  const phraseText   = sheet.getRange('E10').getValue();
+  const payMethod    = sheet.getRange('E5').getValue();
+  const address      = sheet.getRange('C11').getValue();
+  const memo         = sheet.getRange('C12').getValue();
+  const orderDate    = sheet.getRange('C5').getValue();
+  const products     = sheet.getRange('C15:D33').getValues().filter(r => r[0]);
+  const productNames = sheet.getRange('B15:B33').getValues().flat().filter(n => n);
+
+  if (!orderer) throw new Error('❌ 주문자 누락');
+
+  const [h, m] = parseKoreanTimeString(timeRaw);
+  const start = new Date(dateRaw); start.setHours(h, m);
+  const end = new Date(start);
+
+  // 기존 캘린더 이벤트 수정
+  try {
+    const event = cal.getEventById(oldEventId);
+    if (event) {
+      const title = `${address} - 주문자: ${orderer}`;
+      const desc = buildEventDescription({
+        orderer, ordererTel, recipient, recipientTel,
+        phraseNo, phraseText, payMethod, address, h, m,
+        deliveryMethod, memo, productNames, products
+      });
+      event.setTitle(title);
+      event.setDescription(desc);
+      event.setTime(start, end);
+    } else {
+      Logger.log('이벤트를 찾을 수 없어 새로 생성합니다: ' + oldEventId);
+      cal.createEvent(`${address} - 주문자: ${orderer}`, start, end, {
+        description: buildEventDescription({
+          orderer, ordererTel, recipient, recipientTel,
+          phraseNo, phraseText, payMethod, address, h, m,
+          deliveryMethod, memo, productNames, products
+        }),
+        location: address
+      });
+    }
+  } catch(e) {
+    Logger.log('캘린더 수정 오류: ' + e.toString());
+  }
+
+  // 기존 PDF/사본 삭제 후 재생성
+  const formattedDate = Utilities.formatDate(dateRaw, Session.getScriptTimeZone(), 'yyyyMMdd');
+  const cleanOrderer = orderer.replace(/[\/\\\:\*\?\"\<\>\|]/g, '').trim();
+  const newFileName = `${formattedDate}_${cleanOrderer}`;
+
+  deleteFileByName(oldFileName, FOLDER_IDS.ESTIMATE);
+  deleteFileByName(oldFileName + '_주문서', FOLDER_IDS.ORDER);
+  deleteFileByName(oldFileName, FOLDER_IDS.SHEET_COPY);
+
+  saveEstimatePdf('견적서', newFileName, FOLDER_IDS.ESTIMATE);
+  saveEstimatePdf('구매주문서', `${newFileName}_주문서`, FOLDER_IDS.ORDER);
+  saveSheetCopy(newFileName, FOLDER_IDS.SHEET_COPY);
+
+  // 수량표 재전송
+  transferQuantityToMonthlySheet(dateRaw);
+
+  // A1/A2 업데이트 및 히스토리 저장
+  const newEventId = oldEventId; // 이벤트 수정이므로 ID 유지
+  sheet.getRange('A1').setValue(newEventId);
+  sheet.getRange('A2').setValue(newFileName);
+  fixRowHeight();
+
+  // 히스토리 저장
+  const priceValues = [];
+  const productNamesArr = [];
+  const productCompsArr = [];
+  const quantitiesArr = [];
+
+  let bValues = sheet.getRange('B15:E33').getValues();
+  let currentProductName = '';
+  let currentComps = [];
+  let currentQtys = [];
+  let currentPrice = '';
+
+  for (let i = 0; i < bValues.length; i++) {
+    const bVal = bValues[i][0];
+    const cVal = bValues[i][1];
+    const dVal = bValues[i][2];
+    const eVal = bValues[i][3];
+
+    if (bVal) {
+      if (currentProductName) {
+        productNamesArr.push(currentProductName);
+        productCompsArr.push(currentComps.join('|'));
+        quantitiesArr.push(currentQtys.join('|'));
+        priceValues.push(currentPrice);
+      }
+      currentProductName = bVal;
+      currentComps = cVal ? [cVal] : [];
+      currentQtys = dVal !== '' ? [dVal] : [];
+      currentPrice = eVal || '';
+    } else if (cVal && currentProductName) {
+      currentComps.push(cVal);
+      currentQtys.push(dVal !== '' ? dVal : '');
+    }
+  }
+  if (currentProductName) {
+    productNamesArr.push(currentProductName);
+    productCompsArr.push(currentComps.join('|'));
+    quantitiesArr.push(currentQtys.join('|'));
+    priceValues.push(currentPrice);
+  }
+
+  saveOrderHistory({
+    orderDate,
+    deliveryDate: dateRaw,
+    deliveryTime: timeRaw,
+    deliveryMethod,
+    orderer,
+    ordererTel,
+    recipient,
+    recipientTel,
+    phraseNo,
+    phraseText,
+    payMethod,
+    address,
+    memo,
+    productNames: productNamesArr.join('||'),
+    productCompositions: productCompsArr.join('||'),
+    quantities: quantitiesArr.join('||'),
+    prices: priceValues.join('||'),
+    eventId: newEventId,
+    fileName: newFileName
+  });
+
+  SpreadsheetApp.getActiveSpreadsheet().toast('✅ 수정전송이 완료되었습니다.', '수정전송 완료', 3);
+}
+
+// ▶ 이벤트 설명 텍스트 빌드
+function buildEventDescription(p) {
+  return `📦 주문 정보\n`
+    + `- 주문자: ${p.orderer}\n`
+    + `- 주문자 연락처: ${p.ordererTel}\n`
+    + `- 수신자: ${p.recipient}\n`
+    + `- 연락처: ${p.recipientTel}\n`
+    + `- 문구번호: ${p.phraseNo}\n`
+    + `- 문구내용: ${p.phraseText}\n`
+    + `- 결제방식: ${p.payMethod}\n`
+    + `- 배송주소: ${p.address}\n`
+    + `- 배송시간: ${String(p.h).padStart(2,'0')}:${String(p.m).padStart(2,'0')}\n`
+    + `- 배송방식: ${p.deliveryMethod}\n`
+    + (p.memo ? `- 메모: ${p.memo}\n` : ``)
+    + (p.productNames.length > 0
+      ? `\n📄 제품명:\n` + p.productNames.map(n => `• ${n}`).join('\n') + `\n`
+      : ``)
+    + `\n📄 제품 구성:\n`
+    + p.products.map(([n,q]) => `• ${n} x ${q}`).join('\n') + `\n\n`
+    + `★ 스토어주문서는 예약주문건이라 미리 배송을 눌러두는 점 양해 부탁드립니다!\n`
+    + `★ 배송은 차량으로 배송하기에 정확한 배송은 어려우나, 늦지 않게 예약된 시간 즈음으로 도착합니다.`;
+}
+
+// ▶ 파일명으로 파일 찾아 삭제
+function deleteFileByName(fileName, folderId) {
+  if (!fileName) return;
+  try {
+    const folder = DriveApp.getFolderById(folderId);
+    const files = folder.getFilesByName(fileName + '.pdf');
+    while (files.hasNext()) {
+      files.next().setTrashed(true);
+    }
+    const files2 = folder.getFilesByName(fileName);
+    while (files2.hasNext()) {
+      files2.next().setTrashed(true);
+    }
+  } catch(e) {
+    Logger.log('파일 삭제 오류: ' + e.toString());
+  }
+}
+
+// ========================================
 // ▶▶▶ onEdit 함수 (통합) ◀◀◀
 // ========================================
 
@@ -68,17 +421,14 @@ function onEdit(e) {
     const editedCell = e.range;
     const sheetName = sheet.getName();
 
-    // 1) 구매주문서 시트: 제품명 입력 시 구성 자동 삽입
     if (sheetName === '구매주문서') {
       handlePurchaseOrderEdit(e, sheet, editedCell);
     }
 
-    // 2) 출력전용 시트: 날짜 입력 시 데이터 갱신
     if (sheetName === '출력전용' && editedCell.getA1Notation() === 'B2') {
       refreshOutputSheet(sheet);
     }
 
-    // 3) 날짜+요일 시트: D열 입력 시 숫자 정제
     const dateSheetPattern = /^\d{8}.+요일$/;
     if (dateSheetPattern.test(sheetName)) {
       if (e.range.getColumn() <= 4 && e.range.getLastColumn() >= 4) {
@@ -126,16 +476,12 @@ function handlePurchaseOrderEdit(e, sheet, editedCell) {
   const 구성들 = 제품행.slice(3, 8);
   const price = 제품행[9] || '';
 
-  // C/E 열 초기화
   sheet.getRange(row, 3, 구성들.length, 1).clearContent();
   sheet.getRange(row, 5, 구성들.length, 1).clearContent();
 
-  // 구성과 가격 채우기
   구성들.forEach((item, i) => {
     if (!item) return;
-    // C열(구성) 입력
     sheet.getRange(row + i, 3).setValue(item);
-    // E열(단가)는 첫 줄(i===0)만 입력
     if (i === 0) {
       sheet.getRange(row + i, 5).setValue(price);
     }
@@ -143,13 +489,9 @@ function handlePurchaseOrderEdit(e, sheet, editedCell) {
 }
 
 // ========================================
-// 수량표 데이터 전송 함수 (개선 버전)
+// 수량표 데이터 전송 함수
 // ========================================
 
-/**
- * 주문 전송 시 자동으로 수량표를 월별 수량표로 전송합니다.
- * @param {Date} deliveryDate - 배송 날짜
- */
 function transferQuantityToMonthlySheet(deliveryDate) {
   try {
     Logger.log("=== 수량표 전송 시작 ===");
@@ -160,330 +502,147 @@ function transferQuantityToMonthlySheet(deliveryDate) {
       Logger.log("오류: 수량표전송 시트를 찾을 수 없습니다.");
       return;
     }
-    Logger.log("1. 수량표전송 시트 찾기: 성공");
 
-    // 수량표전송 시트의 B2에서 날짜 읽기
     const dateInB2 = quantitySheet.getRange('B2').getValue();
 
-    // 날짜 파싱 함수
     function parseToDate(value) {
-      if (value instanceof Date) {
-        return value;
-      }
-
+      if (value instanceof Date) return value;
       if (typeof value === 'string') {
-        // 한국어 날짜 형식 파싱 (예: "2025년 11월 18일 화요일")
         const match = value.match(/(\d{4})년\s*(\d{1,2})월\s*(\d{1,2})일/);
         if (match) {
-          const year = parseInt(match[1], 10);
-          const month = parseInt(match[2], 10) - 1;
-          const day = parseInt(match[3], 10);
-          return new Date(year, month, day);
+          return new Date(parseInt(match[1]), parseInt(match[2]) - 1, parseInt(match[3]));
         }
-        // 일반 문자열 파싱
         return new Date(value);
       }
-
-      if (typeof value === 'number') {
-        return new Date(value);
-      }
-
+      if (typeof value === 'number') return new Date(value);
       return null;
     }
 
-    // 날짜 파싱
     let targetDate = parseToDate(deliveryDate);
-
-    // deliveryDate가 유효하지 않으면 B2에서 읽은 날짜 사용
     if (!targetDate || isNaN(targetDate.getTime())) {
       targetDate = parseToDate(dateInB2);
     }
 
-    // 날짜 유효성 검증
     if (!targetDate || isNaN(targetDate.getTime())) {
       Logger.log("오류: 유효한 배송 날짜를 찾을 수 없습니다.");
-      SpreadsheetApp.getActiveSpreadsheet().toast(
-        "❌ 유효한 배송 날짜를 찾을 수 없습니다.",
-        "수량표 전송 실패",
-        5
-      );
+      SpreadsheetApp.getActiveSpreadsheet().toast('❌ 유효한 배송 날짜를 찾을 수 없습니다.', '수량표 전송 실패', 5);
       return;
     }
-    Logger.log("2. 배송 날짜: " + targetDate);
-    Logger.log("   - 연도: " + targetDate.getFullYear());
-    Logger.log("   - 월: " + (targetDate.getMonth() + 1));
-    Logger.log("   - 일: " + targetDate.getDate());
-    Logger.log("   - 요일: " + targetDate.getDay());
 
-    // ✅ 날짜에 맞는 월별 스프레드시트 ID 자동 선택
     const monthlySpreadsheetId = getMonthlySpreadsheetId(targetDate);
     const year = targetDate.getFullYear();
     const month = String(targetDate.getMonth() + 1).padStart(2, '0');
     const yearMonth = `${year}${month}`;
-    Logger.log(`3. 대상 스프레드시트: ${yearMonth}수량표 (ID: ${monthlySpreadsheetId})`);
 
-    // 날짜를 "251219금요일" 형식으로 변환
     const sheetName = formatDateToSheetName(targetDate);
-    Logger.log("4. 대상 시트명: " + sheetName);
-
-    // A1:D12 데이터 복사 (원본 범위)
     const sourceRange = quantitySheet.getRange('A1:D12');
     const sourceData = sourceRange.getValues();
-    Logger.log("5. 원본 데이터 읽기: 성공");
 
-    // 월별 수량표 스프레드시트 열기
-    Logger.log("6. 대상 스프레드시트 열기 시도...");
     const monthlySpreadsheet = SpreadsheetApp.openById(monthlySpreadsheetId);
-    Logger.log("7. 대상 스프레드시트 열기: 성공");
-
-    // 해당 날짜 시트 찾기
-    Logger.log("8. 시트 찾기 시도: " + sheetName);
     const targetSheet = monthlySpreadsheet.getSheetByName(sheetName);
 
     if (!targetSheet) {
       Logger.log(`오류: '${sheetName}' 시트를 찾을 수 없습니다.`);
       SpreadsheetApp.getActiveSpreadsheet().toast(
         `❌ '${sheetName}' 시트를 찾을 수 없습니다.\n\n${yearMonth}수량표에 해당 시트가 있는지 확인해주세요.`,
-        "수량표 전송 실패",
-        5
+        '수량표 전송 실패', 5
       );
       return;
     }
-    Logger.log("9. 대상 시트 찾기: 성공");
 
-    // 115행부터 시작해서 마지막 데이터 행 찾기
     let startRow = 205;
-
-    // B-D열에서 마지막으로 데이터가 있는 행 찾기
-    Logger.log("10. 마지막 데이터 행 찾기 시작...");
-    let lastDataRow = startRow - 1; // 데이터가 없을 경우 205행부터 시작하도록
-
+    let lastDataRow = startRow - 1;
     const maxCheckRow = Math.min(targetSheet.getMaxRows(), 500);
+
     for (let row = startRow; row <= maxCheckRow; row++) {
       const bValue = targetSheet.getRange(row, 2).getValue();
       const cValue = targetSheet.getRange(row, 3).getValue();
       const dValue = targetSheet.getRange(row, 4).getValue();
-
-      if (bValue || cValue || dValue) {
-        lastDataRow = row;
-      }
+      if (bValue || cValue || dValue) lastDataRow = row;
     }
 
-    Logger.log("11. 마지막 데이터 행: " + lastDataRow + "행");
-
-    // 마지막 데이터 다음 블록에 추가 (17행 간격)
-    // 데이터가 없었으면 115행에, 있었으면 마지막 데이터 + 17행에 추가
     const currentRow = lastDataRow < startRow ? startRow : lastDataRow + 5;
-    Logger.log("12. 데이터 추가 위치: " + currentRow + "행 (마지막 데이터: " + lastDataRow + "행)");
-
-    // 데이터 복사 (단순하게)
-    Logger.log("13. 데이터 복사 시작: " + currentRow + "행");
     const targetRange = targetSheet.getRange(currentRow, 1, 12, 4);
     targetRange.setValues(sourceData);
-
-    // ✅ Bold 제거 (기존 서식 초기화)
     targetRange.setFontWeight("normal");
-
-    // 데이터 반영 대기
     Utilities.sleep(1000);
 
-    Logger.log("14. 데이터 복사 완료");
     SpreadsheetApp.getActiveSpreadsheet().toast(
       `✅ 수량표 데이터가 '${yearMonth}수량표 > ${sheetName}' 시트 ${currentRow}행에 저장되었습니다!`,
-      "수량표 전송 완료",
-      3
+      '수량표 전송 완료', 3
     );
 
   } catch (error) {
     Logger.log("transferQuantityToMonthlySheet 에러: " + error.toString());
-
-    // 에러 메시지 개선 (실제 에러 표시)
-    SpreadsheetApp.getActiveSpreadsheet().toast(
-      `❌ 수량표 전송 실패\n\n${error.message}`,
-      "오류",
-      5
-    );
+    SpreadsheetApp.getActiveSpreadsheet().toast(`❌ 수량표 전송 실패\n\n${error.message}`, '오류', 5);
   }
 }
 
-// ▶ 날짜를 "20251210수요일" 형식으로 변환 (8자리 년월일)
 function formatDateToSheetName(date) {
-  const year = date.getFullYear().toString(); // "2025" (4자리로 변경)
-  const month = String(date.getMonth() + 1).padStart(2, '0'); // "12"
-  const day = String(date.getDate()).padStart(2, '0'); // "10"
-
-  const dayOfWeek = date.getDay();
+  const year = date.getFullYear().toString();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
   const dayNames = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
-  const dayName = dayNames[dayOfWeek];
-
-  return `${year}${month}${day}${dayName}`;
-}
-
-// ▶ 수동으로 수량표 데이터 전송 (메뉴에서 실행)
-function transferQuantityData() {
-  try {
-    // 원본 스프레드시트 (데이터를 가져올 곳)
-    var sourceSpreadsheetId = "1B3TldmH1d7tBiXSR2bbgKCGk3ccEVfTbcu9pOP6GGv0";
-    var sourceSheetName = "수량표전송";
-
-    // 대상 스프레드시트 (데이터를 보낼 곳)
-    var targetSpreadsheetId = "1CQAUYtRcu741qGuVz_e9VGO7I01ITdLAo1VP9mqWtrU";
-    var targetSheetName = "수량표전송"; // 대상 시트 이름 (필요시 변경)
-
-    // 원본 스프레드시트 및 시트 열기
-    var sourceSpreadsheet = SpreadsheetApp.openById(sourceSpreadsheetId);
-    var sourceSheet = sourceSpreadsheet.getSheetByName(sourceSheetName);
-
-    if (!sourceSheet) {
-      SpreadsheetApp.getUi().alert("원본 시트 '" + sourceSheetName + "'를 찾을 수 없습니다.");
-      return;
-    }
-
-    // 대상 스프레드시트 및 시트 열기
-    var targetSpreadsheet = SpreadsheetApp.openById(targetSpreadsheetId);
-    var targetSheet = targetSpreadsheet.getSheetByName(targetSheetName);
-
-    if (!targetSheet) {
-      // 시트가 없으면 생성
-      targetSheet = targetSpreadsheet.insertSheet(targetSheetName);
-    }
-
-    // 원본 데이터 가져오기
-    var lastRow = sourceSheet.getLastRow();
-    var lastCol = sourceSheet.getLastColumn();
-
-    if (lastRow === 0 || lastCol === 0) {
-      SpreadsheetApp.getUi().alert("원본 시트에 데이터가 없습니다.");
-      return;
-    }
-
-    var sourceData = sourceSheet.getRange(1, 1, lastRow, lastCol).getValues();
-    var sourceFormats = sourceSheet.getRange(1, 1, lastRow, lastCol).getNumberFormats();
-
-    // 대상 시트 초기화 (기존 데이터 삭제)
-    targetSheet.clear();
-
-    // 데이터 붙여넣기
-    targetSheet.getRange(1, 1, lastRow, lastCol).setValues(sourceData);
-    targetSheet.getRange(1, 1, lastRow, lastCol).setNumberFormats(sourceFormats);
-
-    // 열 너비 복사 (선택사항)
-    for (var col = 1; col <= lastCol; col++) {
-      var columnWidth = sourceSheet.getColumnWidth(col);
-      targetSheet.setColumnWidth(col, columnWidth);
-    }
-
-    // 완료 메시지
-    SpreadsheetApp.getActiveSpreadsheet().toast(
-      "'" + sourceSheetName + "' 데이터가 성공적으로 전송되었습니다! (" + lastRow + "행 × " + lastCol + "열)",
-      "전송 완료",
-      5
-    );
-
-    Logger.log("데이터 전송 완료: " + lastRow + "행 × " + lastCol + "열");
-
-  } catch (error) {
-    SpreadsheetApp.getUi().alert("오류 발생: " + error.toString());
-    Logger.log("transferQuantityData 에러: " + error.toString());
-  }
+  return `${year}${month}${day}${dayNames[date.getDay()]}`;
 }
 
 // ========================================
-// 구매주문서 관련 함수들
+// 구매주문서 주문전송
 // ========================================
 
-/**
- * 주문서 → 캘린더 이벤트 생성 & 견적서 + 주문서 PDF 저장
- */
 function sendOrder() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const sheet = ss.getSheetByName('구매주문서');
   const cal = CalendarApp.getCalendarById('1578sandal@gmail.com');
 
-  // 주문 정보 읽기
-  let dateRaw = sheet.getRange('C6').getValue();      // 배송날짜
+  let dateRaw = sheet.getRange('C6').getValue();
+  if (!dateRaw) throw new Error('❌ 배송날짜가 입력되지 않았습니다. C6 셀을 확인해주세요.');
 
-  // 날짜 유효성 검사 및 변환
-  if (!dateRaw) {
-    throw new Error('❌ 배송날짜가 입력되지 않았습니다. C6 셀을 확인해주세요.');
-  }
-
-  // 날짜가 Date 객체가 아니면 변환 시도
   if (!(dateRaw instanceof Date)) {
-    // 한국어 날짜 문자열 파싱 (예: "2025년 11월 18일 화요일")
     if (typeof dateRaw === 'string') {
       const match = dateRaw.match(/(\d{4})년\s*(\d{1,2})월\s*(\d{1,2})일/);
       if (match) {
-        const year = parseInt(match[1], 10);
-        const month = parseInt(match[2], 10) - 1; // JavaScript는 0-based
-        const day = parseInt(match[3], 10);
-        dateRaw = new Date(year, month, day);
+        dateRaw = new Date(parseInt(match[1]), parseInt(match[2]) - 1, parseInt(match[3]));
       } else {
-        // 일반 문자열로 파싱 시도
         dateRaw = new Date(dateRaw);
       }
     } else {
-      // 숫자나 다른 형식이면 Date 객체로 변환
       dateRaw = new Date(dateRaw);
     }
-
-    // 변환 실패시 오류 발생
-    if (isNaN(dateRaw.getTime())) {
-      throw new Error('❌ 배송날짜 형식이 올바르지 않습니다. C6 셀을 확인해주세요.');
-    }
+    if (isNaN(dateRaw.getTime())) throw new Error('❌ 배송날짜 형식이 올바르지 않습니다.');
   }
 
-  const timeRaw = sheet.getRange('C7').getDisplayValue(); // 배송시간
-  const deliveryMethod = sheet.getRange('C8').getValue(); // 배송방식
-  const orderer = sheet.getRange('E6').getValue();        // 주문자
-  const ordererTel = sheet.getRange('E7').getValue();     // 주문자 연락처
-  const recipient = sheet.getRange('E8').getValue();      // 수령인
-  const recipientTel = sheet.getRange('E9').getValue();  // 수령인 연락처
-  const phraseNo = sheet.getRange('C10').getValue();      // 문구번호
-  const phraseText = sheet.getRange('E10').getValue();    // 문구내용
-  const payMethod = sheet.getRange('E5').getValue();      // 결제방식
-  const address = sheet.getRange('C11').getValue();       // 배송주소
-  const memo = sheet.getRange('C12').getValue();          // 배송메세지
-  const products = sheet.getRange('C15:D33').getValues().filter(r => r[0]);
-  const productNames = sheet.getRange('B15:B33').getValues().flat().filter(name => name);
+  const orderDate    = sheet.getRange('C5').getValue();
+  const timeRaw      = sheet.getRange('C7').getDisplayValue();
+  const deliveryMethod = sheet.getRange('C8').getValue();
+  const orderer      = sheet.getRange('E6').getValue();
+  const ordererTel   = sheet.getRange('E7').getValue();
+  const recipient    = sheet.getRange('E8').getValue();
+  const recipientTel = sheet.getRange('E9').getValue();
+  const phraseNo     = sheet.getRange('C10').getValue();
+  const phraseText   = sheet.getRange('E10').getValue();
+  const payMethod    = sheet.getRange('E5').getValue();
+  const address      = sheet.getRange('C11').getValue();
+  const memo         = sheet.getRange('C12').getValue();
+  const products     = sheet.getRange('C15:D33').getValues().filter(r => r[0]);
+  const productNamesRaw = sheet.getRange('B15:B33').getValues().flat().filter(n => n);
 
-  if (!orderer || !dateRaw) {
-    throw new Error('❌ 주문자 또는 배송일 누락');
-  }
+  if (!orderer || !dateRaw) throw new Error('❌ 주문자 또는 배송일 누락');
 
-  // 시간 파싱
   const [h, m] = parseKoreanTimeString(timeRaw);
   const start = new Date(dateRaw); start.setHours(h, m);
   const end = new Date(start);
 
-  // 캘린더 이벤트 생성
   const title = `${address} - 주문자: ${orderer}`;
-  let desc = `📦 주문 정보\n`
-           + `- 주문자: ${orderer}\n`
-           + `- 주문자 연락처: ${ordererTel}\n`
-           + `- 수신자: ${recipient}\n`
-           + `- 연락처: ${recipientTel}\n`
-           + `- 문구번호: ${phraseNo}\n`
-           + `- 문구내용: ${phraseText}\n`
-           + `- 결제방식: ${payMethod}\n`
-           + `- 배송주소: ${address}\n`
-           + `- 배송시간: ${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}\n`
-           + `- 배송방식: ${deliveryMethod}\n`
-           + (memo ? `- 메모: ${memo}\n` : ``)
-           + (productNames.length > 0
-              ? `\n📄 제품명:\n` + productNames.map(name => `• ${name}`).join('\n') + `\n`
-              : ``)
-           + `\n📄 제품 구성:\n`
-           + products.map(([n,q]) => `• ${n} x ${q}`).join('\n') + `\n\n`
-           + `★ 스토어주문서는 예약주문건이라 미리 배송을 눌러두는 점 양해 부탁드립니다!\n`
-           + `★ 배송은 차량으로 배송하기에 정확한 배송은 어려우나, 늦지 않게 예약된 시간 즈음으로 도착합니다.`;
-
-  cal.createEvent(title, start, end, {
-    description: desc,
-    location: address
+  const desc = buildEventDescription({
+    orderer, ordererTel, recipient, recipientTel,
+    phraseNo, phraseText, payMethod, address, h, m,
+    deliveryMethod, memo, productNames: productNamesRaw, products
   });
 
-  // PDF 저장
+  const event = cal.createEvent(title, start, end, { description: desc, location: address });
+  const eventId = event.getId();
+
   const formattedDate = Utilities.formatDate(dateRaw, Session.getScriptTimeZone(), 'yyyyMMdd');
   const cleanOrderer = orderer.replace(/[\/\\\:\*\?\"\<\>\|]/g, '').trim();
   const newFileName = `${formattedDate}_${cleanOrderer}`;
@@ -492,17 +651,84 @@ function sendOrder() {
   saveEstimatePdf('구매주문서', `${newFileName}_주문서`, FOLDER_IDS.ORDER);
   saveSheetCopy(newFileName, FOLDER_IDS.SHEET_COPY);
 
-  // ✅ 수량표 데이터를 월별 수량표로 전송 (자동 선택)
   transferQuantityToMonthlySheet(dateRaw);
 
-  // 입력 필드 초기화 (✅ 이미지 기준 올바른 범위)
-  sheet.getRange('C5').clearContent();  // 주문날짜
-  sheet.getRange('C6').clearContent();  // 배송날짜
-  sheet.getRange('C7').clearContent();  // 배송시간
-  sheet.getRange('C10').clearContent(); // 문구번호
-  sheet.getRange('C11').clearContent(); // 배송주소
-  sheet.getRange('C12').clearContent(); // 배송메세지
-  sheet.getRange('E5:E10').clearContent(); // 결제방식~문구내용
+  // 히스토리 저장
+  const priceValues = [];
+  const productNamesArr = [];
+  const productCompsArr = [];
+  const quantitiesArr = [];
+
+  const bValues = sheet.getRange('B15:E33').getValues();
+  let currentProductName = '';
+  let currentComps = [];
+  let currentQtys = [];
+  let currentPrice = '';
+
+  for (let i = 0; i < bValues.length; i++) {
+    const bVal = bValues[i][0];
+    const cVal = bValues[i][1];
+    const dVal = bValues[i][2];
+    const eVal = bValues[i][3];
+
+    if (bVal) {
+      if (currentProductName) {
+        productNamesArr.push(currentProductName);
+        productCompsArr.push(currentComps.join('|'));
+        quantitiesArr.push(currentQtys.join('|'));
+        priceValues.push(currentPrice);
+      }
+      currentProductName = bVal;
+      currentComps = cVal ? [cVal] : [];
+      currentQtys = dVal !== '' ? [dVal] : [];
+      currentPrice = eVal || '';
+    } else if (cVal && currentProductName) {
+      currentComps.push(cVal);
+      currentQtys.push(dVal !== '' ? dVal : '');
+    }
+  }
+  if (currentProductName) {
+    productNamesArr.push(currentProductName);
+    productCompsArr.push(currentComps.join('|'));
+    quantitiesArr.push(currentQtys.join('|'));
+    priceValues.push(currentPrice);
+  }
+
+  // A1/A2에 이벤트ID/파일명 저장
+  sheet.getRange('A1').setValue(eventId);
+  sheet.getRange('A2').setValue(newFileName);
+  fixRowHeight();
+
+  saveOrderHistory({
+    orderDate,
+    deliveryDate: dateRaw,
+    deliveryTime: timeRaw,
+    deliveryMethod,
+    orderer,
+    ordererTel,
+    recipient,
+    recipientTel,
+    phraseNo,
+    phraseText,
+    payMethod,
+    address,
+    memo,
+    productNames: productNamesArr.join('||'),
+    productCompositions: productCompsArr.join('||'),
+    quantities: quantitiesArr.join('||'),
+    prices: priceValues.join('||'),
+    eventId,
+    fileName: newFileName
+  });
+
+  // 입력 필드 초기화
+  sheet.getRange('C5').clearContent();
+  sheet.getRange('C6').clearContent();
+  sheet.getRange('C7').clearContent();
+  sheet.getRange('C10').clearContent();
+  sheet.getRange('C11').clearContent();
+  sheet.getRange('C12').clearContent();
+  sheet.getRange('E5:E10').clearContent();
   sheet.getRange('B15:B33').clearContent();
   sheet.getRange('C15:D33').clearContent();
   sheet.getRange('E15:E33').clearContent();
@@ -527,15 +753,9 @@ function saveEstimatePdf(sheetName, fileName, folderId) {
   if (!sheet) throw new Error(`시트를 찾을 수 없음: ${sheetName}`);
 
   const opts = [
-    'format=pdf',
-    'size=A4',
-    'portrait=true',
-    'fitw=true',
-    'sheetnames=false',
-    'printtitle=false',
-    'pagenumbers=false',
-    'gridlines=false',
-    `gid=${sheet.getSheetId()}`
+    'format=pdf', 'size=A4', 'portrait=true', 'fitw=true',
+    'sheetnames=false', 'printtitle=false', 'pagenumbers=false',
+    'gridlines=false', `gid=${sheet.getSheetId()}`
   ].join('&');
 
   const baseUrl = ss.getUrl().replace(/\/edit.*$/, '');
@@ -552,53 +772,22 @@ function saveEstimatePdf(sheetName, fileName, folderId) {
 function saveSheetCopy(fileName, folderId) {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const folder = DriveApp.getFolderById(folderId);
-
-  // 현재 스프레드시트의 사본 생성
   const copy = ss.copy(`${fileName}`);
-
-  // 생성된 파일을 지정 폴더로 이동
   const file = DriveApp.getFileById(copy.getId());
   folder.addFile(file);
-
-  // 원본 위치(내 드라이브)에서 제거
   DriveApp.getRootFolder().removeFile(file);
-
   return copy;
 }
 
-// ▶ 주문 버튼 만드는 방법 안내
-function createOrderButton() {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('구매주문서');
-
-  // 기존 이미지/도형 삭제 (중복 방지)
-  const drawings = sheet.getDrawings();
-  drawings.forEach(drawing => drawing.remove());
-
-  SpreadsheetApp.getUi().alert(
-    '버튼 만들기',
-    '1. 삽입 > 이미지 또는 도형 선택\n' +
-    '2. 원하는 버튼 이미지/도형 추가\n' +
-    '3. 이미지 클릭 > ⋮ > 스크립트 할당\n' +
-    '4. "sendOrder" 입력 후 확인',
-    SpreadsheetApp.getUi().ButtonSet.OK
-  );
-}
-
 // ========================================
-// ▶▶▶ onOpen 함수 (통합) ◀◀◀
+// ▶▶▶ onOpen 함수 ◀◀◀
 // ========================================
 
 function onOpen() {
   const ui = SpreadsheetApp.getUi();
-
-  // 📋 서식 도구 메뉴
-  ui.createMenu('📋 서식 도구')
-    .addItem('선택 범위 서식 지정', 'applyFormatting')
-    .addItem('12행 블록 서식 지정', 'applyFormattingToBlock')
-    .addToUi();
-
-  // 📋 출력 도구 메뉴
-  ui.createMenu('📋 출력 도구')
-    .addItem('출력전용 시트 생성', '출력뷰생성')
+  ui.createMenu('🧾 주문 관리')
+    .addItem('주문전송', 'sendOrder')
+    .addItem('수정전송', 'modifyOrder')
+    .addItem('불러오기', 'loadOrder')
     .addToUi();
 }
