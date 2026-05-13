@@ -21,6 +21,7 @@ export default function LoginPage() {
         "auth/invalid-email": "이메일 형식을 확인해주세요.",
         "auth/too-many-requests": "잠시 후 다시 시도해주세요.",
         "auth/invalid-credential": "이메일 또는 비밀번호가 올바르지 않습니다.",
+        "Error: auth/invalid-credential": "이메일 또는 비밀번호가 올바르지 않습니다.",
       };
       setError(messages[err.code] ?? "로그인에 실패했습니다.");
     } finally {

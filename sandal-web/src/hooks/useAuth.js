@@ -55,7 +55,7 @@ export function AuthProvider({ children }) {
         setUser(DEMO_USER);
         setCompany(DEMO_COMPANY);
       } else {
-        throw { code: "auth/invalid-credential" };
+        throw new Error("auth/invalid-credential");
       }
       return;
     }
