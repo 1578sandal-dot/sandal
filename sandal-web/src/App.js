@@ -2,9 +2,10 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./hooks/useAuth";
 import LoginPage from "./pages/LoginPage";
 import CalendarPage from "./pages/CalendarPage";
+import AdminPage from "./pages/AdminPage";
 
-function PrivateRoute({ children }) {
-  const { user, loading } = useAuth();
+function PrivateRoute({ children, adminOnly = false }) {
+  const { user, loading, isAdmin } = useAuth();
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -15,13 +16,16 @@ function PrivateRoute({ children }) {
       </div>
     );
   }
-  return user ? children : <Navigate to="/login" replace />;
+  if (!user) return <Navigate to="/login" replace />;
+  if (adminOnly && !isAdmin) return <Navigate to="/" replace />;
+  return children;
 }
 
 function PublicRoute({ children }) {
-  const { user, loading } = useAuth();
+  const { user, loading, isAdmin } = useAuth();
   if (loading) return null;
-  return user ? <Navigate to="/" replace /> : children;
+  if (user) return <Navigate to={isAdmin ? "/admin" : "/"} replace />;
+  return children;
 }
 
 export default function App() {
@@ -42,6 +46,14 @@ export default function App() {
             element={
               <PrivateRoute>
                 <CalendarPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <PrivateRoute adminOnly>
+                <AdminPage />
               </PrivateRoute>
             }
           />

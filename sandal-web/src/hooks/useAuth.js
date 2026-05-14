@@ -71,8 +71,10 @@ export function AuthProvider({ children }) {
     await signOut(auth);
   };
 
+  const isAdmin = company?.role === "admin";
+
   return (
-    <AuthContext.Provider value={{ user, company, loading, login, logout }}>
+    <AuthContext.Provider value={{ user, company, loading, login, logout, isAdmin }}>
       {children}
     </AuthContext.Provider>
   );
