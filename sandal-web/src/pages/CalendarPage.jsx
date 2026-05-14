@@ -12,6 +12,7 @@ export default function CalendarPage() {
   const [year, setYear] = useState(today.getFullYear());
   const [month, setMonth] = useState(today.getMonth() + 1);
   const [selectedDate, setSelectedDate] = useState(null);
+  const [resubmitDone, setResubmitDone] = useState(false);
 
   const yearMonth = `${year}-${String(month).padStart(2, "0")}`;
   const { plan, loading, saving, saveDate, submitPlan } = useDietPlan(yearMonth);
@@ -61,6 +62,7 @@ export default function CalendarPage() {
     const dateList = changedDates.map((d) => d.slice(5)).join(", ");
     if (!window.confirm(`변경된 날짜: ${dateList}\n수정 제출할까요?`)) return;
     await submitPlan(changedDates);
+    setResubmitDone(true);
   };
 
   return (
@@ -124,22 +126,28 @@ export default function CalendarPage() {
                 <div>
                   <p className="font-semibold text-gray-900">{year}년 {month}월 식단표 제출 완료</p>
                   <p className="text-xs text-gray-500 mt-0.5">
-                    각 날짜 전날 오전 10시까지 날짜를 클릭해 수정할 수 있습니다
+                    각 날짜 이틀 전 오후 6시까지 날짜를 클릭해 수정할 수 있습니다
                   </p>
                 </div>
               </div>
               {!pastDeadline && (
-                <button
-                  onClick={handleResubmit}
-                  disabled={saving || changedDates.length === 0}
-                  className="btn-primary text-sm px-5 py-2.5 w-full"
-                >
-                  {saving
-                    ? "처리 중..."
-                    : changedDates.length > 0
-                    ? `수정 제출 (${changedDates.length}일 변경됨)`
-                    : "변경된 내용 없음"}
-                </button>
+                resubmitDone && changedDates.length === 0 ? (
+                  <div className="flex items-center gap-2 text-sm text-sandal-700 font-semibold bg-sandal-50 rounded-xl px-4 py-2.5">
+                    <span>✅</span> 수정 제출 완료
+                  </div>
+                ) : (
+                  <button
+                    onClick={handleResubmit}
+                    disabled={saving || changedDates.length === 0}
+                    className="btn-primary text-sm px-5 py-2.5 w-full"
+                  >
+                    {saving
+                      ? "처리 중..."
+                      : changedDates.length > 0
+                      ? `수정 제출 (${changedDates.length}일 변경됨)`
+                      : "변경된 내용 없음"}
+                  </button>
+                )
               )}
             </div>
           ) : pastDeadline ? (
