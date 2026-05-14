@@ -17,11 +17,13 @@ export const isEditable = (dateStr) => {
   return new Date() < deadline;
 };
 
-// 전월 말 제출 마감 여부
+// 제출 마감 여부: 해당 월이 완전히 지난 경우에만 true
 export const isPastSubmitDeadline = (yearMonth) => {
   const [year, month] = yearMonth.split("-").map(Number);
-  const deadline = new Date(year, month - 1, 0, 23, 59, 59); // 전월 말일
-  return new Date() > deadline;
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  const currentMonth = now.getMonth() + 1;
+  return year < currentYear || (year === currentYear && month < currentMonth);
 };
 
 export function useDietPlan(yearMonth) {
