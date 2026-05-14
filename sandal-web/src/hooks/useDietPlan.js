@@ -49,7 +49,7 @@ export function useDietPlan(yearMonth) {
       })
       .catch(() => setPlan({ dates: {}, submittedAt: null }))
       .finally(() => setLoading(false));
-  }, [yearMonth, user?.uid]);
+  }, [yearMonth, user?.uid]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // 특정 날짜 저장
   const saveDate = useCallback(

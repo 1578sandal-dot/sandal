@@ -21,7 +21,7 @@ export default function DayPanel({ dateStr, dateData, onSave, onClose, saving })
   useEffect(() => {
     setItems(dateData?.items?.length ? dateData.items : [emptyItem()]);
     setNote(dateData?.note ?? "");
-  }, [dateStr]);
+  }, [dateStr, dateData?.items, dateData?.note]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const updateItem = (idx, field, value) => {
     setItems((prev) =>
