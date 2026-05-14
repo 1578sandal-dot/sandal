@@ -24,6 +24,7 @@ export default function MenuPage() {
           await addDoc(collection(db, "orders"), {
             companyId: user.uid,
             companyName: company?.name ?? "",
+            contactName: company?.contactName ?? "",
             menuId: menu.id,
             menuName: menu.name,
             side: side ?? null,
@@ -53,7 +54,9 @@ export default function MenuPage() {
         {/* 인사 배너 */}
         <div className="bg-gradient-to-r from-sandal-600 to-sandal-500 rounded-2xl p-5 text-white mb-6">
           <p className="text-sandal-100 text-sm mb-1">안녕하세요 👋</p>
-          <h2 className="font-bold text-xl">{company?.name ?? "기업"} 담당자님</h2>
+          <h2 className="font-bold text-xl">
+            {company?.contactName ?? company?.name ?? "담당자"}님
+          </h2>
           <p className="text-sandal-100 text-sm mt-1">
             오늘도 맛있는 조식을 주문해 보세요
           </p>
