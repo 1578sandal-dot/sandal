@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../lib/firebase";
-import { useAuth } from "../hooks/useAuth";
 import Navbar from "../components/Navbar";
 
 const today = new Date();
@@ -14,7 +13,6 @@ const formatDate = (iso) => {
 };
 
 export default function AdminPage() {
-  const { logout } = useAuth();
   const [yearMonth, setYearMonth] = useState(currentYearMonth);
   const [companies, setCompanies] = useState([]);
   const [plans, setPlans] = useState({});
