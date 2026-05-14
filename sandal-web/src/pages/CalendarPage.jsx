@@ -52,7 +52,7 @@ export default function CalendarPage() {
   };
 
   const handleSubmit = async () => {
-    if (!window.confirm(`${year}년 ${month}월 식단표를 최종 제출할까요?\n제출 후에는 각 날짜 전날 오전 10시까지만 수정 가능합니다.`)) return;
+    if (!window.confirm(`${year}년 ${month}월 식단표를 최종 제출할까요?\n제출 후에는 각 날짜 이틀 전 오후 6시까지만 수정 가능합니다.`)) return;
     await submitPlan();
   };
 

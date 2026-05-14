@@ -69,7 +69,7 @@ export default function DayPanel({ dateStr, dateData, onSave, onClose, saving })
           <div>
             <h2 className="font-bold text-gray-900">{formatDate(dateStr)}</h2>
             {!editable && (
-              <p className="text-xs text-red-500 mt-0.5">마감 지남 — 수정 불가</p>
+              <p className="text-xs text-red-500 mt-0.5">이틀 전 오후 6시 마감 — 수정 불가</p>
             )}
           </div>
           <button

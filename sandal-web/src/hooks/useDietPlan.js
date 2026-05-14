@@ -8,12 +8,12 @@ import {
 import { db } from "../lib/firebase";
 import { useAuth } from "./useAuth";
 
-// 수정 가능 여부: 해당 날짜 전날 오전 10시까지
+// 수정 가능 여부: 해당 날짜 이틀 전 오후 6시까지
 export const isEditable = (dateStr) => {
   const target = new Date(dateStr + "T00:00:00");
   const deadline = new Date(target);
-  deadline.setDate(deadline.getDate() - 1);
-  deadline.setHours(10, 0, 0, 0);
+  deadline.setDate(deadline.getDate() - 2);
+  deadline.setHours(18, 0, 0, 0);
   return new Date() < deadline;
 };
 
