@@ -22,8 +22,8 @@ function PrivateRoute({ children, adminOnly = false }) {
 }
 
 function PublicRoute({ children }) {
-  const { user, loading, isAdmin } = useAuth();
-  if (loading) return null;
+  const { user, loading, company, isAdmin } = useAuth();
+  if (loading || (user && !company)) return null;
   if (user) return <Navigate to={isAdmin ? "/admin" : "/"} replace />;
   return children;
 }
