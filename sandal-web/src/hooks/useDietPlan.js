@@ -70,14 +70,25 @@ export function useDietPlan(yearMonth) {
     [docRef, plan]
   );
 
-  // 전체 제출
-  const submitPlan = useCallback(async () => {
+  // 전체 제출 (최초 or 수정)
+  const submitPlan = useCallback(async (changedDates = null) => {
     if (!docRef) return;
     setSaving(true);
+    const isResubmit = !!plan?.submittedAt;
     const newPlan = {
       ...plan,
       submittedAt: serverTimestamp(),
       submittedBy: user.uid,
+      // 수정 제출 시: 변경된 날짜 목록 + 이전 제출 내용 스냅샷 저장
+      ...(isResubmit && changedDates
+        ? {
+            lastResubmittedAt: serverTimestamp(),
+            changedDates,
+            snapshotAtLastSubmit: { ...plan.dates },
+          }
+        : {
+            snapshotAtLastSubmit: { ...plan.dates },
+          }),
     };
     await setDoc(docRef, newPlan, { merge: true });
     setPlan(newPlan);

@@ -33,6 +33,19 @@ export default function CalendarPage() {
   const isSubmitted = !!plan?.submittedAt;
   const pastDeadline = isPastSubmitDeadline(yearMonth);
 
+  // 마지막 제출 이후 변경된 날짜 계산
+  const changedDates = (() => {
+    if (!isSubmitted || !plan?.snapshotAtLastSubmit) return [];
+    const snapshot = plan.snapshotAtLastSubmit;
+    const current = plan.dates ?? {};
+    const allKeys = new Set([...Object.keys(snapshot), ...Object.keys(current)]);
+    return [...allKeys].filter((dateStr) => {
+      const before = JSON.stringify(snapshot[dateStr]?.items ?? []);
+      const after = JSON.stringify(current[dateStr]?.items ?? []);
+      return before !== after;
+    });
+  })();
+
   const handleSave = async (dateStr, items, note) => {
     await saveDate(dateStr, items, note);
     setSelectedDate(null);
@@ -41,6 +54,13 @@ export default function CalendarPage() {
   const handleSubmit = async () => {
     if (!window.confirm(`${year}년 ${month}월 식단표를 최종 제출할까요?\n제출 후에는 각 날짜 전날 오전 10시까지만 수정 가능합니다.`)) return;
     await submitPlan();
+  };
+
+  const handleResubmit = async () => {
+    if (changedDates.length === 0) return;
+    const dateList = changedDates.map((d) => d.slice(5)).join(", ");
+    if (!window.confirm(`변경된 날짜: ${dateList}\n수정 제출할까요?`)) return;
+    await submitPlan(changedDates);
   };
 
   return (
@@ -98,14 +118,29 @@ export default function CalendarPage() {
         {/* 제출 상태 및 버튼 */}
         <div className="card p-4">
           {isSubmitted ? (
-            <div className="flex items-center gap-3">
-              <span className="text-2xl">✅</span>
-              <div>
-                <p className="font-semibold text-gray-900">{year}년 {month}월 식단표 제출 완료</p>
-                <p className="text-xs text-gray-500 mt-0.5">
-                  각 날짜 전날 오전 10시까지 날짜를 클릭해 수정할 수 있습니다
-                </p>
+            <div>
+              <div className="flex items-center gap-3 mb-3">
+                <span className="text-2xl">✅</span>
+                <div>
+                  <p className="font-semibold text-gray-900">{year}년 {month}월 식단표 제출 완료</p>
+                  <p className="text-xs text-gray-500 mt-0.5">
+                    각 날짜 전날 오전 10시까지 날짜를 클릭해 수정할 수 있습니다
+                  </p>
+                </div>
               </div>
+              {!pastDeadline && (
+                <button
+                  onClick={handleResubmit}
+                  disabled={saving || changedDates.length === 0}
+                  className="btn-primary text-sm px-5 py-2.5 w-full"
+                >
+                  {saving
+                    ? "처리 중..."
+                    : changedDates.length > 0
+                    ? `수정 제출 (${changedDates.length}일 변경됨)`
+                    : "변경된 내용 없음"}
+                </button>
+              )}
             </div>
           ) : pastDeadline ? (
             <div className="flex items-center gap-3">
