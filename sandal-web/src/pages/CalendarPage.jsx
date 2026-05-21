@@ -47,9 +47,15 @@ export default function CalendarPage() {
     });
   })();
 
-  const handleSave = async (dateStr, items, note) => {
+  const handleSave = async (dateStr, items, note, extraDates) => {
     await saveDate(dateStr, items, note);
+    if (extraDates?.length) {
+      for (const d of extraDates) {
+        await saveDate(d, items, note);
+      }
+    }
     setSelectedDate(null);
+    setResubmitDone(false);
   };
 
   const handleSubmit = async () => {
