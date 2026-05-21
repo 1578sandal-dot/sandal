@@ -279,17 +279,21 @@ export default function DayPanel({ dateStr, dateData, onSave, onClose, saving })
               <div className="mb-4">
                 <p className="text-xs text-gray-500 mb-2">날짜를 선택하세요 (복수 선택 가능)</p>
                 <div className="flex flex-wrap gap-1.5 max-h-40 overflow-y-auto">
-                  {weekdayDates.filter((d) => d !== dateStr && isEditable(d)).map((d) => {
+                  {weekdayDates.filter((d) => d !== dateStr).map((d) => {
                     const day = new Date(d + "T00:00:00");
+                    const selectable = isEditable(d);
                     const isSelected = customDates.includes(d);
                     return (
                       <button
                         key={d}
+                        disabled={!selectable}
                         onClick={() => setCustomDates((prev) =>
                           isSelected ? prev.filter((x) => x !== d) : [...prev, d]
                         )}
                         className={`text-xs px-2.5 py-1.5 rounded-lg border transition-colors ${
-                          isSelected
+                          !selectable
+                            ? "bg-gray-100 text-gray-300 border-gray-100 cursor-not-allowed"
+                            : isSelected
                             ? "bg-sandal-600 text-white border-sandal-600"
                             : "bg-white text-gray-700 border-gray-200 hover:border-sandal-400"
                         }`}
