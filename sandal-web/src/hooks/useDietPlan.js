@@ -51,18 +51,18 @@ export function useDietPlan(yearMonth) {
       .finally(() => setLoading(false));
   }, [yearMonth, user?.uid]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // 특정 날짜 저장
+  // 특정 날짜 저장 (extraDates 전달 시 한 번에 일괄 저장)
   const saveDate = useCallback(
-    async (dateStr, items, note) => {
+    async (dateStr, items, note, extraDates = []) => {
       if (!docRef) return;
       setSaving(true);
-      const newPlan = {
-        ...plan,
-        dates: {
-          ...plan?.dates,
-          [dateStr]: { items, note, updatedAt: new Date().toISOString() },
-        },
-      };
+      const updatedAt = new Date().toISOString();
+      const allDates = [dateStr, ...extraDates];
+      const newDates = { ...plan?.dates };
+      for (const d of allDates) {
+        newDates[d] = { items, note, updatedAt };
+      }
+      const newPlan = { ...plan, dates: newDates };
       await setDoc(docRef, newPlan, { merge: true });
       setPlan(newPlan);
       setSaving(false);
