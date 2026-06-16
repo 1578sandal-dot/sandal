@@ -41,9 +41,21 @@ export default function ContactForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 800));
-    setLoading(false);
-    setSubmitted(true);
+    try {
+      await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          "form-name": "contact",
+          ...form,
+        }).toString(),
+      });
+      setSubmitted(true);
+    } catch {
+      alert("전송 중 오류가 발생했습니다. 이메일로 문의해 주세요.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (submitted) {
@@ -63,7 +75,8 @@ export default function ContactForm() {
   const labelClass = "block text-xs text-bark/50 mb-1.5 tracking-wide";
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+    <form name="contact" method="POST" data-netlify="true" onSubmit={handleSubmit} className="flex flex-col gap-5">
+      <input type="hidden" name="form-name" value="contact" />
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <div>
           <label className={labelClass}>회사명 *</label>
