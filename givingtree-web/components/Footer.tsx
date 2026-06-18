@@ -61,8 +61,8 @@ export default function Footer() {
         </div>
 
         <div className="mt-12 pt-6 border-t border-cream/10 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-cream/30">
-          <span>© 2025 The Giving Tree, Inc. All rights reserved.</span>
-          <span>EST. 2013 · 같은 손, 새로운 구조</span>
+          <span>© 2026 The Giving Tree, Inc. All rights reserved.</span>
+          <span>사업자등록번호 204-87-03371</span>
         </div>
       </div>
     </footer>
