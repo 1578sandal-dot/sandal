@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import emailjs from "@emailjs/browser";
 
 type FormState = {
   company: string;
@@ -43,10 +42,13 @@ export default function ContactForm() {
     e.preventDefault();
     setLoading(true);
     try {
-      await emailjs.send(
-        "service_bqqk4yi",
-        "template_issrq7k",
-        {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          access_key: "1d3ef70a-dae5-42a4-85fe-6d98267b5bda",
+          subject: `[더기빙트리 홈페이지] 견적 문의: ${form.company}`,
+          from_name: form.name,
           company: form.company,
           name: form.name,
           phone: form.phone,
@@ -54,10 +56,14 @@ export default function ContactForm() {
           service: form.service,
           headcount: form.headcount || "미입력",
           message: form.message || "내용 없음",
-        },
-        "dG8ZhjC9MPN9jwN2m"
-      );
-      setSubmitted(true);
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSubmitted(true);
+      } else {
+        alert("전송에 실패했습니다. 잠시 후 다시 시도하거나 직접 연락해 주세요.");
+      }
     } catch {
       alert("전송에 실패했습니다. 잠시 후 다시 시도하거나 직접 연락해 주세요.");
     } finally {
