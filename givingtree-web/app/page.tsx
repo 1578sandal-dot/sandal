@@ -26,16 +26,16 @@ const promises = [
 
 const gallery = [
   {
-    src: "https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=800&q=80",
-    alt: "샌드위치 박스",
+    src: "/images/클럽샌드위치2피스.jpg",
+    alt: "클럽 샌드위치",
   },
   {
-    src: "https://images.unsplash.com/photo-1606787366850-de6330128bfc?w=800&q=80",
-    alt: "조식 도시락",
+    src: "/images/일반김밥.jpg",
+    alt: "김밥",
   },
   {
-    src: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800&q=80",
-    alt: "신선한 재료",
+    src: "/images/리코타치즈샐러드(대).jpg",
+    alt: "리코타 치즈 샐러드",
   },
 ];
 
@@ -47,7 +47,7 @@ export default function HomePage() {
         {/* 배경 이미지 */}
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1600&q=80"
+            src="/images/아주나무-전체 사진-62680825419.jpg"
             alt="더기빙트리 조식 서비스"
             fill
             className="object-cover"
@@ -132,9 +132,9 @@ export default function HomePage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
-              { num: "01", q: '"오늘은 또 뭘 시키지?"', sub: "매일의 식단 고민", ans: "그 고민을 우리가 대신합니다.", img: "https://images.unsplash.com/photo-1543352634-a1c51d9f1fa7?w=600&q=80" },
-              { num: "02", q: '"수량이 모자라면 어떡하지?"', sub: "행사 담당자의 부담", ans: "시간과 수량 — 절대 어기지 않습니다.", img: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600&q=80" },
-              { num: "03", q: '"주문, 정산, 식수 관리…"', sub: "행정·정산의 무게", ans: "행정 부담까지 함께 줄입니다.", img: "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=600&q=80" },
+              { num: "01", q: '"오늘은 또 뭘 시키지?"', sub: "매일의 식단 고민", ans: "그 고민을 우리가 대신합니다.", img: "/images/무화과호두크림샌드위치2피스.jpg" },
+              { num: "02", q: '"수량이 모자라면 어떡하지?"', sub: "행사 담당자의 부담", ans: "시간과 수량 — 절대 어기지 않습니다.", img: "/images/유부초밥6피스.jpg" },
+              { num: "03", q: '"주문, 정산, 식수 관리…"', sub: "행정·정산의 무게", ans: "행정 부담까지 함께 줄입니다.", img: "/images/단호박샐러드(대).jpg" },
             ].map(({ num, q, sub, ans, img }) => (
               <div key={num} className="bg-cream border border-pale-sage rounded-2xl overflow-hidden">
                 <div className="relative h-44 overflow-hidden">
@@ -208,7 +208,7 @@ export default function HomePage() {
           </div>
           <div className="relative h-[600px] rounded-2xl overflow-hidden sticky top-24">
             <Image
-              src="https://images.unsplash.com/photo-1547592180-85f173990554?w=800&q=80"
+              src="/images/아주나무-전체 사진-62689612637.jpg"
               alt="더기빙트리 주방"
               fill
               className="object-cover"
@@ -228,7 +228,7 @@ export default function HomePage() {
       <section className="relative py-32 overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1600&q=80"
+            src="/images/아주나무-전체 사진-62680825420.jpg"
             alt="더기빙트리 케이터링"
             fill
             className="object-cover"
