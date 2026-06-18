@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import emailjs from "@emailjs/browser";
 
 type FormState = {
   company: string;
@@ -41,9 +42,27 @@ export default function ContactForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 800));
-    setLoading(false);
-    setSubmitted(true);
+    try {
+      await emailjs.send(
+        "service_bqqk4yi",
+        "template_issrq7k",
+        {
+          company: form.company,
+          name: form.name,
+          phone: form.phone,
+          email: form.email,
+          service: form.service,
+          headcount: form.headcount || "미입력",
+          message: form.message || "내용 없음",
+        },
+        "dG8ZhjC9MPN9jwN2m"
+      );
+      setSubmitted(true);
+    } catch {
+      alert("전송에 실패했습니다. 잠시 후 다시 시도하거나 직접 연락해 주세요.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (submitted) {
