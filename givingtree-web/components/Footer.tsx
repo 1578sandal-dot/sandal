@@ -61,7 +61,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-12 pt-6 border-t border-cream/10 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-cream/30">
-          <span>© 2026 The Giving Tree, Inc. All rights reserved.</span>
+          <span>© 2026 The Giving Tree, Co., Ltd. All rights reserved.</span>
         </div>
       </div>
     </footer>
