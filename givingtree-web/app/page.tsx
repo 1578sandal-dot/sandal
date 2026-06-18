@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const services = [
   { num: "01", title: "기업 정기조식\n구독 서비스", desc: "고객사의 아침 운영을 대신 책임지는 일. 매일의 식단 고민을 우리가 대신합니다." },
@@ -23,12 +24,39 @@ const promises = [
   { num: "05", title: "같은 실수를 반복하지 않는다", desc: "매주 운영 회고로 어제의 실수가 내일 반복되지 않게 합니다." },
 ];
 
+const gallery = [
+  {
+    src: "https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=800&q=80",
+    alt: "샌드위치 박스",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1606787366850-de6330128bfc?w=800&q=80",
+    alt: "조식 도시락",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800&q=80",
+    alt: "신선한 재료",
+  },
+];
+
 export default function HomePage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative min-h-screen flex items-center bg-ink pt-16">
-        <div className="absolute inset-0 bg-gradient-to-br from-forest/20 via-transparent to-transparent" />
+      <section className="relative min-h-screen flex items-center pt-16 overflow-hidden bg-cream">
+        {/* 배경 이미지 */}
+        <div className="absolute inset-0">
+          <Image
+            src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1600&q=80"
+            alt="더기빙트리 조식 서비스"
+            fill
+            className="object-cover"
+            priority
+            unoptimized
+          />
+          <div className="absolute inset-0 bg-bark/60" />
+        </div>
+
         <div className="relative max-w-6xl mx-auto px-6 py-24 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div>
             <p className="text-gold text-sm tracking-[0.2em] uppercase mb-6 font-[family-name:var(--font-maruburi)] italic">
@@ -39,7 +67,7 @@ export default function HomePage() {
               <span className="text-gold italic">좋은 하루를</span><br />
               만든다.
             </h1>
-            <p className="text-cream/60 text-lg leading-relaxed mb-10 break-keep">
+            <p className="text-cream/70 text-lg leading-relaxed mb-10 break-keep">
               더기빙트리는 기업의 식사 운영을 책임지는 B2B 푸드 서비스입니다.<br />
               정확한 주문, 정확한 생산, 정확한 배송 — 10년의 약속.
             </p>
@@ -52,7 +80,7 @@ export default function HomePage() {
               </Link>
               <Link
                 href="/services"
-                className="px-8 py-4 border border-cream/30 text-cream rounded-full hover:border-cream/60 transition-colors text-center"
+                className="px-8 py-4 border border-cream/40 text-cream rounded-full hover:border-cream hover:bg-cream/10 transition-colors text-center"
               >
                 서비스 보기
               </Link>
@@ -60,13 +88,32 @@ export default function HomePage() {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid grid-cols-2 gap-4">
             {stats.map(({ value, label }) => (
-              <div key={label} className="bg-cream/5 border border-cream/10 rounded-2xl p-8 text-center">
+              <div key={label} className="bg-cream/10 backdrop-blur-sm border border-cream/20 rounded-2xl p-8 text-center">
                 <div className="font-[family-name:var(--font-maruburi)] text-4xl text-gold font-semibold mb-2">
                   {value}
                 </div>
-                <div className="text-cream/50 text-sm">{label}</div>
+                <div className="text-cream/60 text-sm">{label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Photo Gallery Strip */}
+      <section className="bg-cream py-16">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="grid grid-cols-3 gap-4 rounded-2xl overflow-hidden">
+            {gallery.map(({ src, alt }) => (
+              <div key={alt} className="relative aspect-[4/3] overflow-hidden rounded-xl">
+                <Image
+                  src={src}
+                  alt={alt}
+                  fill
+                  className="object-cover hover:scale-105 transition-transform duration-500"
+                  unoptimized
+                />
               </div>
             ))}
           </div>
@@ -74,7 +121,7 @@ export default function HomePage() {
       </section>
 
       {/* Why us */}
-      <section className="bg-cream py-24">
+      <section className="bg-paper py-24">
         <div className="max-w-6xl mx-auto px-6">
           <div className="max-w-2xl mb-16">
             <p className="text-gold text-xs tracking-[0.2em] uppercase mb-4">Why The Giving Tree</p>
@@ -85,16 +132,22 @@ export default function HomePage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
-              { num: "01", q: '"오늘은 또 뭘 시키지?"', sub: "매일의 식단 고민", ans: "그 고민을 우리가 대신합니다." },
-              { num: "02", q: '"수량이 모자라면 어떡하지?"', sub: "행사 담당자의 부담", ans: "시간과 수량 — 절대 어기지 않습니다." },
-              { num: "03", q: '"주문, 정산, 식수 관리…"', sub: "행정·정산의 무게", ans: "행정 부담까지 함께 줄입니다." },
-            ].map(({ num, q, sub, ans }) => (
-              <div key={num} className="bg-paper border border-pale-sage rounded-2xl p-8">
-                <div className="text-gold text-xs tracking-widest mb-3 font-mono">{num}</div>
-                <div className="text-xs text-bark/50 mb-2">{sub}</div>
-                <h3 className="font-[family-name:var(--font-maruburi)] text-xl text-ink font-semibold mb-4 break-keep">{q}</h3>
-                <div className="h-px bg-pale-sage mb-4" />
-                <p className="text-xs text-forest font-medium tracking-wide">{ans}</p>
+              { num: "01", q: '"오늘은 또 뭘 시키지?"', sub: "매일의 식단 고민", ans: "그 고민을 우리가 대신합니다.", img: "https://images.unsplash.com/photo-1543352634-a1c51d9f1fa7?w=600&q=80" },
+              { num: "02", q: '"수량이 모자라면 어떡하지?"', sub: "행사 담당자의 부담", ans: "시간과 수량 — 절대 어기지 않습니다.", img: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600&q=80" },
+              { num: "03", q: '"주문, 정산, 식수 관리…"', sub: "행정·정산의 무게", ans: "행정 부담까지 함께 줄입니다.", img: "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=600&q=80" },
+            ].map(({ num, q, sub, ans, img }) => (
+              <div key={num} className="bg-cream border border-pale-sage rounded-2xl overflow-hidden">
+                <div className="relative h-44 overflow-hidden">
+                  <Image src={img} alt={sub} fill className="object-cover" unoptimized />
+                  <div className="absolute inset-0 bg-bark/20" />
+                </div>
+                <div className="p-8">
+                  <div className="text-gold text-xs tracking-widest mb-3 font-mono">{num}</div>
+                  <div className="text-xs text-bark/50 mb-2">{sub}</div>
+                  <h3 className="font-[family-name:var(--font-maruburi)] text-xl text-ink font-semibold mb-4 break-keep">{q}</h3>
+                  <div className="h-px bg-pale-sage mb-4" />
+                  <p className="text-xs text-forest font-medium tracking-wide">{ans}</p>
+                </div>
               </div>
             ))}
           </div>
@@ -114,7 +167,7 @@ export default function HomePage() {
             {services.map(({ num, title, desc, highlight }) => (
               <div
                 key={num}
-                className={`rounded-2xl p-8 ${highlight ? "bg-forest text-cream" : "bg-paper border border-pale-sage"}`}
+                className={`rounded-2xl p-8 ${highlight ? "bg-forest text-cream" : "bg-cream border border-pale-sage"}`}
               >
                 <div className="text-gold text-xs tracking-widest font-mono mb-4">{num}</div>
                 <h3 className={`font-[family-name:var(--font-maruburi)] text-2xl font-semibold mb-3 whitespace-pre-line leading-snug ${highlight ? "text-cream" : "text-ink"}`}>
@@ -134,38 +187,63 @@ export default function HomePage() {
 
       {/* Promises */}
       <section className="bg-cream py-24">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="max-w-xl mb-16">
+        <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+          <div>
             <p className="text-gold text-xs tracking-[0.2em] uppercase mb-4">Our Promise</p>
-            <h2 className="font-[family-name:var(--font-maruburi)] text-4xl md:text-5xl text-ink font-semibold leading-tight break-keep">
+            <h2 className="font-[family-name:var(--font-maruburi)] text-4xl md:text-5xl text-ink font-semibold leading-tight break-keep mb-12">
               우리가 매일 지키는<br />
               <span className="text-forest italic">5가지 약속.</span>
             </h2>
-          </div>
-          <div className="flex flex-col divide-y divide-pale-sage">
-            {promises.map(({ num, title, desc }) => (
-              <div key={num} className="py-8 flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-10">
-                <div className="text-gold text-xs tracking-widest font-mono flex-shrink-0 pt-1">{num}</div>
-                <div className="flex-1">
-                  <h3 className="font-[family-name:var(--font-maruburi)] text-xl text-ink font-semibold mb-2 break-keep">{title}</h3>
-                  <p className="text-sm text-bark/60 leading-relaxed break-keep">{desc}</p>
+            <div className="flex flex-col divide-y divide-pale-sage">
+              {promises.map(({ num, title, desc }) => (
+                <div key={num} className="py-6 flex gap-6 items-start">
+                  <div className="text-gold text-xs tracking-widest font-mono flex-shrink-0 pt-1">{num}</div>
+                  <div>
+                    <h3 className="font-[family-name:var(--font-maruburi)] text-lg text-ink font-semibold mb-1 break-keep">{title}</h3>
+                    <p className="text-sm text-bark/60 leading-relaxed break-keep">{desc}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+          </div>
+          <div className="relative h-[600px] rounded-2xl overflow-hidden sticky top-24">
+            <Image
+              src="https://images.unsplash.com/photo-1547592180-85f173990554?w=800&q=80"
+              alt="더기빙트리 주방"
+              fill
+              className="object-cover"
+              unoptimized
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-bark/40 to-transparent" />
+            <div className="absolute bottom-8 left-8 right-8">
+              <p className="font-[family-name:var(--font-maruburi)] italic text-cream text-xl leading-relaxed">
+                "매일 새벽, 같은 자리에서<br />같은 마음으로 시작합니다."
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* CTA Banner */}
-      <section className="bg-forest py-24">
-        <div className="max-w-3xl mx-auto px-6 text-center">
+      <section className="relative py-32 overflow-hidden">
+        <div className="absolute inset-0">
+          <Image
+            src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1600&q=80"
+            alt="더기빙트리 케이터링"
+            fill
+            className="object-cover"
+            unoptimized
+          />
+          <div className="absolute inset-0 bg-forest/80" />
+        </div>
+        <div className="relative max-w-3xl mx-auto px-6 text-center">
           <p className="font-[family-name:var(--font-maruburi)] italic text-gold text-lg mb-4">
             Honest food, a table cared for.
           </p>
           <h2 className="font-[family-name:var(--font-maruburi)] text-4xl md:text-5xl text-cream font-semibold mb-6 break-keep leading-tight">
             귀사의 식사 운영,<br />더기빙트리가 책임집니다.
           </h2>
-          <p className="text-cream/60 mb-10 break-keep leading-relaxed">
+          <p className="text-cream/70 mb-10 break-keep leading-relaxed">
             예산·인원·행사 성격에 맞춰 최적 패키지를 제안합니다.<br />
             견적·식단·운영안이 하루 안에 정리됩니다.
           </p>
