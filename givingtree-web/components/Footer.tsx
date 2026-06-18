@@ -62,7 +62,6 @@ export default function Footer() {
 
         <div className="mt-12 pt-6 border-t border-cream/10 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-cream/30">
           <span>© 2026 The Giving Tree, Inc. All rights reserved.</span>
-          <span>B2B 기업 식사 서비스 · 경기도 파주시</span>
         </div>
       </div>
     </footer>
