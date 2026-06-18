@@ -79,8 +79,8 @@ export default function HomePage() {
           <div className="max-w-2xl mb-16">
             <p className="text-gold text-xs tracking-[0.2em] uppercase mb-4">Why The Giving Tree</p>
             <h2 className="font-[family-name:var(--font-maruburi)] text-4xl md:text-5xl text-ink font-semibold leading-tight break-keep mb-6">
-              우리는 음식을 보내는 회사가 아니라,<br />
-              <span className="text-forest italic">고객의 운영 부담을 줄이는</span> 회사입니다.
+              단순히 조식배달을 넘어,<br />
+              <span className="text-forest italic">고객의 운영부담을 줄여드립니다.</span>
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
