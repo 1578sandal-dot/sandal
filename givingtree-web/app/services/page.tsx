@@ -69,10 +69,9 @@ export default function ServicesPage() {
         <div className="max-w-6xl mx-auto px-6">
           <p className="text-gold text-xs tracking-[0.2em] uppercase mb-6 font-mono">Services</p>
           <h1 className="font-[family-name:var(--font-maruburi)] text-5xl md:text-6xl text-cream font-semibold leading-tight break-keep mb-8">
-            우리는 단순히<br />
-            음식을 보내지 않습니다.<br />
-            <span className="text-gold italic">고객의 하루 운영을</span><br />
-            대신 책임집니다.
+            단순히 조식배달을 넘어,<br />
+            <span className="text-gold italic">고객의 운영부담을</span><br />
+            줄여드립니다.
           </h1>
         </div>
       </section>

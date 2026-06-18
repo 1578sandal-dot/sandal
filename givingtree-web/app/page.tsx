@@ -47,10 +47,10 @@ export default function HomePage() {
         {/* 배경 이미지 */}
         <div className="absolute inset-0">
           <Image
-            src="/images/아주나무-전체 사진-62680825419.jpg"
+            src="/images/77758274703206_810417406.jpg"
             alt="더기빙트리 조식 서비스"
             fill
-            className="object-cover"
+            className="object-cover object-center"
             priority
             unoptimized
           />
