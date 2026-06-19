@@ -60,8 +60,11 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 pt-6 border-t border-cream/10 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-cream/30">
-          <span>© 2026 The Giving Tree, Co., Ltd. All rights reserved.</span>
+        <div className="mt-12 pt-6 border-t border-cream/10 flex flex-col gap-2 text-xs text-cream/30">
+          <p className="break-keep">
+            (주)더기빙트리 (대표: 이창훈) &nbsp;|&nbsp; 경기도 파주시 하우고개길 106-3 &nbsp;|&nbsp; 사업자등록번호 : 204-87-03371
+          </p>
+          <span>Copyright © 2026 The Giving Tree, Co., Ltd. All rights reserved.</span>
         </div>
       </div>
     </footer>
