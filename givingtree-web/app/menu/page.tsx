@@ -11,14 +11,14 @@ export default function MenuPage() {
   return (
     <>
       {/* Hero */}
-      <section className="pt-32 pb-20 bg-ink">
+      <section className="pt-32 pb-20 bg-cream border-b border-pale-sage">
         <div className="max-w-6xl mx-auto px-6">
           <p className="text-gold text-xs tracking-[0.2em] uppercase mb-6 font-mono">Menu</p>
-          <h1 className="font-[family-name:var(--font-maruburi)] text-5xl md:text-6xl text-cream font-semibold leading-tight break-keep mb-6">
+          <h1 className="font-[family-name:var(--font-maruburi)] text-5xl md:text-6xl text-ink font-semibold leading-tight break-keep mb-6">
             매일 다른 메뉴를,<br />
-            <span className="text-gold italic">매일 같은 품질로.</span>
+            <span className="text-forest italic">매일 같은 품질로.</span>
           </h1>
-          <p className="text-cream/60 text-lg max-w-2xl break-keep">
+          <p className="text-bark/60 text-lg max-w-2xl break-keep">
             70가지가 넘는 메뉴를 4주 주기로 자동 로테이션합니다.<br />
             모든 메뉴는 매일 새벽 직접 만들어 당일 배송됩니다.
           </p>

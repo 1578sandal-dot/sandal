@@ -65,12 +65,12 @@ export default function ServicesPage() {
   return (
     <>
       {/* Hero */}
-      <section className="pt-32 pb-20 bg-ink">
+      <section className="pt-32 pb-20 bg-cream border-b border-pale-sage">
         <div className="max-w-6xl mx-auto px-6">
           <p className="text-gold text-xs tracking-[0.2em] uppercase mb-6 font-mono">Services</p>
-          <h1 className="font-[family-name:var(--font-maruburi)] text-5xl md:text-6xl text-cream font-semibold leading-tight break-keep mb-8">
+          <h1 className="font-[family-name:var(--font-maruburi)] text-5xl md:text-6xl text-ink font-semibold leading-tight break-keep mb-8">
             단순히 조식배달을 넘어,<br />
-            <span className="text-gold italic">고객의 운영부담을</span><br />
+            <span className="text-forest italic">고객의 운영부담을</span><br />
             줄여드립니다.
           </h1>
         </div>

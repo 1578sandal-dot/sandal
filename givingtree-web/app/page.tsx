@@ -54,7 +54,7 @@ export default function HomePage() {
             priority
             unoptimized
           />
-          <div className="absolute inset-0 bg-bark/60" />
+          <div className="absolute inset-0 bg-cream/75" />
         </div>
 
         <div className="relative max-w-6xl mx-auto px-6 py-24 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -62,25 +62,25 @@ export default function HomePage() {
             <p className="text-gold text-sm tracking-[0.2em] uppercase mb-6 font-[family-name:var(--font-maruburi)] italic">
               Good food makes a good day.
             </p>
-            <h1 className="font-[family-name:var(--font-maruburi)] text-5xl md:text-6xl lg:text-7xl text-cream font-semibold leading-tight mb-6 break-keep">
+            <h1 className="font-[family-name:var(--font-maruburi)] text-5xl md:text-6xl lg:text-7xl text-ink font-semibold leading-tight mb-6 break-keep">
               좋은 음식이<br />
-              <span className="text-gold italic">좋은 하루를</span><br />
+              <span className="text-forest italic">좋은 하루를</span><br />
               만든다.
             </h1>
-            <p className="text-cream/70 text-lg leading-relaxed mb-10 break-keep">
+            <p className="text-bark/60 text-lg leading-relaxed mb-10 break-keep">
               더기빙트리는 기업의 식사 운영을 책임지는 B2B 푸드 서비스입니다.<br />
               정확한 주문, 정확한 생산, 정확한 배송 — 10년의 약속.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
                 href="/contact"
-                className="px-8 py-4 bg-gold text-bark font-medium rounded-full hover:bg-cream transition-colors text-center"
+                className="px-8 py-4 bg-forest text-cream font-medium rounded-full hover:bg-ink transition-colors text-center"
               >
                 견적 문의하기
               </Link>
               <Link
                 href="/services"
-                className="px-8 py-4 border border-cream/40 text-cream rounded-full hover:border-cream hover:bg-cream/10 transition-colors text-center"
+                className="px-8 py-4 border border-forest/40 text-forest rounded-full hover:border-forest hover:bg-forest/10 transition-colors text-center"
               >
                 서비스 보기
               </Link>
@@ -90,11 +90,11 @@ export default function HomePage() {
           {/* Stats */}
           <div className="grid grid-cols-2 gap-4">
             {stats.map(({ value, label }) => (
-              <div key={label} className="bg-cream/10 backdrop-blur-sm border border-cream/20 rounded-2xl p-8 text-center">
-                <div className="font-[family-name:var(--font-maruburi)] text-4xl text-gold font-semibold mb-2">
+              <div key={label} className="bg-white/60 backdrop-blur-sm border border-forest/10 rounded-2xl p-8 text-center">
+                <div className="font-[family-name:var(--font-maruburi)] text-4xl text-forest font-semibold mb-2">
                   {value}
                 </div>
-                <div className="text-cream/60 text-sm">{label}</div>
+                <div className="text-bark/60 text-sm">{label}</div>
               </div>
             ))}
           </div>

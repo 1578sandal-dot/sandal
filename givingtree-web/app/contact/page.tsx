@@ -10,14 +10,14 @@ export default function ContactPage() {
   return (
     <>
       {/* Hero */}
-      <section className="pt-32 pb-20 bg-ink">
+      <section className="pt-32 pb-20 bg-cream border-b border-pale-sage">
         <div className="max-w-6xl mx-auto px-6">
           <p className="text-gold text-xs tracking-[0.2em] uppercase mb-6 font-mono">Contact</p>
-          <h1 className="font-[family-name:var(--font-maruburi)] text-5xl md:text-6xl text-cream font-semibold leading-tight break-keep mb-6">
+          <h1 className="font-[family-name:var(--font-maruburi)] text-5xl md:text-6xl text-ink font-semibold leading-tight break-keep mb-6">
             견적·식단·운영안,<br />
-            <span className="text-gold italic">하루 안에 정리됩니다.</span>
+            <span className="text-forest italic">하루 안에 정리됩니다.</span>
           </h1>
-          <p className="text-cream/60 text-lg max-w-xl break-keep">
+          <p className="text-bark/60 text-lg max-w-xl break-keep">
             예산·인원·행사 성격에 맞춰 최적 패키지를 제안합니다.<br />
             부담 없이 문의해 주세요.
           </p>

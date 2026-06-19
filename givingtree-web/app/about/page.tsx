@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "회사소개 | 더기빙트리",
@@ -25,18 +26,31 @@ export default function AboutPage() {
   return (
     <>
       {/* Hero */}
-      <section className="pt-32 pb-20 bg-ink">
+      <section className="pt-32 pb-0 bg-cream overflow-hidden">
         <div className="max-w-6xl mx-auto px-6">
-          <p className="text-gold text-xs tracking-[0.2em] uppercase mb-6 font-mono">About Us</p>
-          <h1 className="font-[family-name:var(--font-maruburi)] text-5xl md:text-6xl text-cream font-semibold leading-tight break-keep mb-8">
-            더기빙트리는<br />
-            <span className="text-gold italic">하루아침에 만들어진</span><br />
-            회사가 아닙니다.
-          </h1>
-          <p className="text-cream/60 text-lg leading-relaxed max-w-2xl break-keep">
-            착즙주스, 카페, 브런치 배달 — 10년간 현장에서 버티며 만든 회사입니다.<br />
-            외부에서도, 정부도 우리의 실행력을 인정해 주었습니다.
-          </p>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-end">
+            <div className="pb-20">
+              <p className="text-gold text-xs tracking-[0.2em] uppercase mb-6 font-mono">About Us</p>
+              <h1 className="font-[family-name:var(--font-maruburi)] text-5xl md:text-6xl text-ink font-semibold leading-tight break-keep mb-8">
+                더기빙트리는<br />
+                <span className="text-forest italic">하루아침에 만들어진</span><br />
+                회사가 아닙니다.
+              </h1>
+              <p className="text-bark/60 text-lg leading-relaxed max-w-2xl break-keep">
+                착즙주스, 카페, 브런치 배달 — 10년간 현장에서 버티며 만든 회사입니다.<br />
+                외부에서도, 정부도 우리의 실행력을 인정해 주었습니다.
+              </p>
+            </div>
+            <div className="relative h-80 lg:h-[480px] rounded-tl-2xl rounded-tr-2xl overflow-hidden">
+              <Image
+                src="/images/직원오리엔테이션_더기빙트리.jpg"
+                alt="더기빙트리 케이터링"
+                fill
+                className="object-cover object-top"
+                unoptimized
+              />
+            </div>
+          </div>
         </div>
       </section>
 
@@ -69,36 +83,52 @@ export default function AboutPage() {
       {/* Journey */}
       <section className="bg-pale-sage py-24">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="max-w-xl mb-16">
-            <p className="text-gold text-xs tracking-[0.2em] uppercase mb-4 font-mono">Our Journey</p>
-            <h2 className="font-[family-name:var(--font-maruburi)] text-4xl md:text-5xl text-ink font-semibold leading-tight break-keep">
-              우리가 걸어온 길.
-            </h2>
-          </div>
-          <div className="relative">
-            <div className="absolute left-16 top-0 bottom-0 w-px bg-pale-sage hidden md:block" />
-            <div className="flex flex-col gap-0">
-              {journey.map(({ year, title, desc }, i) => (
-                <div key={i} className="flex flex-col md:flex-row gap-4 md:gap-10 py-8 border-b border-pale-sage last:border-0">
-                  <div className="font-[family-name:var(--font-maruburi)] text-2xl text-gold font-semibold md:w-20 flex-shrink-0">{year}</div>
-                  <div>
-                    <h3 className="font-[family-name:var(--font-maruburi)] text-xl text-ink font-semibold mb-1 break-keep">{title}</h3>
-                    <p className="text-sm text-bark/60 break-keep">{desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Credentials */}
-          <div className="mt-16 bg-forest/10 border border-forest/20 rounded-2xl p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
             <div>
-              <div className="text-xs text-forest tracking-widest mb-2 font-mono">외부의 시선</div>
-              <div className="font-[family-name:var(--font-maruburi)] text-xl text-ink font-semibold break-keep">정부와 외부 기관이 우리의 사업성을 인정해 준 회사</div>
+              <div className="mb-12">
+                <p className="text-gold text-xs tracking-[0.2em] uppercase mb-4 font-mono">Our Journey</p>
+                <h2 className="font-[family-name:var(--font-maruburi)] text-4xl md:text-5xl text-ink font-semibold leading-tight break-keep">
+                  우리가 걸어온 길.
+                </h2>
+              </div>
+              <div className="flex flex-col gap-0">
+                {journey.map(({ year, title, desc }, i) => (
+                  <div key={i} className="flex gap-6 py-6 border-b border-pale-sage/80 last:border-0">
+                    <div className="font-[family-name:var(--font-maruburi)] text-xl text-gold font-semibold w-14 flex-shrink-0">{year}</div>
+                    <div>
+                      <h3 className="font-[family-name:var(--font-maruburi)] text-lg text-ink font-semibold mb-1 break-keep">{title}</h3>
+                      <p className="text-sm text-bark/60 break-keep">{desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="text-right flex-shrink-0">
-              <div className="font-[family-name:var(--font-maruburi)] text-4xl text-forest font-semibold">1.48억원</div>
-              <div className="text-xs text-bark/50 mt-1">누적 정부지원금</div>
+
+            <div className="flex flex-col gap-6 sticky top-24">
+              <div className="relative h-72 rounded-2xl overflow-hidden">
+                <Image
+                  src="/images/아주나무-전체 사진-62680825419.jpg"
+                  alt="샌드위치 대량 생산"
+                  fill
+                  className="object-cover"
+                  unoptimized
+                />
+              </div>
+              <div className="relative h-56 rounded-2xl overflow-hidden">
+                <Image
+                  src="/images/아주나무-전체 사진-62689612637.jpg"
+                  alt="배송 준비"
+                  fill
+                  className="object-cover"
+                  unoptimized
+                />
+              </div>
+              <div className="bg-forest/10 border border-forest/20 rounded-2xl p-6">
+                <div className="text-xs text-forest tracking-widest mb-2 font-mono">외부의 시선</div>
+                <div className="font-[family-name:var(--font-maruburi)] text-lg text-ink font-semibold break-keep mb-3">정부와 외부 기관이 우리의 사업성을 인정해 준 회사</div>
+                <div className="font-[family-name:var(--font-maruburi)] text-3xl text-forest font-semibold">1.48억원</div>
+                <div className="text-xs text-bark/50 mt-1">누적 정부지원금</div>
+              </div>
             </div>
           </div>
         </div>
@@ -126,7 +156,7 @@ export default function AboutPage() {
       </section>
 
       {/* Quote */}
-      <section className="bg-ink py-24">
+      <section className="bg-forest py-24">
         <div className="max-w-3xl mx-auto px-6 text-center">
           <div className="text-gold text-4xl font-[family-name:var(--font-maruburi)] mb-6">"</div>
           <blockquote className="font-[family-name:var(--font-maruburi)] text-3xl md:text-4xl text-cream font-semibold leading-relaxed break-keep mb-8">
@@ -134,7 +164,7 @@ export default function AboutPage() {
             앞으로의 10년은 함께 시스템을 만들고<br />
             <span className="text-gold italic">성장하는 시간입니다.</span>
           </blockquote>
-          <p className="text-cream/40 text-sm">— Founder &amp; CEO 이창훈 · The Giving Tree, Inc.</p>
+          <p className="text-cream/40 text-sm">— Founder &amp; CEO 이창훈 · The Giving Tree Co., Ltd.</p>
         </div>
       </section>
     </>
