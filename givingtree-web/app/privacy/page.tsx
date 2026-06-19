@@ -71,9 +71,9 @@ export default function PrivacyPage() {
           <div>
             <h2 className="font-[family-name:var(--font-maruburi)] text-lg text-ink font-semibold mb-3">7. 개인정보 보호 담당자</h2>
             <ul className="ml-4 flex flex-col gap-1 list-disc">
-              <li>담당자: 이창훈</li>
+              <li>담당자: 정은희</li>
               <li>이메일: admin@thegivingtree.co.kr</li>
-              <li>전화: +82 10 2202 1309</li>
+              <li>전화: +82 10 8908 1578</li>
             </ul>
           </div>
 
