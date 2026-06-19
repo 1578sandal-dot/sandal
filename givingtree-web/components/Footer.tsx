@@ -65,7 +65,7 @@ export default function Footer() {
             (주)더기빙트리 (대표: 이창훈) &nbsp;|&nbsp; 경기도 파주시 하우고개길 106-3 &nbsp;|&nbsp; 사업자등록번호 : 204-87-03371
           </p>
           <div className="flex items-center justify-between flex-wrap gap-3">
-            <span>Copyright © 2026 The Giving Tree, Co., Ltd. All rights reserved.</span>
+            <span>Copyright © 2026 The Giving Tree Co., Ltd. All rights reserved.</span>
             <Link href="/privacy" className="hover:text-cream/60 transition-colors">개인정보처리방침</Link>
           </div>
         </div>
