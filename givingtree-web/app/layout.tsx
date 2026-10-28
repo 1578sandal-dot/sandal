@@ -32,11 +32,11 @@ const maruburi = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "더기빙트리 | 기업 식사 운영 서비스",
+  title: "더기빙트리 | 기업 정기 조식 서비스",
   description: "정직한 재료로, 누군가의 식탁을 정성껏 책임집니다. 기업 정기조식, 단체 도시락, 케이터링 전문 B2B 푸드 서비스.",
   keywords: "더기빙트리, 기업조식, 단체도시락, 샌드위치배달, B2B 케이터링, 파주",
   openGraph: {
-    title: "더기빙트리 | 기업 식사 운영 서비스",
+    title: "더기빙트리 | 기업 정기 조식 서비스",
     description: "정직한 재료로, 누군가의 식탁을 정성껏 책임집니다.",
     locale: "ko_KR",
     type: "website",
