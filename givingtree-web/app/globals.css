@@ -1,15 +1,36 @@
 @import "tailwindcss";
 
 @theme {
-  /* Brand Colors - The Giving Tree CI */
-  --color-forest: #4A6B3B;
-  --color-cream: #FBF6E9;
-  --color-gold: #D4A441;
+  /* 샌달조식 BI 컬러 토큰 (BRAND.md 4장) */
+  --color-logo-green: #0a6d44;
+  --color-logo-yellow: #f5d500;
+  --color-forest: #1f5a43;
+  --color-forest-deep: #1d4b39;
+  --color-gold: #b6913e;
+  --color-gold-text: #8a6d2c;
+  --color-cream: #f5f0e5;
+  --color-mint: #eef5f1;
+  --color-surface: #ffffff;
+  --color-surface-subtle: #fafafa;
+  --color-surface-muted: #f4f4f5;
+  --color-line: #e4e4e7;
+  --color-line-strong: #ccd6d2;
+  --color-ink: #26332d;
+  --color-ink-body: #52525b;
+  --color-ink-muted: #71717a;
+
+  /* 기존 페이지(회사소개·서비스·메뉴·문의)용. 해당 페이지 개편 후 제거 */
   --color-bark: #2B1F14;
   --color-olive: #7B9145;
   --color-pale-sage: #EEF1EA;
   --color-paper: #FEFAF0;
-  --color-ink: #1F2D1A;
+
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+
+  --shadow-card: 0 8px 24px rgba(31, 90, 67, 0.08);
 
   /* Font families */
   --font-display-en: var(--font-cormorant);
@@ -18,14 +39,19 @@
 }
 
 :root {
-  --background: #FBF6E9;
-  --foreground: #2B1F14;
+  --background: #ffffff;
+  --foreground: #26332d;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-pretendard), 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: var(--font-pretendard), Pretendard, "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-forest-deep);
+  outline-offset: 3px;
 }
 
 /* Korean word break */

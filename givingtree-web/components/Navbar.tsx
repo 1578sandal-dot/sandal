@@ -3,11 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { CONTACT } from "@/components/sandal";
 
 const navLinks = [
   { href: "/about", label: "회사소개" },
   { href: "/services", label: "서비스" },
   { href: "/menu", label: "메뉴" },
+  { href: "/#faq", label: "자주 묻는 질문" },
   { href: "/contact", label: "문의하기" },
 ];
 
@@ -16,33 +18,33 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-cream/95 backdrop-blur-sm border-b border-pale-sage">
-      <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-3 group">
+    <header className="bg-surface border-b border-line">
+      <div className="max-w-5xl mx-auto px-4 md:px-10 h-28 flex items-center justify-between">
+        {/* 로고: BI 최소 가로 96px */}
+        <Link href="/" className="shrink-0" aria-label="샌달조식 홈">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/더기빙트리로고.svg" alt="더기빙트리 로고" width={36} height={33} className="flex-shrink-0" />
-          <div>
-            <div className="font-[family-name:var(--font-maruburi)] text-xl font-semibold text-forest leading-none">The Giving Tree</div>
-            <div className="text-[10px] tracking-widest text-olive mt-0.5">더기빙트리</div>
-          </div>
+          <img src="/brand/sandal-logo-green.svg" alt="샌달조식" width={96} height={83} />
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-7">
           {navLinks.map(({ href, label }) => (
             <Link
               key={href}
               href={href}
-              className={`text-sm tracking-wide transition-colors ${
-                pathname === href
-                  ? "text-forest font-medium"
-                  : "text-bark/70 hover:text-forest"
+              className={`text-[16px] transition-colors ${
+                pathname === href ? "text-forest-deep font-bold" : "text-ink-body hover:text-forest-deep"
               }`}
             >
               {label}
             </Link>
           ))}
+          <a
+            href={CONTACT.tel}
+            className="h-11 px-5 inline-flex items-center rounded-[var(--radius-md)] border-2 border-forest text-forest-deep font-bold text-[15px] hover:bg-mint transition-colors"
+          >
+            상담 {CONTACT.phone}
+          </a>
         </nav>
 
         {/* Mobile hamburger */}
@@ -51,25 +53,26 @@ export default function Navbar() {
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="메뉴 열기"
         >
-          <span className={`w-5 h-0.5 bg-bark transition-transform ${menuOpen ? "rotate-45 translate-y-2" : ""}`} />
-          <span className={`w-5 h-0.5 bg-bark transition-opacity ${menuOpen ? "opacity-0" : ""}`} />
-          <span className={`w-5 h-0.5 bg-bark transition-transform ${menuOpen ? "-rotate-45 -translate-y-2" : ""}`} />
+          <span className={`w-6 h-0.5 bg-ink transition-transform ${menuOpen ? "rotate-45 translate-y-2" : ""}`} />
+          <span className={`w-6 h-0.5 bg-ink transition-opacity ${menuOpen ? "opacity-0" : ""}`} />
+          <span className={`w-6 h-0.5 bg-ink transition-transform ${menuOpen ? "-rotate-45 -translate-y-2" : ""}`} />
         </button>
       </div>
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden bg-cream border-t border-pale-sage px-6 py-4 flex flex-col gap-4">
+        <div className="md:hidden border-t border-line px-4 py-4 flex flex-col gap-4">
           {navLinks.map(({ href, label }) => (
             <Link
               key={href}
               href={href}
               onClick={() => setMenuOpen(false)}
-              className={`text-sm py-1 ${pathname === href ? "text-forest font-medium" : "text-bark/70"}`}
+              className={`text-[16px] py-1 ${pathname === href ? "text-forest-deep font-bold" : "text-ink-body"}`}
             >
               {label}
             </Link>
           ))}
+          <a href={CONTACT.tel} className="text-forest-deep font-bold text-[16px] py-1">상담 전화 {CONTACT.phone}</a>
         </div>
       )}
     </header>

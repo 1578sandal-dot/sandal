@@ -33,12 +33,13 @@ const maruburi = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "더기빙트리 | 기업 정기 조식 서비스",
-  description: "정직한 재료로, 누군가의 식탁을 정성껏 책임집니다. 기업 정기조식, 단체 도시락, 케이터링 전문 B2B 푸드 서비스.",
-  keywords: "더기빙트리, 기업조식, 단체도시락, 샌드위치배달, B2B 케이터링, 파주",
+  title: "샌달조식 | 기업 정기 조식 서비스",
+  description: "기업 조식, 단순 배달이 아니라 운영입니다. 4주 식단, 주요 메뉴 직접 제조, 새벽배송, 사내진열까지 ㈜더기빙트리 운영 샌달조식이 책임집니다.",
+  keywords: "샌달조식, 기업조식, 정기조식, 기업 조식 배달, 사내 조식, 새벽배송, 4주 식단, 더기빙트리",
+  icons: { icon: "/brand/sandal-profile.png" },
   openGraph: {
-    title: "더기빙트리 | 기업 정기 조식 서비스",
-    description: "정직한 재료로, 누군가의 식탁을 정성껏 책임집니다.",
+    title: "샌달조식 | 기업 정기 조식 서비스",
+    description: "기업 조식, 단순 배달이 아니라 운영입니다.",
     locale: "ko_KR",
     type: "website",
   },
@@ -51,7 +52,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className={`${cormorant.variable} ${pretendard.variable} ${maruburi.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-cream text-bark">
+      <body className="min-h-full flex flex-col bg-surface text-ink">
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
