@@ -6,10 +6,10 @@ import { useState } from "react";
 import { CONTACT } from "@/components/sandal";
 
 const navLinks = [
-  { href: "/about", label: "회사소개" },
+  { href: "/breakfast", label: "기업 정기조식" },
   { href: "/services", label: "서비스" },
   { href: "/menu", label: "메뉴" },
-  { href: "/#faq", label: "자주 묻는 질문" },
+  { href: "/about", label: "회사소개" },
   { href: "/contact", label: "문의하기" },
 ];
 

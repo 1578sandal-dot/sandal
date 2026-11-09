@@ -2,6 +2,7 @@ import Link from "next/link";
 import { CONTACT } from "@/components/sandal";
 
 const links = [
+  { href: "/breakfast", label: "기업 정기조식" },
   { href: "/about", label: "회사소개" },
   { href: "/services", label: "서비스" },
   { href: "/menu", label: "메뉴" },
