@@ -15,7 +15,6 @@ const services = [
     desc: "고객사의 아침을 책임지는 기업조식 서비스를 제공합니다.\n기업의 활기찬 아침을 열어 더 좋은 하루를 선사합니다.",
     detail: "기업별 운영요일·예산·선호도를 고려해 4주 식단안을 제안드립니다.\n주요 메뉴는 매일 새벽 직접 제조하여 약속된 시간에 전달하고, 사내 지정장소 진열까지 가능합니다.",
     tags: ["정기배송", "4주 식단", "새벽배송·사내진열"],
-    our: "매일의 식단 고민을 우리가 대신합니다.",
     href: "/breakfast",
     main: true,
   },
@@ -26,7 +25,6 @@ const services = [
     desc: "미팅·세미나·회의 등 단체 식사를 책임지는 서비스를 제공합니다.",
     detail: "행사의 성격과 인원, 예산 등에 맞춰 샌드위치 도시락 구성을 제안드리고, 약속된 시간에 맞춰 정확히 배달해드립니다.",
     tags: ["수량 확인", "정시 배송", "더블 체크"],
-    our: "정확한 수량과 시간을 지킵니다.",
   },
   {
     num: "03",
@@ -35,7 +33,6 @@ const services = [
     desc: "김밥 13종·유부초밥 7종·컵밥 6종. 한식이 익숙한 분들의 선택지를 넓힙니다.",
     detail: "매일 새벽 직접 생산하는 한식 라인입니다. 재료부터 약속까지, 보이지 않는 곳에서도 같은 기준을 지킵니다. 매일 다른 메뉴를 같은 품질로 만드는 것이 우리의 일입니다.",
     tags: ["김밥 13종", "유부초밥 7종", "컵밥 6종"],
-    our: "매일 다른 메뉴를 같은 품질로 만듭니다.",
   },
   {
     num: "04",
@@ -44,7 +41,6 @@ const services = [
     desc: "학회·세미나·임직원 행사의 담당자 부담을 줄여드립니다.",
     detail: "행사 규모·예산·성격에 맞춰 패키지를 제안합니다. 견적·식단·운영안을 정리해 전달하고, 한 사람의 부담을 우리가 가져갑니다.",
     tags: ["맞춤 제안", "견적 협의", "행사 전담"],
-    our: "한 사람의 부담을 우리가 가져갑니다.",
   },
   {
     num: "05",
@@ -53,7 +49,6 @@ const services = [
     desc: "대형 행사. 정확한 준비와 현장 대응이 핵심입니다.",
     detail: "한 번의 실수가 행사 전체를 흔드는 일입니다. 체계적인 사전 준비와 당일 현장 대응으로 리스크를 줄입니다. 우리가 가장 신중하게 접근하는 서비스입니다.",
     tags: ["대형 행사", "현장 대응", "사전 기획"],
-    our: "한 번의 실수가 행사 전체를 흔드는 일.",
   },
 ];
 
@@ -84,13 +79,11 @@ export default function ServicesPage() {
 
       <Section>
         <div className="flex flex-col gap-6">
-          {services.map(({ num, title, subtitle, desc, detail, tags, our, href, main }) => (
+          {services.map(({ num, title, subtitle, desc, detail, tags, href, main }) => (
             <article
               key={num}
               className={`rounded-[var(--radius-xl)] border p-7 md:p-10 break-keep ${main ? "bg-cream border-line-strong" : "bg-surface-subtle border-line"}`}
             >
-              <div className="flex flex-col lg:flex-row gap-8">
-                <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-3 flex-wrap">
                     <span className="text-gold-text text-[15px] font-extrabold">{num}</span>
                     <span className="text-ink-muted text-[13px] tracking-[0.1em] uppercase">{subtitle}</span>
@@ -107,12 +100,6 @@ export default function ServicesPage() {
                   {href && (
                     <Link href={href} className="inline-block mt-5 text-forest-deep font-bold text-[16px] hover:underline">기업 정기조식 자세히 보기 →</Link>
                   )}
-                </div>
-                <div className="lg:w-72 shrink-0 bg-mint rounded-[var(--radius-md)] p-6 self-start">
-                  <p className="text-forest-deep text-[13px] font-bold tracking-[0.1em]">우리의 일</p>
-                  <p className="mt-2 text-ink text-[18px] leading-7 font-bold">{our}</p>
-                </div>
-              </div>
             </article>
           ))}
         </div>
