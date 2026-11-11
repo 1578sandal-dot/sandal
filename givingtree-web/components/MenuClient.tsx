@@ -193,8 +193,19 @@ const categories: Category[] = [
   },
 ];
 
+const PREVIEW = 240; // 마우스 오버 미리보기 크기(px)
+
 export default function MenuClient() {
   const [selected, setSelected] = useState<{ name: string; image: string } | null>(null);
+  const [preview, setPreview] = useState<{ name: string; image: string; x: number; y: number } | null>(null);
+
+  // 마우스를 쓰는 화면에서만 커서 옆에 사진을 띄움 (터치 화면은 누르면 팝업)
+  const showPreview = (item: MenuItem, x: number, y: number) => {
+    if (!item.image || !window.matchMedia("(hover: hover)").matches) return;
+    const left = x + 20 + PREVIEW > window.innerWidth ? x - 20 - PREVIEW : x + 20;
+    const top = Math.min(Math.max(8, y - PREVIEW / 2), window.innerHeight - PREVIEW - 48);
+    setPreview({ name: item.name, image: item.image, x: left, y: top });
+  };
 
   return (
     <>
@@ -216,7 +227,10 @@ export default function MenuClient() {
                         <span className="w-1 h-1 rounded-full flex-shrink-0 bg-gold" />
                         {item.image ? (
                           <button
-                            onClick={() => setSelected({ name: item.name, image: item.image! })}
+                            onClick={() => { setPreview(null); setSelected({ name: item.name, image: item.image! }); }}
+                            onMouseEnter={(e) => showPreview(item, e.clientX, e.clientY)}
+                            onMouseMove={(e) => showPreview(item, e.clientX, e.clientY)}
+                            onMouseLeave={() => setPreview(null)}
                             className={`text-sm text-left hover:underline cursor-pointer ${textColor === "text-white" ? "text-white/80" : "text-ink-body"}`}
                           >
                             {item.name}
@@ -233,6 +247,20 @@ export default function MenuClient() {
           </div>
         ))}
       </div>
+
+      {/* 마우스 오버 미리보기 */}
+      {preview && !selected && (
+        <div
+          className="fixed z-40 pointer-events-none bg-surface rounded-[var(--radius-lg)] overflow-hidden shadow-[var(--shadow-card)] border border-line"
+          style={{ left: preview.x, top: preview.y, width: PREVIEW }}
+          aria-hidden
+        >
+          <div className="relative aspect-square">
+            <Image src={preview.image} alt="" fill className="object-cover" unoptimized />
+          </div>
+          <div className="px-4 py-2.5 text-[15px] font-bold text-ink">{preview.name}</div>
+        </div>
+      )}
 
       {/* 이미지 팝업 */}
       {selected && (

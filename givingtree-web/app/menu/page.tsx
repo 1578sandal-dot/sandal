@@ -19,7 +19,7 @@ export default function MenuPage() {
       <PageHero
         eyebrow="MENU"
         title={<>매일 다른 메뉴를,<br /><em>매일 같은 품질로.</em></>}
-        description="다양한 메뉴를 4주 식단으로 운영합니다. 주요 메뉴는 매일 새벽 직접 만들어 당일 전달합니다. 메뉴를 누르면 사진을 볼 수 있습니다."
+        description="다양한 메뉴를 4주 식단으로 운영합니다. 주요 메뉴는 매일 새벽 직접 만들어 당일 전달합니다. 메뉴 이름에 마우스를 올리거나 누르면 사진을 볼 수 있습니다."
       />
 
       <section className="bg-forest">
