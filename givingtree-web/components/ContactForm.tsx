@@ -73,10 +73,10 @@ export default function ContactForm() {
 
   if (submitted) {
     return (
-      <div className="bg-forest rounded-2xl p-12 text-center">
-        <div className="font-[family-name:var(--font-maruburi)] text-5xl text-gold mb-4">✓</div>
-        <h2 className="font-[family-name:var(--font-maruburi)] text-3xl text-cream font-semibold mb-4">문의가 접수되었습니다.</h2>
-        <p className="text-cream/60 break-keep">
+      <div className="bg-forest rounded-[var(--radius-xl)] p-12 text-center">
+        <div className="text-5xl text-logo-yellow mb-4">✓</div>
+        <h2 className="text-3xl text-white font-bold mb-4">문의가 접수되었습니다.</h2>
+        <p className="text-white/60 break-keep">
           영업일 기준 24시간 내에 담당자가 연락드립니다.<br />
           감사합니다.
         </p>
@@ -84,8 +84,8 @@ export default function ContactForm() {
     );
   }
 
-  const inputClass = "w-full bg-paper border border-pale-sage rounded-xl px-4 py-3 text-sm text-bark placeholder:text-bark/30 focus:outline-none focus:border-forest transition-colors";
-  const labelClass = "block text-xs text-bark/50 mb-1.5 tracking-wide";
+  const inputClass = "w-full bg-surface border border-line rounded-[var(--radius-md)] px-4 py-3 text-[16px] text-ink placeholder:text-ink-muted focus:border-forest transition-colors";
+  const labelClass = "block text-[14px] font-bold text-ink-body mb-1.5";
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-5">
@@ -141,12 +141,12 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={loading}
-        className="w-full py-4 bg-forest text-cream rounded-xl font-medium hover:bg-ink transition-colors disabled:opacity-60 text-sm tracking-wide"
+        className="w-full h-[60px] bg-forest text-white rounded-[var(--radius-lg)] font-bold text-[18px] hover:bg-forest-deep transition-colors disabled:opacity-60"
       >
         {loading ? "전송 중..." : "견적 문의 보내기"}
       </button>
 
-      <p className="text-xs text-bark/40 text-center break-keep">
+      <p className="text-xs text-ink-muted text-center break-keep">
         제출하신 정보는 견적 및 서비스 안내 목적으로만 사용됩니다.
       </p>
     </form>

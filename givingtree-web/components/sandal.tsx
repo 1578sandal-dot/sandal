@@ -60,6 +60,22 @@ export function SectionHeading({
   );
 }
 
+export function PageHero({ eyebrow, title, description }: { eyebrow: string; title: ReactNode; description?: ReactNode }) {
+  return (
+    <section className="bg-cream">
+      <div className="max-w-5xl mx-auto px-4 md:px-10 py-14 md:py-20 break-keep">
+        <p className="text-gold-text text-[15px] leading-5 font-bold tracking-[0.14em] uppercase mb-4">{eyebrow}</p>
+        <h1 className="text-ink text-[34px] leading-[44px] md:text-[48px] md:leading-[60px] font-extrabold tracking-[-0.02em] [&_em]:not-italic [&_em]:text-forest-deep">
+          {title}
+        </h1>
+        {description && (
+          <p className="mt-5 max-w-2xl text-ink-body text-[17px] leading-7 md:text-[19px] md:leading-8">{description}</p>
+        )}
+      </div>
+    </section>
+  );
+}
+
 export function Closing({ children }: { children: ReactNode }) {
   return (
     <p className="mt-12 text-center text-forest-deep text-[19px] leading-8 md:text-[22px] md:leading-9 font-bold break-keep">

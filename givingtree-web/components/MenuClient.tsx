@@ -28,7 +28,7 @@ const categories: Category[] = [
     desc: "직접 개발한 레시피로 매일 새벽 만드는 샌드위치. 풍미·수분·식감을 일정하게 유지하는 공정 표준을 적용합니다.",
     tag: "DAILY FRESH",
     color: "bg-forest",
-    textColor: "text-cream",
+    textColor: "text-white",
     items: [
       { name: "클럽샌드위치", image: "/images/클럽샌드위치2피스.jpg" },
       { name: "햄치즈에그샌드위치", image: "/images/햄치즈에그샌드위치2피스.jpg" },
@@ -58,7 +58,7 @@ const categories: Category[] = [
     sub: "Bagel · 6종",
     desc: "쫄깃한 식감의 베이글에 엄선한 속재료를 채웠습니다.",
     tag: "6 VARIETIES",
-    color: "bg-pale-sage",
+    color: "bg-surface-subtle",
     textColor: "text-ink",
     border: true,
     items: [
@@ -76,7 +76,7 @@ const categories: Category[] = [
     sub: "Gimbap · 13종",
     desc: "매일 새벽 직접 만드는 김밥. 한식이 익숙한 분들의 선택지를 넓혀드립니다.",
     tag: "13 VARIETIES",
-    color: "bg-paper",
+    color: "bg-surface",
     textColor: "text-ink",
     border: true,
     items: [
@@ -101,7 +101,7 @@ const categories: Category[] = [
     sub: "Inari · 7종",
     desc: "담백하고 든든한 유부초밥. 한 끼 식사로도, 간식으로도 충분합니다.",
     tag: "7 VARIETIES",
-    color: "bg-paper",
+    color: "bg-surface",
     textColor: "text-ink",
     border: true,
     items: [
@@ -119,8 +119,8 @@ const categories: Category[] = [
     sub: "Cup Rice · 6종",
     desc: "간편하게 즐기는 컵밥. 든든한 한 끼를 빠르게.",
     tag: "6 VARIETIES",
-    color: "bg-bark",
-    textColor: "text-cream",
+    color: "bg-forest-deep",
+    textColor: "text-white",
     items: [
       { name: "야채볶음컵밥", image: "/images/야채볶음컵밥(대).jpg" },
       { name: "새우볶음컵밥", image: "/images/새우볶음컵밥(대).jpg" },
@@ -136,7 +136,7 @@ const categories: Category[] = [
     sub: "Salad · 8종",
     desc: "신선한 재료로 만드는 샐러드 8종.",
     tag: "8 VARIETIES",
-    color: "bg-pale-sage",
+    color: "bg-surface-subtle",
     textColor: "text-ink",
     border: true,
     items: [
@@ -156,8 +156,8 @@ const categories: Category[] = [
     sub: "Sides & More",
     desc: "식사를 완성하는 과일, 음료, 디저트 라인업.",
     tag: "SIDES & DRINKS",
-    color: "bg-olive",
-    textColor: "text-cream",
+    color: "bg-logo-green",
+    textColor: "text-white",
     items: [
       { name: "떡산적", image: "/images/떡산적.jpg" },
       { name: "닭강정", image: "/images/닭강정.jpg" },
@@ -178,16 +178,16 @@ export default function MenuClient() {
 
   return (
     <>
-      <div className="max-w-6xl mx-auto px-6 flex flex-col gap-8">
+      <div className="max-w-5xl mx-auto px-4 md:px-10 flex flex-col gap-8">
         {categories.map(({ id, name, sub, desc, items, tag, color, textColor, border }) => (
-          <div key={id} className={`rounded-2xl overflow-hidden ${color} ${border ? "border border-pale-sage" : ""}`}>
+          <div key={id} className={`rounded-[var(--radius-xl)] overflow-hidden ${color} ${border ? "border border-line" : ""}`}>
             <div className="p-10">
               <div className="flex flex-col lg:flex-row gap-8">
                 <div className="lg:w-72 flex-shrink-0">
-                  <div className="text-xs tracking-widest font-mono mb-2 text-gold">{tag}</div>
-                  <h2 className={`font-[family-name:var(--font-maruburi)] text-4xl font-semibold mb-1 ${textColor}`}>{name}</h2>
-                  <div className={`text-sm mb-4 ${textColor === "text-cream" ? "text-cream/50" : "text-bark/50"}`}>{sub}</div>
-                  <p className={`text-sm leading-relaxed break-keep ${textColor === "text-cream" ? "text-cream/70" : "text-bark/60"}`}>{desc}</p>
+                  <div className={`text-[13px] font-bold tracking-[0.14em] mb-2 ${textColor === "text-white" ? "text-logo-yellow" : "text-gold-text"}`}>{tag}</div>
+                  <h2 className={`text-4xl font-bold mb-1 ${textColor}`}>{name}</h2>
+                  <div className={`text-sm mb-4 ${textColor === "text-white" ? "text-white/50" : "text-ink-muted"}`}>{sub}</div>
+                  <p className={`text-sm leading-relaxed break-keep ${textColor === "text-white" ? "text-white/70" : "text-ink-body"}`}>{desc}</p>
                 </div>
                 <div className="flex-1">
                   <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3">
@@ -197,12 +197,12 @@ export default function MenuClient() {
                         {item.image ? (
                           <button
                             onClick={() => setSelected({ name: item.name, image: item.image! })}
-                            className={`text-sm text-left hover:text-gold transition-colors cursor-pointer ${textColor === "text-cream" ? "text-cream/80" : "text-bark/70"}`}
+                            className={`text-sm text-left hover:underline cursor-pointer ${textColor === "text-white" ? "text-white/80" : "text-ink-body"}`}
                           >
                             {item.name}
                           </button>
                         ) : (
-                          <span className={`text-sm ${textColor === "text-cream" ? "text-cream/80" : "text-bark/70"}`}>{item.name}</span>
+                          <span className={`text-sm ${textColor === "text-white" ? "text-white/80" : "text-ink-body"}`}>{item.name}</span>
                         )}
                       </li>
                     ))}
@@ -217,11 +217,11 @@ export default function MenuClient() {
       {/* 이미지 팝업 */}
       {selected && (
         <div
-          className="fixed inset-0 bg-bark/70 backdrop-blur-sm z-50 flex items-center justify-center p-6"
+          className="fixed inset-0 bg-ink/70 backdrop-blur-sm z-50 flex items-center justify-center p-6"
           onClick={() => setSelected(null)}
         >
           <div
-            className="bg-cream rounded-2xl overflow-hidden max-w-md w-full shadow-2xl"
+            className="bg-surface rounded-[var(--radius-xl)] overflow-hidden max-w-md w-full shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="relative aspect-square">
@@ -234,10 +234,10 @@ export default function MenuClient() {
               />
             </div>
             <div className="px-6 py-4 flex items-center justify-between">
-              <span className="font-[family-name:var(--font-maruburi)] text-xl text-ink font-semibold">{selected.name}</span>
+              <span className="text-xl text-ink font-bold">{selected.name}</span>
               <button
                 onClick={() => setSelected(null)}
-                className="text-bark/40 hover:text-bark transition-colors text-sm"
+                className="text-ink-muted hover:text-ink transition-colors text-sm"
               >
                 닫기 ✕
               </button>
