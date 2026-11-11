@@ -17,7 +17,7 @@ const worries = [
 const services = [
   { tag: "대표 서비스", title: "기업 정기조식 구독", desc: "4주 식단, 새벽배송, 사내진열까지 기업의 아침을 운영합니다.", href: "/breakfast", main: true },
   { tag: "단체 주문", title: "단체 도시락·샌드위치 박스", desc: "미팅·세미나·회의 식사를 약속한 수량과 시간에 맞춰 준비합니다.", href: "/services" },
-  { tag: "한식 라인", title: "김밥·유부초밥 한식 라인", desc: "김밥 13종·유부초밥 6종·컵밥 6종을 같은 기준으로 만듭니다.", href: "/menu" },
+  { tag: "한식 라인", title: "김밥·유부초밥 한식 라인", desc: "김밥 13종·유부초밥 7종·컵밥 6종을 같은 기준으로 만듭니다.", href: "/menu" },
   { tag: "행사", title: "행사 간식 패키지", desc: "학회·세미나·임직원 행사의 간식 준비 부담을 덜어드립니다.", href: "/services" },
   { tag: "행사", title: "대규모 케이터링", desc: "대규모 행사의 준비와 현장 진열까지 협의합니다.", href: "/services" },
 ];
