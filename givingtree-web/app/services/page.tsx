@@ -10,10 +10,10 @@ export const metadata: Metadata = {
 const services = [
   {
     num: "01",
-    title: "기업 정기조식 구독 서비스",
+    title: "기업 정기조식 구독서비스",
     subtitle: "Corporate Breakfast Subscription",
-    desc: "고객사의 아침 운영을 대신 책임지는 일. 임직원이 더 좋은 하루를 시작하게 만듭니다.",
-    detail: "기업별 운영요일·예산·선호도를 고려해 4주 식단안을 제안하고 협의합니다. 주요 메뉴는 매일 새벽 직접 제조해 약속된 시간에 전달하고, 사내 지정장소 진열까지 협의합니다.",
+    desc: "고객사의 아침을 책임지는 기업조식 서비스를 제공합니다.\n기업의 활기찬 아침을 열어 더 좋은 하루를 선사합니다.",
+    detail: "기업별 운영요일·예산·선호도를 고려해 4주 식단안을 제안드립니다.\n주요 메뉴는 매일 새벽 직접 제조하여 약속된 시간에 전달하고, 사내 지정장소 진열까지 가능합니다.",
     tags: ["정기배송", "4주 식단", "새벽배송·사내진열"],
     our: "매일의 식단 고민을 우리가 대신합니다.",
     href: "/breakfast",
@@ -97,8 +97,8 @@ export default function ServicesPage() {
                     {main && <span className="bg-forest-deep text-white text-[13px] font-bold px-2.5 py-1 rounded-[var(--radius-sm)]">대표 서비스</span>}
                   </div>
                   <h2 className="mt-3 text-forest-deep text-[24px] md:text-[28px] font-extrabold">{title}</h2>
-                  <p className="mt-3 text-ink text-[17px] leading-7">{desc}</p>
-                  <p className="mt-3 text-ink-body text-[16px] leading-[26px]">{detail}</p>
+                  <p className="mt-3 text-ink text-[17px] leading-7 whitespace-pre-line">{desc}</p>
+                  <p className="mt-3 text-ink-body text-[16px] leading-[26px] whitespace-pre-line">{detail}</p>
                   <div className="mt-5 flex flex-wrap gap-2">
                     {tags.map((tag) => (
                       <span key={tag} className="bg-surface border border-line text-forest-deep text-[14px] font-bold rounded-full px-3.5 py-1.5">{tag}</span>
