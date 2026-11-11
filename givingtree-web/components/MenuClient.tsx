@@ -51,7 +51,7 @@ const categories: Category[] = [
       { name: "단호박샌드위치", image: "/images/단호박샌드위치2피스.jpg" },
       { name: "리코타치즈샌드위치", image: "/images/리코타치즈샌드위치2피스.jpg" },
       { name: "불고기샌드위치", image: "/images/불고기샌드위치2피스.jpg" },
-      { name: "닭가슴살샌드위치", image: "/images/닭가슴살베이글2피스.jpg" },
+      { name: "닭가슴살샌드위치", image: "/images/닭가슴살샌드위치2피스.jpg" },
     ],
   },
   {
