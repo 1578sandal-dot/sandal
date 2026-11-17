@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Button, CONTACT, Section } from "@/components/sandal";
+import BlogPopup from "@/components/BlogPopup";
 
 const stats = [
   { value: "10년+", label: "운영 노하우" },
@@ -25,6 +26,7 @@ const services = [
 export default function HomePage() {
   return (
     <>
+      <BlogPopup />
       {/* 히어로 */}
       <section className="bg-surface">
         <div className="max-w-5xl mx-auto px-4 md:px-10 py-14 md:py-20 grid md:grid-cols-2 gap-10 items-center">
