@@ -139,7 +139,7 @@ const categories: Category[] = [
     items: [
       { name: "컵과일특대", image: "/images/menu/fruit-01.jpg" },
       { name: "컵과일중", image: "/images/menu/fruit-02.jpg" },
-      { name: "사각 과일팩", image: "/images/menu/fruit-03.jpg" },
+      { name: "컵과일중", image: "/images/menu/fruit-03.jpg" },
     ],
   },
   {
@@ -237,7 +237,7 @@ export default function MenuClient() {
           </div>
           <ul className={`mt-6 grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-6 ${cols3 ? "lg:grid-cols-[repeat(3,calc((100%-4rem)/5))]" : "lg:grid-cols-5"}`}>
             {items.map((item) => (
-              <li key={item.name} className="text-center break-keep">
+              <li key={item.image} className="text-center break-keep">
                 <div className="relative bg-surface rounded-[var(--radius-lg)] border border-line overflow-hidden">
                   <Image src={item.image} alt={item.name} width={560} height={560} className="w-full h-auto" />
                   {item.badge && (
