@@ -13,6 +13,7 @@ type Category = {
   desc: string;
   items: MenuItem[];
   tag: string;
+  cols3?: boolean;
 };
 
 const categories: Category[] = [
@@ -87,8 +88,8 @@ const categories: Category[] = [
       { name: "햄유부초밥", image: "/images/menu/inari-03.jpg" },
       { name: "날치알유부초밥", image: "/images/menu/inari-04.jpg" },
       { name: "김치유부초밥", image: "/images/menu/inari-05.jpg" },
-      { name: "비건저당유부초밥", image: "/images/menu/inari-06.jpg", badge: "비건·저당" },
       { name: "참치유부초밥", image: "/images/menu/inari-07.jpg" },
+      { name: "비건저당유부초밥", image: "/images/menu/inari-06.jpg", badge: "비건·저당" },
     ],
   },
   {
@@ -117,6 +118,7 @@ const categories: Category[] = [
     id: "cupbap",
     name: "컵밥",
     sub: "Cup Rice · 6종",
+    cols3: true,
     desc: "간편하게 즐기는 컵밥. 든든한 한 끼를 빠르게.",
     tag: "6 VARIETIES",
     items: [
@@ -135,8 +137,8 @@ const categories: Category[] = [
     desc: "신선한 과일을 손질해 담은 단독 과일 메뉴.",
     tag: "3 VARIETIES",
     items: [
-      { name: "컵과일 01", image: "/images/menu/fruit-01.jpg" },
-      { name: "컵과일 02", image: "/images/menu/fruit-02.jpg" },
+      { name: "컵과일특대", image: "/images/menu/fruit-01.jpg" },
+      { name: "컵과일중", image: "/images/menu/fruit-02.jpg" },
       { name: "사각 과일팩", image: "/images/menu/fruit-03.jpg" },
     ],
   },
@@ -222,7 +224,7 @@ export default function MenuClient() {
         ))}
       </nav>
 
-      {categories.map(({ id, name, desc, items, tag }) => (
+      {categories.map(({ id, name, desc, items, tag, cols3 }) => (
         <section key={id} id={`menu-${id}`} className="scroll-mt-6 pt-14 md:pt-16">
           <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-2 border-b border-line pb-4 break-keep">
             <div>
@@ -233,7 +235,7 @@ export default function MenuClient() {
             </div>
             <p className="text-ink-body text-[15px] max-w-md">{desc}</p>
           </div>
-          <ul className="mt-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-x-4 gap-y-6">
+          <ul className={`mt-6 grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-6 ${cols3 ? "lg:grid-cols-[repeat(3,calc((100%-4rem)/5))]" : "lg:grid-cols-5"}`}>
             {items.map((item) => (
               <li key={item.name} className="text-center break-keep">
                 <div className="relative bg-surface rounded-[var(--radius-lg)] border border-line overflow-hidden">
