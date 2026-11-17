@@ -1,11 +1,8 @@
-"use client";
-
-import { useState } from "react";
 import Image from "next/image";
 
 type MenuItem = {
   name: string;
-  image?: string;
+  image: string;
 };
 
 type Category = {
@@ -15,9 +12,6 @@ type Category = {
   desc: string;
   items: MenuItem[];
   tag: string;
-  color: string;
-  textColor: string;
-  border?: boolean;
 };
 
 const categories: Category[] = [
@@ -27,31 +21,29 @@ const categories: Category[] = [
     sub: "Sandwich · 22종",
     desc: "직접 개발한 레시피로 매일 새벽 만드는 샌드위치. 풍미·수분·식감을 일정하게 유지하는 공정 표준을 적용합니다.",
     tag: "DAILY FRESH",
-    color: "bg-forest",
-    textColor: "text-white",
     items: [
-      { name: "클럽샌드위치", image: "/images/클럽샌드위치2피스.jpg" },
-      { name: "햄치즈에그샌드위치", image: "/images/햄치즈에그샌드위치2피스.jpg" },
-      { name: "참치샌드위치", image: "/images/참치샌드위치2피스.JPG" },
-      { name: "크래미샌드위치", image: "/images/크래미샌드위치2피스.jpg" },
-      { name: "버터햄치즈샌드위치", image: "/images/버터햄치즈샌드위치2피스.jpg" },
-      { name: "감자샌드위치", image: "/images/감자샌드위치2피스.jpg" },
-      { name: "햄치즈샌드위치", image: "/images/햄치즈샌드위치2피스.jpg" },
-      { name: "무화과호두크림샌드위치", image: "/images/무화과호두크림샌드위치2피스.jpg" },
-      { name: "고구마샌드위치", image: "/images/고구마샌드위치2피스.jpg" },
-      { name: "누텔라바나나샌드위치", image: "/images/누텔라바나나샌드위치2피스.jpg" },
-      { name: "크래미에그샌드위치", image: "/images/크래미에그샌드위치2피스.jpg" },
-      { name: "베이컨대파크림샌드위치", image: "/images/베이컨대파샌드위치2피스.jpg" },
-      { name: "마카로니샌드위치", image: "/images/마카로니샌드위치2피스.jpg" },
-      { name: "블루베리크림샌드위치", image: "/images/블루베리크림샌드위치2피스.jpg" },
-      { name: "살사후실리샌드위치", image: "/images/살사후실리샌드위치2피스.jpg" },
-      { name: "콘에그샌드위치", image: "/images/콘에그샌드위치2피스.jpg" },
-      { name: "당근라페콩불고기샌드위치", image: "/images/당근라페콩불고기샌드위치1피스.png" },
-      { name: "바질토마토크림샌드위치", image: "/images/바질토마토크림샌드위치.jpg" },
-      { name: "단호박샌드위치", image: "/images/단호박샌드위치2피스.jpg" },
-      { name: "리코타치즈샌드위치", image: "/images/리코타치즈샌드위치2피스.jpg" },
-      { name: "불고기샌드위치", image: "/images/불고기샌드위치2피스.jpg" },
-      { name: "닭가슴살샌드위치", image: "/images/닭가슴살샌드위치2피스.jpg" },
+      { name: "클럽샌드위치", image: "/images/menu/sandwich-01.jpg" },
+      { name: "햄치즈에그샌드위치", image: "/images/menu/sandwich-02.jpg" },
+      { name: "참치샌드위치", image: "/images/menu/sandwich-03.jpg" },
+      { name: "크래미샌드위치", image: "/images/menu/sandwich-04.jpg" },
+      { name: "버터햄치즈샌드위치", image: "/images/menu/sandwich-05.jpg" },
+      { name: "감자샌드위치", image: "/images/menu/sandwich-06.jpg" },
+      { name: "햄치즈샌드위치", image: "/images/menu/sandwich-07.jpg" },
+      { name: "무화과호두크림샌드위치", image: "/images/menu/sandwich-08.jpg" },
+      { name: "고구마샌드위치", image: "/images/menu/sandwich-09.jpg" },
+      { name: "누텔라바나나샌드위치", image: "/images/menu/sandwich-10.jpg" },
+      { name: "크래미에그샌드위치", image: "/images/menu/sandwich-11.jpg" },
+      { name: "베이컨대파크림샌드위치", image: "/images/menu/sandwich-12.jpg" },
+      { name: "마카로니샌드위치", image: "/images/menu/sandwich-13.jpg" },
+      { name: "블루베리크림샌드위치", image: "/images/menu/sandwich-14.jpg" },
+      { name: "살사후실리샌드위치", image: "/images/menu/sandwich-15.jpg" },
+      { name: "콘에그샌드위치", image: "/images/menu/sandwich-16.jpg" },
+      { name: "당근라페콩불고기샌드위치", image: "/images/menu/sandwich-17.jpg" },
+      { name: "바질토마토크림샌드위치", image: "/images/menu/sandwich-18.jpg" },
+      { name: "단호박샌드위치", image: "/images/menu/sandwich-19.jpg" },
+      { name: "리코타치즈샌드위치", image: "/images/menu/sandwich-20.jpg" },
+      { name: "불고기샌드위치", image: "/images/menu/sandwich-21.jpg" },
+      { name: "닭가슴살샌드위치", image: "/images/menu/sandwich-22.jpg" },
     ],
   },
   {
@@ -60,14 +52,11 @@ const categories: Category[] = [
     sub: "Tortilla Wrap · 4종",
     desc: "한 손에 들고 먹기 좋은 또띠아랩.",
     tag: "4 VARIETIES",
-    color: "bg-surface",
-    textColor: "text-ink",
-    border: true,
     items: [
-      { name: "스파이시에그치킨랩", image: "/images/스파이시에그치킨랩.jpg" },
-      { name: "커리치킨랩", image: "/images/커리치킨랩.jpg" },
-      { name: "클래식에그튜나랩", image: "/images/클래식에그튜나랩.jpg" },
-      { name: "햄에그피클랩", image: "/images/햄에그피클랩.jpg" },
+      { name: "스파이시에그치킨랩", image: "/images/menu/wrap-01.jpg" },
+      { name: "커리치킨랩", image: "/images/menu/wrap-02.jpg" },
+      { name: "클래식에그튜나랩", image: "/images/menu/wrap-03.jpg" },
+      { name: "햄에그피클랩", image: "/images/menu/wrap-04.jpg" },
     ],
   },
   {
@@ -76,16 +65,13 @@ const categories: Category[] = [
     sub: "Bagel · 6종",
     desc: "쫄깃한 식감의 베이글에 엄선한 속재료를 채웠습니다.",
     tag: "6 VARIETIES",
-    color: "bg-surface-subtle",
-    textColor: "text-ink",
-    border: true,
     items: [
-      { name: "무화과호두크림베이글", image: "/images/무화과호두크림베이글2피스.jpg" },
-      { name: "베이컨대파크림베이글", image: "/images/베이컨대파크림베이글2피스.jpg" },
-      { name: "블루베리크림베이글", image: "/images/블루베리크림베이글2피스.jpg" },
-      { name: "당근라페베이글", image: "/images/당근라페베이글2피스.jpg" },
-      { name: "바질토마토크림베이글", image: "/images/바질토마토크림베이글2피스.jpg" },
-      { name: "닭가슴살베이글", image: "/images/닭가슴살베이글2피스.jpg" },
+      { name: "무화과호두크림베이글", image: "/images/menu/bagel-01.jpg" },
+      { name: "베이컨대파크림베이글", image: "/images/menu/bagel-02.jpg" },
+      { name: "블루베리크림베이글", image: "/images/menu/bagel-03.jpg" },
+      { name: "당근라페베이글", image: "/images/menu/bagel-04.jpg" },
+      { name: "바질토마토크림베이글", image: "/images/menu/bagel-05.jpg" },
+      { name: "닭가슴살베이글", image: "/images/menu/bagel-06.jpg" },
     ],
   },
   {
@@ -94,23 +80,20 @@ const categories: Category[] = [
     sub: "Gimbap · 13종",
     desc: "매일 새벽 직접 만드는 김밥. 한식이 익숙한 분들의 선택지를 넓혀드립니다.",
     tag: "13 VARIETIES",
-    color: "bg-surface",
-    textColor: "text-ink",
-    border: true,
     items: [
-      { name: "일반김밥", image: "/images/일반김밥_배경제거.jpg" },
-      { name: "치즈김밥", image: "/images/치즈김밥_배경제거.jpg" },
-      { name: "참치김밥", image: "/images/참치김밥_배경제거.jpg" },
-      { name: "매운어묵김밥", image: "/images/매운어묵김밥_배경제거.jpg" },
-      { name: "샐러드김밥", image: "/images/샐러드김밥_배경제거.jpg" },
-      { name: "무말랭이김밥", image: "/images/무말랭이김밥_배경제거.jpg" },
-      { name: "너비아니김밥", image: "/images/너비아니김밥_배경제거.jpg" },
-      { name: "계란김밥", image: "/images/계란김밥_배경제거.jpg" },
-      { name: "유부김밥", image: "/images/유부김밥_배경제거.jpg" },
-      { name: "돈까스김밥", image: "/images/돈까스김밥_배경제거.jpg" },
-      { name: "마라김밥", image: "/images/마라김밥_배경제거.jpg" },
-      { name: "오이당근김밥", image: "/images/오이당근김밥_배경제거.jpg" },
-      { name: "양배추당근김밥", image: "/images/양배추당근김밥_배경제거.jpg" },
+      { name: "일반김밥", image: "/images/menu/gimbap-01.jpg" },
+      { name: "치즈김밥", image: "/images/menu/gimbap-02.jpg" },
+      { name: "참치김밥", image: "/images/menu/gimbap-03.jpg" },
+      { name: "매운어묵김밥", image: "/images/menu/gimbap-04.jpg" },
+      { name: "샐러드김밥", image: "/images/menu/gimbap-05.jpg" },
+      { name: "무말랭이김밥", image: "/images/menu/gimbap-06.jpg" },
+      { name: "너비아니김밥", image: "/images/menu/gimbap-07.jpg" },
+      { name: "계란김밥", image: "/images/menu/gimbap-08.jpg" },
+      { name: "유부김밥", image: "/images/menu/gimbap-09.jpg" },
+      { name: "돈까스김밥", image: "/images/menu/gimbap-10.jpg" },
+      { name: "마라김밥", image: "/images/menu/gimbap-11.jpg" },
+      { name: "오이당근김밥", image: "/images/menu/gimbap-12.jpg" },
+      { name: "양배추당근김밥", image: "/images/menu/gimbap-13.jpg" },
     ],
   },
   {
@@ -119,17 +102,14 @@ const categories: Category[] = [
     sub: "Inari · 7종",
     desc: "담백하고 든든한 유부초밥. 한 끼 식사로도, 간식으로도 충분합니다.",
     tag: "7 VARIETIES",
-    color: "bg-surface",
-    textColor: "text-ink",
-    border: true,
     items: [
-      { name: "일반유부초밥", image: "/images/유부초밥6피스.jpg" },
-      { name: "크래미유부초밥", image: "/images/크래미유부초밥6피스.jpg" },
-      { name: "햄유부초밥", image: "/images/햄유부초밥6피스.jpg" },
-      { name: "날치알유부초밥", image: "/images/날치알유부초밥6피스.jpg" },
-      { name: "김치유부초밥", image: "/images/김치유부초밥6피스.jpg" },
-      { name: "비건저당유부초밥", image: "/images/비건저당유부초밥.jpg" },
-      { name: "참치유부초밥", image: "/images/참치유부초밥6피스.jpg" },
+      { name: "일반유부초밥", image: "/images/menu/inari-01.jpg" },
+      { name: "크래미유부초밥", image: "/images/menu/inari-02.jpg" },
+      { name: "햄유부초밥", image: "/images/menu/inari-03.jpg" },
+      { name: "날치알유부초밥", image: "/images/menu/inari-04.jpg" },
+      { name: "김치유부초밥", image: "/images/menu/inari-05.jpg" },
+      { name: "비건저당유부초밥", image: "/images/menu/inari-06.jpg" },
+      { name: "참치유부초밥", image: "/images/menu/inari-07.jpg" },
     ],
   },
   {
@@ -138,15 +118,13 @@ const categories: Category[] = [
     sub: "Cup Rice · 6종",
     desc: "간편하게 즐기는 컵밥. 든든한 한 끼를 빠르게.",
     tag: "6 VARIETIES",
-    color: "bg-forest-deep",
-    textColor: "text-white",
     items: [
-      { name: "야채볶음컵밥", image: "/images/야채볶음컵밥(대).jpg" },
-      { name: "새우볶음컵밥", image: "/images/새우볶음컵밥(대).jpg" },
-      { name: "김치볶음컵밥", image: "/images/김치볶음컵밥(대).jpg" },
-      { name: "카레볶음컵밥", image: "/images/카레볶음컵밥(대).jpg" },
-      { name: "낙지볶음컵밥", image: "/images/낙지볶음컵밥(대).jpg" },
-      { name: "소불고기컵밥", image: "/images/소불고기컵밥(대).jpg" },
+      { name: "야채볶음컵밥", image: "/images/menu/cupbap-01.jpg" },
+      { name: "새우볶음컵밥", image: "/images/menu/cupbap-02.jpg" },
+      { name: "김치볶음컵밥", image: "/images/menu/cupbap-03.jpg" },
+      { name: "카레볶음컵밥", image: "/images/menu/cupbap-04.jpg" },
+      { name: "낙지볶음컵밥", image: "/images/menu/cupbap-05.jpg" },
+      { name: "소불고기컵밥", image: "/images/menu/cupbap-06.jpg" },
     ],
   },
   {
@@ -155,19 +133,16 @@ const categories: Category[] = [
     sub: "Salad · 9종",
     desc: "신선한 재료로 만드는 샐러드 9종.",
     tag: "9 VARIETIES",
-    color: "bg-surface-subtle",
-    textColor: "text-ink",
-    border: true,
     items: [
-      { name: "리코타치즈샐러드", image: "/images/리코타치즈샐러드(대).jpg" },
-      { name: "두부버섯샐러드", image: "/images/두부버섯샐러드(대).jpg" },
-      { name: "크래미샐러드", image: "/images/크래미샐러드(대).jpg" },
-      { name: "닭가슴살샐러드", image: "/images/닭가슴살샐러드.jpg" },
-      { name: "단호박샐러드", image: "/images/단호박샐러드(대).jpg" },
-      { name: "살사후실리샐러드", image: "/images/살사후실리샐러드(대).jpg" },
-      { name: "고구마샐러드", image: "/images/고구마샐러드(대).png" },
-      { name: "훈제오리샐러드", image: "/images/훈제오리샐러드.jpg" },
-      { name: "훈제연어샐러드", image: "/images/훈제연어샐러드.jpg" },
+      { name: "리코타치즈샐러드", image: "/images/menu/salad-01.jpg" },
+      { name: "두부버섯샐러드", image: "/images/menu/salad-02.jpg" },
+      { name: "크래미샐러드", image: "/images/menu/salad-03.jpg" },
+      { name: "닭가슴살샐러드", image: "/images/menu/salad-04.jpg" },
+      { name: "단호박샐러드", image: "/images/menu/salad-05.jpg" },
+      { name: "살사후실리샐러드", image: "/images/menu/salad-06.jpg" },
+      { name: "고구마샐러드", image: "/images/menu/salad-07.jpg" },
+      { name: "훈제오리샐러드", image: "/images/menu/salad-08.jpg" },
+      { name: "훈제연어샐러드", image: "/images/menu/salad-09.jpg" },
     ],
   },
   {
@@ -176,123 +151,67 @@ const categories: Category[] = [
     sub: "Sides & More",
     desc: "식사를 완성하는 과일, 음료, 디저트 라인업.",
     tag: "SIDES & DRINKS",
-    color: "bg-logo-green",
-    textColor: "text-white",
     items: [
-      { name: "떡산적", image: "/images/떡산적.jpg" },
-      { name: "닭강정", image: "/images/닭강정.jpg" },
-      { name: "미니돈까스", image: "/images/미니돈까스.jpg" },
-      { name: "만두튀김", image: "/images/만두튀김.jpg" },
-      { name: "과일 2종", image: "/images/과일2종.jpg" },
-      { name: "과일 3종", image: "/images/과일3종.png" },
-      { name: "요거트", image: "/images/요거트.png" },
-      { name: "단백질쉐이크", image: "/images/단백질쉐이크.png" },
-      { name: "구운계란", image: "/images/구운계란.jpg" },
-      { name: "하루견과", image: "/images/하루견과.png" },
+      { name: "떡산적", image: "/images/menu/side-01.jpg" },
+      { name: "닭강정", image: "/images/menu/side-02.jpg" },
+      { name: "미니돈까스", image: "/images/menu/side-03.jpg" },
+      { name: "만두튀김", image: "/images/menu/side-04.jpg" },
+      { name: "과일 2종", image: "/images/menu/side-05.jpg" },
+      { name: "과일 3종", image: "/images/menu/side-06.jpg" },
+      { name: "요거트", image: "/images/menu/side-07.jpg" },
+      { name: "단백질쉐이크", image: "/images/menu/side-08.jpg" },
+      { name: "구운계란", image: "/images/menu/side-09.jpg" },
+      { name: "하루견과", image: "/images/menu/side-10.jpg" },
     ],
   },
 ];
 
-const PREVIEW = 240; // 마우스 오버 미리보기 크기(px)
 
 export default function MenuClient() {
-  const [selected, setSelected] = useState<{ name: string; image: string } | null>(null);
-  const [preview, setPreview] = useState<{ name: string; image: string; x: number; y: number } | null>(null);
-
-  // 마우스를 쓰는 화면에서만 커서 옆에 사진을 띄움 (터치 화면은 누르면 팝업)
-  const showPreview = (item: MenuItem, x: number, y: number) => {
-    if (!item.image || !window.matchMedia("(hover: hover)").matches) return;
-    const left = x + 20 + PREVIEW > window.innerWidth ? x - 20 - PREVIEW : x + 20;
-    const top = Math.min(Math.max(8, y - PREVIEW / 2), window.innerHeight - PREVIEW - 48);
-    setPreview({ name: item.name, image: item.image, x: left, y: top });
-  };
-
   return (
-    <>
-      <div className="max-w-5xl mx-auto px-4 md:px-10 flex flex-col gap-8">
-        {categories.map(({ id, name, sub, desc, items, tag, color, textColor, border }) => (
-          <div key={id} className={`rounded-[var(--radius-xl)] overflow-hidden ${color} ${border ? "border border-line" : ""}`}>
-            <div className="p-10">
-              <div className="flex flex-col lg:flex-row gap-8">
-                <div className="lg:w-72 flex-shrink-0">
-                  <div className={`text-[13px] font-bold tracking-[0.14em] mb-2 ${textColor === "text-white" ? "text-logo-yellow" : "text-gold-text"}`}>{tag}</div>
-                  <h2 className={`text-4xl font-bold mb-1 ${textColor}`}>{name}</h2>
-                  <div className={`text-sm mb-4 ${textColor === "text-white" ? "text-white/50" : "text-ink-muted"}`}>{sub}</div>
-                  <p className={`text-sm leading-relaxed break-keep ${textColor === "text-white" ? "text-white/70" : "text-ink-body"}`}>{desc}</p>
-                </div>
-                <div className="flex-1">
-                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3">
-                    {items.map((item, i) => (
-                      <li key={i} className="flex items-center gap-3">
-                        <span className="w-1 h-1 rounded-full flex-shrink-0 bg-gold" />
-                        {item.image ? (
-                          <button
-                            onClick={() => { setPreview(null); setSelected({ name: item.name, image: item.image! }); }}
-                            onMouseEnter={(e) => showPreview(item, e.clientX, e.clientY)}
-                            onMouseMove={(e) => showPreview(item, e.clientX, e.clientY)}
-                            onMouseLeave={() => setPreview(null)}
-                            className={`text-sm text-left hover:underline cursor-pointer ${textColor === "text-white" ? "text-white/80" : "text-ink-body"}`}
-                          >
-                            {item.name}
-                          </button>
-                        ) : (
-                          <span className={`text-sm ${textColor === "text-white" ? "text-white/80" : "text-ink-body"}`}>{item.name}</span>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* 마우스 오버 미리보기 */}
-      {preview && !selected && (
-        <div
-          className="fixed z-40 pointer-events-none bg-surface rounded-[var(--radius-lg)] overflow-hidden shadow-[var(--shadow-card)] border border-line"
-          style={{ left: preview.x, top: preview.y, width: PREVIEW }}
-          aria-hidden
-        >
-          <div className="relative aspect-square">
-            <Image src={preview.image} alt="" fill className="object-cover" unoptimized />
-          </div>
-          <div className="px-4 py-2.5 text-[15px] font-bold text-ink">{preview.name}</div>
-        </div>
-      )}
-
-      {/* 이미지 팝업 */}
-      {selected && (
-        <div
-          className="fixed inset-0 bg-ink/70 backdrop-blur-sm z-50 flex items-center justify-center p-6"
-          onClick={() => setSelected(null)}
-        >
-          <div
-            className="bg-surface rounded-[var(--radius-xl)] overflow-hidden max-w-md w-full shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
+    <div className="max-w-5xl mx-auto px-4 md:px-10">
+      {/* 카테고리 바로가기 */}
+      <nav aria-label="메뉴 카테고리" className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        {categories.map(({ id, name, items }) => (
+          <a
+            key={id}
+            href={`#menu-${id}`}
+            className="group bg-surface-subtle border border-line rounded-[var(--radius-lg)] p-3 flex items-center gap-3 hover:border-line-strong transition-colors break-keep"
           >
-            <div className="relative aspect-square">
-              <Image
-                src={selected.image}
-                alt={selected.name}
-                fill
-                className="object-cover"
-                unoptimized
-              />
+            <Image src={items[0].image} alt="" width={64} height={64} className="w-14 h-14 rounded-[var(--radius-md)] shrink-0" />
+            <span className="min-w-0">
+              <span className="block text-forest-deep text-[16px] font-bold group-hover:underline">{name}</span>
+              <span className="block text-ink-muted text-[13px] truncate">
+                {items[0].name} 외 {items.length - 1}종
+              </span>
+            </span>
+          </a>
+        ))}
+      </nav>
+
+      {categories.map(({ id, name, desc, items, tag }) => (
+        <section key={id} id={`menu-${id}`} className="scroll-mt-6 pt-14 md:pt-16">
+          <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-2 border-b border-line pb-4 break-keep">
+            <div>
+              <p className="text-gold-text text-[13px] font-bold tracking-[0.14em]">{tag}</p>
+              <h2 className="mt-1 text-ink text-[28px] md:text-[32px] font-extrabold tracking-[-0.02em]">
+                {name} <span className="text-forest-deep text-[18px] md:text-[20px] font-bold align-middle">{items.length}종</span>
+              </h2>
             </div>
-            <div className="px-6 py-4 flex items-center justify-between">
-              <span className="text-xl text-ink font-bold">{selected.name}</span>
-              <button
-                onClick={() => setSelected(null)}
-                className="text-ink-muted hover:text-ink transition-colors text-sm"
-              >
-                닫기 ✕
-              </button>
-            </div>
+            <p className="text-ink-body text-[15px] max-w-md">{desc}</p>
           </div>
-        </div>
-      )}
-    </>
+          <ul className="mt-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-x-4 gap-y-6">
+            {items.map((item) => (
+              <li key={item.name} className="text-center break-keep">
+                <div className="bg-surface rounded-[var(--radius-lg)] border border-line overflow-hidden">
+                  <Image src={item.image} alt={item.name} width={560} height={560} className="w-full h-auto" />
+                </div>
+                <p className="mt-2.5 text-ink text-[15px] md:text-[16px] font-bold">{item.name}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
   );
 }
