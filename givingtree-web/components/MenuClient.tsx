@@ -129,6 +129,18 @@ const categories: Category[] = [
     ],
   },
   {
+    id: "fruit",
+    name: "컵과일",
+    sub: "Cup Fruit · 3종",
+    desc: "신선한 과일을 손질해 담은 단독 과일 메뉴.",
+    tag: "3 VARIETIES",
+    items: [
+      { name: "컵과일 01", image: "/images/menu/fruit-01.jpg" },
+      { name: "컵과일 02", image: "/images/menu/fruit-02.jpg" },
+      { name: "사각 과일팩", image: "/images/menu/fruit-03.jpg" },
+    ],
+  },
+  {
     id: "salad",
     name: "샐러드",
     sub: "Salad · 9종",
