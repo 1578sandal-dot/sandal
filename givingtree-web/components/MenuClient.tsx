@@ -190,6 +190,17 @@ const categories: Category[] = [
       { name: "하루견과", image: "/images/menu/side-10.jpg" },
     ],
   },
+  {
+    id: "vegan",
+    name: "비건·저당",
+    sub: "Vegan & Low Sugar · 2종",
+    desc: "식단 취향에 맞춰 고를 수 있는 비건·저당 라인입니다.",
+    tag: "HEALTHY LINE",
+    items: [
+      { name: "당근라페콩불고기샌드위치", image: "/images/menu/sandwich-17.jpg" },
+      { name: "귀리버섯유부초밥", image: "/images/menu/vegan-02.jpg" },
+    ],
+  },
 ];
 
 export const MENU_CATEGORY_COUNT = categories.length;
