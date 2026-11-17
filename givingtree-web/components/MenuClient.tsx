@@ -179,12 +179,7 @@ export default function MenuClient() {
             className="group bg-surface-subtle border border-line rounded-[var(--radius-lg)] p-3 flex items-center gap-3 hover:border-line-strong transition-colors break-keep"
           >
             <Image src={items[0].image} alt="" width={64} height={64} className="w-14 h-14 rounded-[var(--radius-md)] shrink-0" />
-            <span className="min-w-0">
-              <span className="block text-forest-deep text-[16px] font-bold group-hover:underline">{name}</span>
-              <span className="block text-ink-muted text-[13px] truncate">
-                {items[0].name} 외 {items.length - 1}종
-              </span>
-            </span>
+            <span className="min-w-0 text-forest-deep text-[16px] font-bold group-hover:underline">{name}</span>
           </a>
         ))}
       </nav>
