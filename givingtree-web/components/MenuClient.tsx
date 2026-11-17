@@ -137,9 +137,9 @@ const categories: Category[] = [
     desc: "신선한 과일을 손질해 담은 단독 과일 메뉴.",
     tag: "3 VARIETIES",
     items: [
-      { name: "컵과일특대", image: "/images/menu/fruit-01.jpg" },
-      { name: "컵과일중", image: "/images/menu/fruit-02.jpg" },
+      { name: "컵과일소", image: "/images/menu/fruit-02.jpg" },
       { name: "컵과일중", image: "/images/menu/fruit-03.jpg" },
+      { name: "컵과일특대", image: "/images/menu/fruit-01.jpg" },
     ],
   },
   {
