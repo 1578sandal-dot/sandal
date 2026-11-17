@@ -3,6 +3,7 @@ import Image from "next/image";
 type MenuItem = {
   name: string;
   image: string;
+  badge?: string;
 };
 
 type Category = {
@@ -75,6 +76,22 @@ const categories: Category[] = [
     ],
   },
   {
+    id: "inari",
+    name: "유부초밥",
+    sub: "Inari · 7종",
+    desc: "담백하고 든든한 유부초밥. 한 끼 식사로도, 간식으로도 충분합니다.",
+    tag: "7 VARIETIES",
+    items: [
+      { name: "일반유부초밥", image: "/images/menu/inari-01.jpg" },
+      { name: "크래미유부초밥", image: "/images/menu/inari-02.jpg" },
+      { name: "햄유부초밥", image: "/images/menu/inari-03.jpg" },
+      { name: "날치알유부초밥", image: "/images/menu/inari-04.jpg" },
+      { name: "김치유부초밥", image: "/images/menu/inari-05.jpg" },
+      { name: "비건저당유부초밥", image: "/images/menu/inari-06.jpg", badge: "비건·저당" },
+      { name: "참치유부초밥", image: "/images/menu/inari-07.jpg" },
+    ],
+  },
+  {
     id: "gimbap",
     name: "김밥",
     sub: "Gimbap · 13종",
@@ -94,22 +111,6 @@ const categories: Category[] = [
       { name: "마라김밥", image: "/images/menu/gimbap-11.jpg" },
       { name: "오이당근김밥", image: "/images/menu/gimbap-12.jpg" },
       { name: "양배추당근김밥", image: "/images/menu/gimbap-13.jpg" },
-    ],
-  },
-  {
-    id: "inari",
-    name: "유부초밥",
-    sub: "Inari · 7종",
-    desc: "담백하고 든든한 유부초밥. 한 끼 식사로도, 간식으로도 충분합니다.",
-    tag: "7 VARIETIES",
-    items: [
-      { name: "일반유부초밥", image: "/images/menu/inari-01.jpg" },
-      { name: "크래미유부초밥", image: "/images/menu/inari-02.jpg" },
-      { name: "햄유부초밥", image: "/images/menu/inari-03.jpg" },
-      { name: "날치알유부초밥", image: "/images/menu/inari-04.jpg" },
-      { name: "김치유부초밥", image: "/images/menu/inari-05.jpg" },
-      { name: "비건저당유부초밥", image: "/images/menu/inari-06.jpg" },
-      { name: "참치유부초밥", image: "/images/menu/inari-07.jpg" },
     ],
   },
   {
@@ -146,11 +147,24 @@ const categories: Category[] = [
     ],
   },
   {
+    id: "bakery",
+    name: "베이커리",
+    sub: "Bakery · 4종",
+    desc: "조식에 곁들이기 좋은 식빵 4종.",
+    tag: "4 VARIETIES",
+    items: [
+      { name: "롤치즈식빵", image: "/images/menu/bakery-01.jpg" },
+      { name: "말차식빵", image: "/images/menu/bakery-02.jpg" },
+      { name: "밤식빵", image: "/images/menu/bakery-03.jpg" },
+      { name: "오징어먹물식빵", image: "/images/menu/bakery-04.jpg" },
+    ],
+  },
+  {
     id: "side",
-    name: "사이드 · 기타",
-    sub: "Sides & More",
-    desc: "식사를 완성하는 과일, 음료, 디저트 라인업.",
-    tag: "SIDES & DRINKS",
+    name: "사이드",
+    sub: "Sides · 10종",
+    desc: "식사를 완성하는 사이드와 과일, 요거트, 계란 라인업.",
+    tag: "SIDES",
     items: [
       { name: "떡산적", image: "/images/menu/side-01.jpg" },
       { name: "닭강정", image: "/images/menu/side-02.jpg" },
@@ -166,6 +180,7 @@ const categories: Category[] = [
   },
 ];
 
+export const MENU_CATEGORY_COUNT = categories.length;
 
 export default function MenuClient() {
   return (
@@ -198,8 +213,11 @@ export default function MenuClient() {
           <ul className="mt-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-x-4 gap-y-6">
             {items.map((item) => (
               <li key={item.name} className="text-center break-keep">
-                <div className="bg-surface rounded-[var(--radius-lg)] border border-line overflow-hidden">
+                <div className="relative bg-surface rounded-[var(--radius-lg)] border border-line overflow-hidden">
                   <Image src={item.image} alt={item.name} width={560} height={560} className="w-full h-auto" />
+                  {item.badge && (
+                    <span className="absolute top-2 left-2 bg-forest-deep text-white text-[12px] font-bold px-2 py-1 rounded-[var(--radius-sm)]">{item.badge}</span>
+                  )}
                 </div>
                 <p className="mt-2.5 text-ink text-[15px] md:text-[16px] font-bold">{item.name}</p>
               </li>

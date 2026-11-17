@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import MenuClient from "@/components/MenuClient";
+import MenuClient, { MENU_CATEGORY_COUNT } from "@/components/MenuClient";
 import { Button, PageHero } from "@/components/sandal";
 
 export const metadata: Metadata = {
@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 const facts = [
-  { value: "11개", label: "메뉴 카테고리" },
+  { value: `${MENU_CATEGORY_COUNT}개`, label: "메뉴 카테고리" },
   { value: "4주", label: "식단 운영" },
   { value: "새벽", label: "주요 메뉴 직접 제조" },
 ];
